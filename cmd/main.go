@@ -63,5 +63,4 @@ func main() {
 	install.InitKubeSchedulerCert(k8sMasterHost)
 
 	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
-
 }

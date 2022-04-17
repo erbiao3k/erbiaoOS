@@ -1,9 +1,9 @@
 package install
 
 import (
-	customConst "Op2K8sDeploy/const"
-	"Op2K8sDeploy/pkg/file"
-	"Op2K8sDeploy/setting"
+	customConst "erbiaoOS/const"
+	"erbiaoOS/pkg/file"
+	"erbiaoOS/setting"
 	"fmt"
 	"runtime"
 )

@@ -1,10 +1,10 @@
 package main
 
 import (
-	customConst "Op2K8sDeploy/const"
-	"Op2K8sDeploy/install"
-	"Op2K8sDeploy/pkg/file"
-	"Op2K8sDeploy/setting"
+	customConst "erbiaoOS/const"
+	"erbiaoOS/install"
+	"erbiaoOS/pkg/file"
+	"erbiaoOS/setting"
 	"log"
 )
 
@@ -32,7 +32,6 @@ func main() {
 	k8sClusterHost = append(k8sClusterHost, k8sNodeHost...)
 
 	log.Println("=+=+=+=+=+=+=+=+=+=+=+创建k8s集群节点环境初始化脚本=+=+=+=+=+=+=+=+=+=+=+=+=+")
-
 	for script, cmd := range customConst.InitScript {
 		file.Create(customConst.InitScriptDir+script, cmd)
 	}
@@ -45,7 +44,7 @@ func main() {
 	log.Println("初始化CA机构证书")
 	install.InitCaCert()
 
-	log.Println("初始化ETCD服务证书")
+	log.Println("依据CA机构证书生成ETCD服务证书")
 	install.InitEtcdCert(k8sMasterHost)
 
 	log.Println("依据CA机构证书生成kube-apiserver证书")
@@ -64,4 +63,5 @@ func main() {
 	install.InitKubeSchedulerCert(k8sMasterHost)
 
 	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
+
 }

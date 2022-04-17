@@ -1,10 +1,10 @@
 package install
 
 import (
-	"Op2K8sDeploy/pkg/file"
-	"Op2K8sDeploy/pkg/hostname"
-	"Op2K8sDeploy/pkg/login/sshd"
-	"Op2K8sDeploy/setting"
+	"erbiaoOS/pkg/file"
+	"erbiaoOS/pkg/hostname"
+	"erbiaoOS/pkg/login/sshd"
+	"erbiaoOS/setting"
 	"fmt"
 	"log"
 )

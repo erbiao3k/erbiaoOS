@@ -62,5 +62,5 @@ func main() {
 	log.Println("依据CA机构证书生成kube-scheduler证书")
 	install.InitKubeSchedulerCert(k8sMasterHost)
 
-	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
+	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
 }

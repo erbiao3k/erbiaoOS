@@ -1,12 +1,13 @@
 package customConst
 
 const (
+	// KubeApiserverCfg kube-apiserver配置文件
 	KubeApiserverCfg = "KUBE_APISERVER_OPTS=\" \\\n" +
 		"  --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\\n" +
 		"  --anonymous-auth=false \\\n" +
-		"  --bind-address=192.168.0.6 \\\n" +
+		"  --bind-address=currentIPaddr \\\n" +
 		"  --secure-port=6443 \\\n" +
-		"  --advertise-address=192.168.0.6 \\\n" +
+		"  --advertise-address=currentIPaddr \\\n" +
 		"  --insecure-port=0 \\\n" +
 		"  --authorization-mode=Node,RBAC \\\n" +
 		"  --runtime-config=api/all=true \\\n" +
@@ -25,7 +26,7 @@ const (
 		"  --etcd-cafile=/opt/caCenter/ca.pem \\\n" +
 		"  --etcd-certfile=/opt/etcd/ssl/etcd.pem \\\n" +
 		"  --etcd-keyfile=/opt/etcd/ssl/etcd-key.pem \\\n" +
-		"  --etcd-servers=https://192.168.0.6:2379,https://192.168.0.8:2379,https://192.168.0.15:2379 \\\n" +
+		"  --etcd-servers=etcdServerUrls \\\n" +
 		"  --enable-swagger-ui=true \\\n" +
 		"  --allow-privileged=true \\\n" +
 		"  --apiserver-count=3 \\\n" +

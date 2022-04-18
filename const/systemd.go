@@ -30,4 +30,13 @@ const (
 		"LimitNOFILE=65536\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+	// KubeApiserverSystemd kube-apiserver服务systemd管理脚本
+	KubeApiserverSystemd = "[Unit]\n" +
+		"Description=Kubernetes API Server\n" +
+		"Documentation=https://github.com/kubernetes/kubernetes\n\n" +
+		"[Service]\nEnvironmentFile=-/opt/kubernetes/cfg/kube-apiserver\n" +
+		"ExecStart=/usr/local/bin/kube-apiserver $KUBE_APISERVER_OPTS\n" +
+		"Restart=on-failure\n\n" +
+		"[Install]\n" +
+		"WantedBy=multi-user.target"
 )

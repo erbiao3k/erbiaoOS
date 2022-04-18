@@ -64,6 +64,9 @@ func main() {
 	log.Println("初始化etcd systemd管理脚本，etcdctl客户端指令")
 	etcdHost := initialize.EtcdHost(k8sMasterHost, k8sNodeHost)
 	initialize.EtcdSystemdScript(etcdHost)
-	initialize.EtcdCtl(etcdHost)
+	etcdServerUrls := initialize.EtcdCtl(etcdHost)
 
+	log.Println("初始化 kube-apiserver配置文件，systemd管理脚本")
+	initialize.KubeApiserverCfg(k8sMasterHost, etcdServerUrls)
+	initialize.KubeApiserverSystemdScript()
 }

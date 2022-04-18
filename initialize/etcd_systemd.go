@@ -75,13 +75,13 @@ func EtcdSystemdScript(etcdHost []string) {
 
 // EtcdCtl 生成etcdctl 客户端管理指令
 func EtcdCtl(etcdHost []string) string {
-	clientUrls := ""
+	etcdServerUrls := ""
 	for index, ip := range etcdHost {
-		clientUrls = clientUrls + "https://" + ip + ":2379"
+		etcdServerUrls = etcdServerUrls + "https://" + ip + ":2379"
 		if len(etcdHost)-1 != index {
-			clientUrls = clientUrls + ","
+			etcdServerUrls = etcdServerUrls + ","
 		}
 	}
-	file.Create(customConst.EtcdSystemdDir+"etcdctl", strings.ReplaceAll(customConst.EtcdctlManagerCommand, "clientUrls", clientUrls))
-	return clientUrls
+	file.Create(customConst.EtcdSystemdDir+"etcdctl", strings.ReplaceAll(customConst.EtcdctlManagerCommand, "clientUrls", etcdServerUrls))
+	return etcdServerUrls
 }

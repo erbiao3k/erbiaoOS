@@ -1,8 +1,8 @@
 package customConst
 
 const (
-	// EtcdService etcd服务systemd管理脚本
-	EtcdService = "[Unit]\n" +
+	// EtcdSystemd etcd服务systemd管理脚本
+	EtcdSystemd = "[Unit]\n" +
 		"Description=Etcd Server\n" +
 		"After=network.target\n" +
 		"After=network-online.target\n" +

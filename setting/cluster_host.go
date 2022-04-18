@@ -87,6 +87,9 @@ func InitclusterHost(path string) *ClusterHost {
 	content, _ := fileContent(path)
 	analysis := contentAnalysis(content)
 	for _, s := range analysis {
+		if len(s) != 6 {
+			continue
+		}
 		hi.Role, hi.RemoteIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
 		hi.LanIp = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, "hostname -I|awk '{print $1}'")
 		hi.LanIp = strings.Split(hi.LanIp, "\n")[0]

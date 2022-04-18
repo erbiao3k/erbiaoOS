@@ -1,4 +1,4 @@
-package init
+package initialize
 
 import (
 	"erbiaoOS/pkg/file"
@@ -9,7 +9,7 @@ import (
 	"log"
 )
 
-// SystemInit 系统初始化，
+// SysInit 系统初始化，
 //		1、设置主机名；
 //		2、关闭SELinux；
 //		3、关闭firewalld服务；
@@ -19,7 +19,7 @@ import (
 //		7、启用iptables；
 //		8、开启ipvs；
 //		9、安装docker;
-func SystemInit(clusterHost *setting.ClusterHost) {
+func SysInit(clusterHost *setting.ClusterHost) {
 	// 获取各服务节点清单
 	k8sMasters := clusterHost.K8sMaster
 	k8sNodes := clusterHost.K8sNode

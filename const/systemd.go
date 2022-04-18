@@ -10,14 +10,14 @@ const (
 		"[Service]\n" +
 		"Type=simple\n" +
 		"ExecStart=/usr/local/bin/etcd \\\n" +
-		"--name=\\${ETCD_NAME} \\\n" +
+		"--name=currentEtcdName \\\n" +
 		"--enable-v2=true \\\n" +
 		"--data-dir=/opt/etcd/data/default.etcd \\\n" +
-		"--listen-peer-urls=https://\\${ETCD_IP}:2380 \\\n" +
-		"--listen-client-urls=https://\\${ETCD_IP}:2379,http://127.0.0.1:2379 \\\n" +
-		"--advertise-client-urls=https://\\${ETCD_IP}:2379 \\\n" +
-		"--initial-advertise-peer-urls=https://\\${ETCD_IP}:2380 \\\n" +
-		"--initial-cluster=\\${ETCD_NAME}=https://\\${ETCD_IP}:2380,\\${ETCD_CLUSTER} \\\n" +
+		"--listen-peer-urls=https://currentEtcdIp:2380 \\\n" +
+		"--listen-client-urls=https://currentEtcdIp:2379,http://127.0.0.1:2379 \\\n" +
+		"--advertise-client-urls=https://currentEtcdIp:2379 \\\n" +
+		"--initial-advertise-peer-urls=https://currentEtcdIp:2380 \\\n" +
+		"--initial-cluster=currentEtcdName=etcdCluster\\\n" +
 		"--initial-cluster-token=etcd-cluster \\\n" +
 		"--initial-cluster-state=new \\\n" +
 		"--cert-file=/opt/etcd/ssl/etcd.pem \\\n" +

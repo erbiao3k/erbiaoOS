@@ -1,2 +1,0 @@
-alias etcdctl3='ETCDCTL_API=3 etcdctl --cacert=/opt/caCenter/ca.pem --cert=/opt/etcd/ssl/etcd.pem --key=/opt/etcd/ssl/etcd-key.pem --endpoints=https://172.16.79.172:2379,https://172.16.79.172:2379,https://172.16.79.172:2379'
-alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=https://172.16.79.172:2379,https://172.16.79.172:2379,https://172.16.79.172:2379'

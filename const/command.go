@@ -14,7 +14,7 @@ const (
 	DisableSwap = "grep -v swap /etc/fstab  > /opt/tempData/fstab && cat /opt/tempData/fstab >/etc/fstab && mount -a && swapoff -a"
 
 	//EnableChrony 启用chrony时间同步服务
-	EnableChrony = "yum -y install chrony* \n" +
+	EnableChrony = "yum -y init chrony* \n" +
 		"cat > /etc/chrony.conf <<EOF\n" +
 		"pool ntp1.aliyun.com iburst\n" +
 		"driftfile /var/lib/chrony/drift\n" +
@@ -43,13 +43,13 @@ const (
 		"sysctl --system"
 
 	// SoftwareInstall 安装基础软件包
-	SoftwareInstall = "yum install -y " +
+	SoftwareInstall = "yum init -y " +
 		"yum-utils device-mapper-persistent-data lvm2 rpcbind device-mapper " +
 		"conntrack socat telnet lsof wget vim make gcc gcc-c++ pcre* " +
 		"ipvsadm net-tools libnl libnl-devel openssl openssl-devel bash-completion"
 
 	// EnableIptables 安装iptables，关闭即可，k8s自己初始化
-	EnableIptables = "yum install iptables-services -y &&" +
+	EnableIptables = "yum init iptables-services -y &&" +
 		"systemctl stop iptables &&" +
 		"systemctl disable iptables &&" +
 		"iptables -F"

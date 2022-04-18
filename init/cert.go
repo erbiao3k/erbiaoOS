@@ -1,4 +1,4 @@
-package install
+package init
 
 import (
 	customConst "erbiaoOS/const"
@@ -25,8 +25,8 @@ func slice2String(host []string) string {
 	return str
 }
 
-// InitCaCert 初始化CA机构证书
-func InitCaCert() {
+// CaCert 初始化CA机构证书
+func CaCert() {
 
 	file.Create(caConfigJsonfile, customConst.CaConfigJson)
 	file.Create(caCsrJsonfile, customConst.CaCsrJson)
@@ -44,8 +44,8 @@ func InitCaCert() {
 
 }
 
-// InitEtcdCert 初始化Etcd服务证书
-func InitEtcdCert(masterHost []string) {
+// EtcdCert 初始化Etcd服务证书
+func EtcdCert(masterHost []string) {
 	etcdCsrJsonfile := customConst.TempData + "etcd-csr.json"
 
 	EtcdCsrJson := fmt.Sprintf(customConst.EtcdCsrJson, slice2String(masterHost))
@@ -64,8 +64,8 @@ func InitEtcdCert(masterHost []string) {
 	}
 }
 
-// InitKubeApiserverCert 初始化组件KubeApiser证书
-func InitKubeApiserverCert(masterHost []string) {
+// KubeApiserverCert 初始化组件KubeApiser证书
+func KubeApiserverCert(masterHost []string) {
 	kubeApiserverCsrJsonfile := customConst.TempData + "kube-apiserver-csr.json"
 	kubeApiserverCsrJson := fmt.Sprintf(customConst.KubeApiserverCsrJson, slice2String(masterHost))
 	file.Create(kubeApiserverCsrJsonfile, kubeApiserverCsrJson)
@@ -82,8 +82,8 @@ func InitKubeApiserverCert(masterHost []string) {
 	}
 }
 
-// InitKubeProxyCert 初始化组件KubeProxy证书
-func InitKubeProxyCert() {
+// KubeProxyCert 初始化组件KubeProxy证书
+func KubeProxyCert() {
 	kubeProxyCsrJsonfile := customConst.TempData + "kube-proxy-csr.json"
 	file.Create(kubeProxyCsrJsonfile, customConst.KubeProxyCsrJson)
 	cmd := fmt.Sprintf("%s gencert -ca=%s -ca-key=%s -config=%s -profile=kubernetes %s | %s  -bare %s",
@@ -99,8 +99,8 @@ func InitKubeProxyCert() {
 	}
 }
 
-// InitKubectlCert 初始化Kubectl管理证书
-func InitKubectlCert() {
+// KubectlCert 初始化Kubectl管理证书
+func KubectlCert() {
 
 	kubectlAdminCertfile := customConst.TempData + "admin-csr.json"
 	file.Create(kubectlAdminCertfile, customConst.KubectlAdminCert)
@@ -118,8 +118,8 @@ func InitKubectlCert() {
 	}
 }
 
-// InitKubeControllerManagerCert 初始化组件KubeControllerManager证书
-func InitKubeControllerManagerCert(masterHost []string) {
+// KubeControllerManagerCert 初始化组件KubeControllerManager证书
+func KubeControllerManagerCert(masterHost []string) {
 	kubeControllerManagerCsrJson := fmt.Sprintf(customConst.KubeControllerManagerCsrJson, slice2String(masterHost))
 	kubeControllerManagerCsrJsonfile := customConst.TempData + "kube-controller-manager-csr.json"
 	file.Create(kubeControllerManagerCsrJsonfile, kubeControllerManagerCsrJson)
@@ -137,8 +137,8 @@ func InitKubeControllerManagerCert(masterHost []string) {
 	}
 }
 
-// InitKubeSchedulerCert 初始化组件KubeScheduler证书
-func InitKubeSchedulerCert(masterHost []string) {
+// KubeSchedulerCert 初始化组件KubeScheduler证书
+func KubeSchedulerCert(masterHost []string) {
 	kubeSchedulerCsrJson := fmt.Sprintf(customConst.KubeSchedulerCsrJson, slice2String(masterHost))
 	kubeSchedulerCsrJsonfile := customConst.TempData + "kube-scheduler-csr.json"
 	file.Create(kubeSchedulerCsrJsonfile, kubeSchedulerCsrJson)

@@ -1,4 +1,4 @@
-package install
+package init
 
 import (
 	customConst "erbiaoOS/const"

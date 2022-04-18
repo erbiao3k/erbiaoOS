@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"strings"
+	"time"
 )
 
 type Cli struct {
@@ -21,6 +22,7 @@ func (c *Cli) sshConnect() (*Cli, error) {
 	config := &gossh.ClientConfig{}
 	config.SetDefaults()
 	config.User = c.user
+	config.Timeout = time.Second * 5
 	config.Auth = []gossh.AuthMethod{gossh.Password(c.password)}
 	config.HostKeyCallback = func(hostname string, remote net.Addr, key gossh.PublicKey) error { return nil }
 	client, err := gossh.Dial("tcp", c.host, config)
@@ -58,7 +60,10 @@ func RemoteSshExec(host, user, password, port, command string) string {
 		password: password,
 	}
 	// 建立连接对象
-	c, _ := cli.sshConnect()
+	c, err := cli.sshConnect()
+	if err != nil {
+		panic("创建ssh连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
+	}
 	// 退出时关闭连接
 	defer c.client.Close()
 	exec, _ := c.runShell(command + "|| echo ErrorFlag:$?")

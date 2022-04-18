@@ -25,7 +25,7 @@ func sftpConnect(host, user, password, port string) (*sftp.Client, error) {
 	clientConfig = &ssh.ClientConfig{
 		User:            user,
 		Auth:            auth,
-		Timeout:         30 * time.Second,
+		Timeout:         time.Second * 5,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
@@ -47,7 +47,7 @@ func SftpUploadFile(host, user, password, port, localFile, remoteDir string) {
 	log.Printf("开始为节点【%s】上传文件【%s】", host, localFile)
 	sftpClient, err := sftpConnect(host, user, password, port)
 	if err != nil {
-		log.Fatal(err)
+		panic("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
 	}
 	defer sftpClient.Close()
 

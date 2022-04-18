@@ -124,6 +124,10 @@ const (
 
 	// BashCompletion CentOS Linux bash shell 自动补全
 	BashCompletion = "chmod a+x /usr/share/bash-completion/bash_completion && /usr/share/bash-completion/bash_completion"
+
+	// EtcdctlManagerCommand 生成etcdctl指令
+	EtcdctlManagerCommand = "alias etcdctl3='ETCDCTL_API=3 etcdctl --cacert=/opt/caCenter/ca.pem --cert=/opt/etcd/ssl/etcd.pem --key=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'\n" +
+		"alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'"
 )
 
 var InitScript = map[string]string{

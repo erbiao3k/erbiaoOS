@@ -2,6 +2,7 @@
 k8sMaster 192.168.140.203 root 111 22 ssh
 k8sMaster 192.168.140.201 root 111 22 ssh
 k8sMaster 192.168.140.163 root 111 22 ssh
+
 k8sNode 192.168.140.115 root 111 22 ssh
 
 #k8sNode 192.168.1.171 root 1234 22 ssh

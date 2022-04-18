@@ -17,7 +17,7 @@ const (
 		"--listen-client-urls=https://currentEtcdIp:2379,http://127.0.0.1:2379 \\\n" +
 		"--advertise-client-urls=https://currentEtcdIp:2379 \\\n" +
 		"--initial-advertise-peer-urls=https://currentEtcdIp:2380 \\\n" +
-		"--initial-cluster=currentEtcdName=etcdCluster\\\n" +
+		"--initial-cluster=etcdCluster \\\n" +
 		"--initial-cluster-token=etcd-cluster \\\n" +
 		"--initial-cluster-state=new \\\n" +
 		"--cert-file=/opt/etcd/ssl/etcd.pem \\\n" +

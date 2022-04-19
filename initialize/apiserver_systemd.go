@@ -8,9 +8,9 @@ import (
 )
 
 // KubeApiserverSystemdScript 生成kube-apiserver systemd管理脚本
-func KubeApiserverSystemdScript(masterHost []string, etcdServerUrls string) {
-	apiserverCount := len(masterHost)
-	for _, ip := range masterHost {
+func KubeApiserverSystemdScript(masterIPs []string, etcdServerUrls string) {
+	apiserverCount := len(masterIPs)
+	for _, ip := range masterIPs {
 		cfg := strings.ReplaceAll(customConst.KubeApiserverSystemd, "currentIPaddr", ip)
 		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcdServerUrls)
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))

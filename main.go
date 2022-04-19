@@ -82,5 +82,11 @@ func main() {
 	initialize.KubeletSystemdScript(customConst.K8sMasterCfgDir, clusterHost.K8sMaster)
 	initialize.KubeletSystemdScript(customConst.K8sNodeCfgDir, clusterHost.K8sNode)
 
-	log.Println()
+	log.Println("初始化kube-proxy配置文件，以及kube-proxy systemd管理脚本")
+	initialize.KubeProxyCfg(customConst.K8sMasterCfgDir, k8sMasterHost)
+	initialize.KubeProxyCfg(customConst.K8sNodeCfgDir, k8sNodeHost)
+
+	initialize.KubeProxySystemdScript(customConst.K8sMasterCfgDir, clusterHost.K8sMaster)
+	initialize.KubeProxySystemdScript(customConst.K8sNodeCfgDir, clusterHost.K8sNode)
+
 }

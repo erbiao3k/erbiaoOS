@@ -8,8 +8,8 @@ import (
 )
 
 // KubeletCfg 生成kubelet配置文件
-func KubeletCfg(fileSaveDir string, hosts []string) {
-	for _, ip := range hosts {
+func KubeletCfg(fileSaveDir string, IPs []string) {
+	for _, ip := range IPs {
 		cfg := strings.ReplaceAll(customConst.KubeletCfg, "currentKubeletIP", ip)
 		file.Create(fileSaveDir+ip+"-kubelet", cfg)
 	}

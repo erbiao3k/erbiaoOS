@@ -153,4 +153,23 @@ const (
 		"RestartSec=5\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	//KubeProxySystemd kube-proxy systemd管理脚本
+	KubeProxySystemd = "[Unit]\n" +
+		"Description=Kubernetes Kube-Proxy Server\n" +
+		"Documentation=https://github.com/kubernetes/kubernetes\n" +
+		"After=network.target\n\n" +
+		"[Service]\n" +
+		"WorkingDirectory=kubeProxyDataDir\n" +
+		"ExecStart=/usr/local/bin/kube-proxy \\\n" +
+		"  --config=/opt/kubernetes/cfg/kube-proxy \\\n" +
+		"  --alsologtostderr=true \\\n" +
+		"  --logtostderr=false \\\n" +
+		"  --log-dir=/var/log/kubernetes \\\n" +
+		"  --v=2\n" +
+		"Restart=on-failure\n" +
+		"RestartSec=5\n" +
+		"LimitNOFILE=65536\n\n" +
+		"[Install]\n" +
+		"WantedBy=multi-user.target"
 )

@@ -33,4 +33,15 @@ const (
 		"  \"clusterDomain\": \"cluster.local.\",\n" +
 		"  \"clusterDNS\": [\"10.255.0.2\"]\n" +
 		"}"
+
+	// KubeProxyCfg kube-proxy配置文件
+	KubeProxyCfg = "apiVersion: kubeproxy.config.k8s.io/v1alpha1\n" +
+		"bindAddress: currentKubeproxyIP\n" +
+		"clientConnection:\n" +
+		"  kubeconfig: /opt/kubernetes/cfg/kube-proxy.kubeconfig\n" +
+		"clusterCIDR: 10.0.0.0/16\n" +
+		"healthzBindAddress: currentKubeproxyIP:10256\n" +
+		"kind: KubeProxyConfiguration\n" +
+		"metricsBindAddress: currentKubeproxyIP:10249\n" +
+		"mode: \"ipvs\""
 )

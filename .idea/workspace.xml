@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1bbcda35-12c2-4db6-a78b-6d68ed6a4d6d" name="变更" comment="kube-proxy 配置初始化 20220419 21:41">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/const/calico_yaml.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/const/coredns_yaml.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/component.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/component.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/calico_yaml.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/calico_yaml.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setting/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/component.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +55,6 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",

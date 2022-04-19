@@ -89,4 +89,6 @@ func main() {
 	initialize.KubeProxySystemdScript(customConst.K8sMasterCfgDir, clusterHost.K8sMaster)
 	initialize.KubeProxySystemdScript(customConst.K8sNodeCfgDir, clusterHost.K8sNode)
 
+	log.Println("初始化calico网络组件编排文件")
+	log.Println("初始化coreDNS组件编排文件")
 }

@@ -9,11 +9,6 @@ import (
 
 type Component struct {
 	OfflineDeployment bool   `json:"OfflineDeployment"`
-	Cfssl             string `json:"Cfssl"`
-	Cfsslcertinfo     string `json:"Cfssl-certinfo"`
-	Cfssljson         string `json:"Cfssljson"`
-	Docker            string `json:"Docker"`
-	Etcd              string `json:"Etcd"`
 	Kubernetes        string `json:"Kubernetes"`
 }
 

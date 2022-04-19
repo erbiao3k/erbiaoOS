@@ -26,8 +26,8 @@ func ComponentInit(component *setting.Component) {
 		file.Download(CfssljsonUrl, customConst.TempData)
 		file.Download(cfsslCertinfoUrl, customConst.TempData)
 		file.Download(component.Kubernetes, customConst.TempData)
-		file.Download(component.Docker, customConst.TempData)
-		file.Download(component.Etcd, customConst.TempData)
+		file.Download(customConst.DockerUrl, customConst.TempData)
+		file.Download(customConst.EtcdUrl, customConst.TempData)
 	}
 
 	k8sPackage := file.ListHasPrefix(customConst.TempData, []string{"kubernetes-server"})[0]

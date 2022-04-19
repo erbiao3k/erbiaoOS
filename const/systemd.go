@@ -145,7 +145,7 @@ const (
 		"  --network-plugin=cni \\\n" +
 		"  --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.6 \\\n" +
 		"  --alsologtostderr=true \\\n" +
-		"  --root-dir=kubeletDataDir" +
+		"  --root-dir=kubeletDataDir\n" +
 		"  --logtostderr=false \\\n" +
 		"  --log-dir=/var/log/kubernetes \\\n" +
 		"  --v=2\n" +

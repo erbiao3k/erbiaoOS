@@ -70,8 +70,9 @@ func RemoteSshExec(host, user, password, port, command string) string {
 
 	if strings.Contains(exec, "ErrorFlag") {
 		log.Fatalf("在节点【%s】执行指令【%s】失败，执行结果：\n ------------\n%s------------", host, command, exec)
-	} else {
-		log.Printf("在节点【%s】执行指令【%s】成功，执行结果：\n ------------\n%s------------", host, command, exec)
 	}
+	//} else {
+	//	log.Printf("在节点【%s】执行指令【%s】成功，执行结果：\n ------------\n%s------------", host, command, exec)
+	//}
 	return exec
 }

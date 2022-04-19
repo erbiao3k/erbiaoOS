@@ -79,6 +79,8 @@ func main() {
 	initialize.KubeletCfg(customConst.K8sMasterCfgDir, k8sMasterHost)
 	initialize.KubeletCfg(customConst.K8sNodeCfgDir, k8sNodeHost)
 
-	//initialize.KubeletCfgSystemd(clusterHost.K8sMaster)
-	//initialize.KubeletCfgSystemd(clusterHost.K8sNode)
+	initialize.KubeletSystemdScript(customConst.K8sMasterCfgDir, clusterHost.K8sMaster)
+	initialize.KubeletSystemdScript(customConst.K8sNodeCfgDir, clusterHost.K8sNode)
+
+	log.Println()
 }

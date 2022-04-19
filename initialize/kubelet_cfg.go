@@ -16,8 +16,9 @@ func KubeletCfg(fileSaveDir string, hosts []string) {
 }
 
 // KubeletSystemdScript 生成kubelet配置文件以及systemd管理脚本
-func KubeletSystemdScript(fileSaveDir string, host []setting.HostInfo) {
-
-	cfg := strings.ReplaceAll(customConst.KubeletSystemd, "kubeletDataDir", kubeletDataDir)
-	file.Create(fileSaveDir+ip+"-kubelet.service", cfg)
+func KubeletSystemdScript(fileSaveDir string, hosts []setting.HostInfo) {
+	for _, host := range hosts {
+		cfg := strings.ReplaceAll(customConst.KubeletSystemd, "kubeletDataDir", host.DataDir)
+		file.Create(fileSaveDir+host.LanIp+"-kubelet.service", cfg)
+	}
 }

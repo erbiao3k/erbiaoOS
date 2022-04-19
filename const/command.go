@@ -1,6 +1,12 @@
 package customConst
 
 const (
+	// LanIp 获取节点内网IP
+	LanIp = "hostname -I|awk '{print $1}'"
+
+	// FirstDisk 获取当前本地文件系统最大的分区
+	FirstDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
+
 	// SetHostname 设置主机名的字符串
 	SetHostname = `echo $(hostname) |grep localhost || hostnamectl set-hostname $1`
 

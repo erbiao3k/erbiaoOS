@@ -1,6 +1,7 @@
 package main
 
 import (
+	customConst "erbiaoOS/const"
 	"erbiaoOS/initialize"
 	"erbiaoOS/setting"
 	"log"
@@ -13,7 +14,6 @@ func main() {
 	log.Println("=+=+=+=+=+=+=+=+=+=+==+=++=+=+初始化配置文件==+=++=+=+=+=+=+=+=+=+=+=+=+=+=+=+")
 	clusterHost := setting.InitclusterHost(configDir)
 	//component := setting.ComponentContent(configDir)
-
 	// 初始化信息
 	var k8sMasterHost []string
 	for _, master := range clusterHost.K8sMaster {
@@ -66,6 +66,19 @@ func main() {
 	initialize.EtcdSystemdScript(etcdHost)
 	etcdServerUrls := initialize.EtcdCtl(etcdHost)
 
-	log.Println("初始化 systemd管理脚本")
+	log.Println("初始化kube-apiserver systemd管理脚本")
 	initialize.KubeApiserverSystemdScript(k8sMasterHost, etcdServerUrls)
+
+	log.Println("初始化kube-controller-manager systemd管理脚本")
+	initialize.KubeControllerManagerSystemdScript()
+
+	log.Println("初始化kube-scheduler systemd管理脚本")
+	initialize.KubeSchedulerSystemdScript()
+
+	log.Println("初始化kubelet配置文件，以及kubelet systemd管理脚本")
+	initialize.KubeletCfg(customConst.K8sMasterCfgDir, k8sMasterHost)
+	initialize.KubeletCfg(customConst.K8sNodeCfgDir, k8sNodeHost)
+
+	//initialize.KubeletCfgSystemd(clusterHost.K8sMaster)
+	//initialize.KubeletCfgSystemd(clusterHost.K8sNode)
 }

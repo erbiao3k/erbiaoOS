@@ -1,6 +1,7 @@
 package setting
 
 import (
+	customConst "erbiaoOS/const"
 	"erbiaoOS/pkg/login/sshd"
 	"io"
 	"log"
@@ -25,6 +26,7 @@ type HostInfo struct {
 	User     string
 	Password string
 	Port     string
+	DataDir  string
 	Mode     string
 }
 
@@ -75,7 +77,11 @@ func contentAnalysis(content string) [][]string {
 		}
 		// 行内按空格切分字段,获取每个节点的角色，服务器地址，服务器账号，服务器密码，服务器端口
 		lineSlice := strings.Split(line, " ")
-		hostSlice = append(hostSlice, lineSlice)
+
+		// 空行剔除
+		if len(lineSlice) != 1 {
+			hostSlice = append(hostSlice, lineSlice)
+		}
 	}
 	return hostSlice
 }
@@ -86,13 +92,13 @@ func InitclusterHost(path string) *ClusterHost {
 	var hi HostInfo
 	content, _ := fileContent(path)
 	analysis := contentAnalysis(content)
+
 	for _, s := range analysis {
-		if len(s) != 6 {
-			continue
-		}
 		hi.Role, hi.RemoteIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
-		hi.LanIp = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, "hostname -I|awk '{print $1}'")
+		hi.LanIp = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.LanIp)
 		hi.LanIp = strings.Split(hi.LanIp, "\n")[0]
+		hi.DataDir = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.FirstDisk)
+		hi.DataDir = strings.Split(hi.DataDir, "\n")[0]
 		if hi.Role == "k8sMaster" {
 			ch.K8sMaster = append(ch.K8sMaster, hi)
 		}

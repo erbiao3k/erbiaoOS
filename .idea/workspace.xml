@@ -4,17 +4,20 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1bbcda35-12c2-4db6-a78b-6d68ed6a4d6d" name="变更" comment="kube-proxy 配置初始化 20220419 21:41">
+    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/const/nginx.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initialize/calico.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initialize/coredns.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initialize/nginx.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/component.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/component.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/calico_yaml.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/calico_yaml.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/systemd.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/systemd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/component.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/create.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/file/create.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setting/cluster_host.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +31,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../service/golang/go1.17.1" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -38,30 +41,26 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2816D9HoCfmJLNyKHgkLnSiJN5m" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectId" id="2839DTTM2ePNSbN5LKBLA3vi2dG" />
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "configurable..is.expanded": "false",
-    "configurable.GoLibrariesConfigurable.is.expanded": "true",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/pc"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.format.on.save.advertiser.fired" value="true" />
+    <property name="go.formatter.settings.were.checked" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
+    <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -77,11 +76,7 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="kube-proxy 配置初始化 20220419 21:41" />
-    <option name="LAST_COMMIT_MESSAGE" value="kube-proxy 配置初始化 20220419 21:41" />
-  </component>
   <component name="VgoProject">
-    <settings-migrated>true</settings-migrated>
+    <integration-enabled>true</integration-enabled>
   </component>
 </project>

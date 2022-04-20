@@ -83,6 +83,7 @@ func contentAnalysis(content string) [][]string {
 			hostSlice = append(hostSlice, lineSlice)
 		}
 	}
+
 	return hostSlice
 }
 
@@ -114,6 +115,9 @@ func InitclusterHost(path string) *ClusterHost {
 		if hi.Role == "convertHost" {
 			ch.ConvertHost = append(ch.ConvertHost, hi)
 		}
+	}
+	if len(ch.K8sMaster) < 1 || len(ch.K8sNode) < 1 {
+		log.Fatal("请至少指定一个master节点和node节点")
 	}
 	return &ch
 }

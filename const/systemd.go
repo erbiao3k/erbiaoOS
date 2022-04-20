@@ -154,7 +154,7 @@ const (
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
-	//KubeProxySystemd kube-proxy systemd管理脚本
+	// KubeProxySystemd kube-proxy systemd管理脚本
 	KubeProxySystemd = "[Unit]\n" +
 		"Description=Kubernetes Kube-Proxy Server\n" +
 		"Documentation=https://github.com/kubernetes/kubernetes\n" +
@@ -170,6 +170,25 @@ const (
 		"Restart=on-failure\n" +
 		"RestartSec=5\n" +
 		"LimitNOFILE=65536\n\n" +
+		"[Install]\n" +
+		"WantedBy=multi-user.target"
+
+	// NginxSystemd nginx systemd管理脚本
+	NginxSystemd = "[Unit]\n" +
+		"Description=The nginx HTTP and reverse proxy server\n" +
+		"After=network-online.target remote-fs.target nss-lookup.target\n" +
+		"Wants=network-online.target\n\n" +
+		"[Service]\n" +
+		"Type=forking\n" +
+		"PIDFile=/run/nginx.pid\n" +
+		"xecStartPre=/usr/bin/rm -f /run/nginx.pid\n" +
+		"ExecStartPre=/opt/nginx/sbin/nginx -t\n" +
+		"ExecStart=/opt/nginx/sbin/nginx\n" +
+		"ExecReload=/opt/nginx/sbin/nginx -s reload\n" +
+		"illSignal=SIGQUIT\n" +
+		"TimeoutStopSec=5\n" +
+		"KillMode=process\n" +
+		"PrivateTmp=true\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 )

@@ -13,7 +13,7 @@ func Create(filename string, content string) {
 		return
 	}
 	defer file.Close()
-	fmt.Println("生成文件：", filename)
+	//fmt.Println("生成文件：", filename)
 	file.Write([]byte(content + "\n")) //写入字节切片数据
 	//file.WriteString(content + "\n") //直接写入字符串数据
 }

@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/const/nginx.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initialize/calico.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initialize/coredns.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initialize/nginx.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
+    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/systemd.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/systemd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/file/create.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/file/create.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster_host.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +64,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

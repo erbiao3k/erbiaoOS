@@ -12,7 +12,6 @@ func main() {
 
 	configDir := "config"
 
-	log.Println("=+=+=+=+=+=+=+=+=+=+==+=++=+=+初始化配置文件==+=++=+=+=+=+=+=+=+=+=+=+=+=+=+=+")
 	clusterHost := setting.InitclusterHost(configDir)
 	component := setting.ComponentContent(configDir)
 

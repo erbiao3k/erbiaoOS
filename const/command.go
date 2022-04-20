@@ -1,14 +1,16 @@
 package customConst
 
+import "erbiaoOS/pkg/file"
+
 const (
 	// LanIp 获取节点内网IP
 	LanIp = "hostname -I|awk '{print $1}'"
 
-	// FirstDisk 获取当前本地文件系统最大的分区
-	FirstDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
+	// TopDisk 获取当前本地文件系统最大的分区
+	TopDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
 
 	// SetHostname 设置主机名的字符串
-	SetHostname = `echo $(hostname) |grep localhost || hostnamectl set-hostname $1`
+	SetHostname = `hostnamectl set-hostname $1`
 
 	// DisableSELinux 关闭SELinux的字符串
 	DisableSELinux = "sed -i 's/\\=enforcing/\\=disabled/' /etc/selinux/config &&  setenforce 0 || echo SELinux已经是关闭状态"
@@ -49,7 +51,7 @@ const (
 		"sysctl --system"
 
 	// SoftwareInstall 安装基础软件包
-	SoftwareInstall = "yum initialize -y " +
+	SoftwareInstall = "yum install -y " +
 		"yum-utils device-mapper-persistent-data lvm2 rpcbind device-mapper " +
 		"conntrack socat telnet lsof wget vim make gcc gcc-c++ pcre* " +
 		"ipvsadm net-tools libnl libnl-devel openssl openssl-devel bash-completion"
@@ -136,7 +138,7 @@ const (
 		"alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'"
 )
 
-var InitScript = map[string]string{
+var script = map[string]string{
 	"SetHostname.sh":      SetHostname,
 	"BashCompletion.sh":   BashCompletion,
 	"DisableSELinux.sh":   DisableSELinux,
@@ -148,4 +150,10 @@ var InitScript = map[string]string{
 	"EnableIptables.sh":   EnableIptables,
 	"EnableIpvs.sh":       EnableIpvs,
 	"DockerInstall.sh":    DockerInstall,
+}
+
+func InitScript() {
+	for f, cmd := range script {
+		file.Create(InitScriptDir+f, cmd)
+	}
 }

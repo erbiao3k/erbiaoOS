@@ -98,7 +98,7 @@ func InitclusterHost(path string) *ClusterHost {
 		hi.Role, hi.RemoteIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
 		hi.LanIp = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.LanIp)
 		hi.LanIp = strings.Split(hi.LanIp, "\n")[0]
-		hi.DataDir = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.FirstDisk)
+		hi.DataDir = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.TopDisk)
 		hi.DataDir = strings.Split(hi.DataDir, "\n")[0]
 		if hi.Role == "k8sMaster" {
 			ch.K8sMaster = append(ch.K8sMaster, hi)

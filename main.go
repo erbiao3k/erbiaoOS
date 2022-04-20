@@ -3,7 +3,6 @@ package main
 import (
 	customConst "erbiaoOS/const"
 	"erbiaoOS/initialize"
-	"erbiaoOS/pkg/file"
 	"erbiaoOS/setting"
 	"log"
 )
@@ -30,9 +29,7 @@ func main() {
 	k8sClusterHost = append(k8sClusterHost, k8sNodeHost...)
 
 	log.Println("=+=+=+=+=+=+=+=+=+=+=+创建k8s集群节点环境初始化脚本=+=+=+=+=+=+=+=+=+=+=+=+=+")
-	for script, cmd := range customConst.InitScript {
-		file.Create(customConst.InitScriptDir+script, cmd)
-	}
+	customConst.InitScript()
 
 	log.Println("=+=+=+=+=+=+=+=+=+=+=+=+=+开始下载k8s必要组件,并分拣二进制文件=+=+=+=+=+=+=+=+=+")
 	initialize.ComponentInit(component)

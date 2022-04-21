@@ -8,25 +8,11 @@ import (
 
 func ComponentInit(component *setting.Component) {
 
-	//if !component.OfflineDeployment {
-
-	//CfsslUrl := fmt.Sprintf(customConst.CfsslUrl, runtime.GOOS, runtime.GOARCH)
-	//CfssljsonUrl := fmt.Sprintf(customConst.CfssljsonUrl, runtime.GOOS, runtime.GOARCH)
-	//cfsslCertinfoUrl := fmt.Sprintf(customConst.CfsslCertinfoUrl, runtime.GOOS, runtime.GOARCH)
-	//
-	//if runtime.GOOS == "windows" {
-	//	CfsslUrl = CfsslUrl + ".exe"
-	//	CfssljsonUrl = CfssljsonUrl + ".exe"
-	//	cfsslCertinfoUrl = cfsslCertinfoUrl + ".exe"
-	//}
-
-	//file2.Download(CfsslUrl, customConst.TempData)
-	//file2.Download(CfssljsonUrl, customConst.TempData)
-	//file2.Download(cfsslCertinfoUrl, customConst.TempData)
-	file2.Download(component.Kubernetes, customConst.TempData)
-	file2.Download(customConst.DockerUrl, customConst.TempData)
-	file2.Download(customConst.EtcdUrl, customConst.TempData)
-	//}
+	if !component.OfflineDeployment {
+		file2.Download(customConst.DockerUrl, customConst.TempData)
+		file2.Download(customConst.EtcdUrl, customConst.TempData)
+		file2.Download(component.Kubernetes, customConst.TempData)
+	}
 
 	k8sPackage := file2.ListHasPrefix(customConst.TempData, []string{"kubernetes-server"})[0]
 	dockerPackage := file2.ListHasPrefix(customConst.TempData, []string{"docker-"})[0]
@@ -38,9 +24,6 @@ func ComponentInit(component *setting.Component) {
 	}
 
 	var binary = map[string]string{
-		//customConst.K8sMasterBinaryDir + "cfssl":                   CfsslBinary(),
-		//customConst.K8sMasterBinaryDir + "cfssljson":               CfssljsonBinary(),
-		//customConst.K8sMasterBinaryDir + "cfssl-certinfo":          CfsslcertinfoBinary(),
 		customConst.K8sMasterBinaryDir + "etcd":                    customConst.TempData + "etcd-v3.5.2-linux-amd64/etcd",
 		customConst.K8sMasterBinaryDir + "etcdctl":                 customConst.TempData + "etcd-v3.5.2-linux-amd64/etcdctl",
 		customConst.K8sMasterBinaryDir + "etcdutl":                 customConst.TempData + "etcd-v3.5.2-linux-amd64/etcdutl",

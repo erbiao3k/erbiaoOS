@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="kube-proxy 配置初始化 20220419 21:41">
+    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1">
+      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/binary.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/binary.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/cert.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/binary.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/cert-old.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,19 +49,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DefaultGoTemplateProperty" value="Go File" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="go.format.on.save.advertiser.fired" value="true" />
-    <property name="go.formatter.settings.were.checked" value="true" />
-    <property name="go.import.settings.migrated" value="true" />
-    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
-    <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/pkg/cert/pki" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "go"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pkg/cert/pki" />

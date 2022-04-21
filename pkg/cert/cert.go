@@ -6,86 +6,128 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
+	customConst "erbiaoOS/const"
+	"erbiaoOS/utils/file"
 	"math/big"
+	rd "math/rand"
 	"net"
-	"os"
 	"time"
 )
 
-// GenerateCert 生成证书
-func GenerateCert(host []string, commonName, certDir, CertName string) {
-	//1.生成密钥对
-	priv, err := rsa.GenerateKey(rand.Reader, 2048)
-	if err != nil {
-		panic(err)
-	}
+// Config 创建一个证书所需的基本字段信息
+type Config struct {
+	Filename           string
+	Country            []string
+	Organization       []string
+	OrganizationalUnit []string
+	Province           []string
+	Locality           []string
+	CommonName         string
+	AltNames           AltNames
+}
 
-	//2.创建证书模板
-	pkiName := pkix.Name{
-		Country:            []string{"CN"},
-		Organization:       []string{"k8s"},
-		OrganizationalUnit: []string{"system"},
-		Locality:           []string{"beijing"},
-		Province:           []string{"beijing"},
-		CommonName:         commonName,
-	}
+// AltNames 可使用证书的域名、IP
+type AltNames struct {
+	DNSNames []string
+	IPs      []net.IP
+}
 
-	template := x509.Certificate{
-		SerialNumber: big.NewInt(1), //该号码表示CA颁发的唯一序列号，在此使用一个数来代表
+// NewAltNames 初始化默认的域名、IP
+func NewAltNames(IPs, dnsName []string) *AltNames {
+	dnsName = append(dnsName, "localhost", "localhost.localdomain", "localhost4", "localhost4.localdomain4")
 
-		Issuer:      pkiName,
-		Subject:     pkiName,
-		NotBefore:   time.Now(),
-		NotAfter:    time.Now().AddDate(100, 0, 0),
-		KeyUsage:    x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign, //表示该证书是用来做服务端认证的
-		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-	}
-
-	for _, h := range host {
-		if ip := net.ParseIP(h); ip != nil {
+	ips := []net.IP{net.ParseIP("127.0.0.1")}
+	for _, ip := range IPs {
+		if i := net.ParseIP(ip); i != nil {
 			// ip添加到Subject Alternative Name - ip
-			template.IPAddresses = append(template.IPAddresses, ip)
-		} else {
-			// 域名添加到Subject Alternative Name - 域名，主机名
-			template.DNSNames = append(template.DNSNames, h)
+			ips = append(ips, i)
 		}
 	}
+	return &AltNames{
+		DNSNames: dnsName,
+		IPs:      ips,
+	}
+}
 
-	template.IPAddresses = append(template.IPAddresses, net.ParseIP("127.0.0.1"))
-	template.DNSNames = append(template.DNSNames, "localhost", "localhost.localdomain", "localhost4", "localhost6", "localhost4.localdomain4")
+// NewCertInfo 初始化证书信息
+func NewCertInfo(Oinfo []string, CNinfo string, IPs []net.IP, dnsNames []string) *x509.Certificate {
+	var now = time.Now()
 
-	//3.创建证书,这里第二个参数和第三个参数相同则表示该证书为自签证书，返回值为DER编码的证书
-	certificate, err := x509.CreateCertificate(rand.Reader, &template, &template, &priv.PublicKey, priv)
+	return &x509.Certificate{
+		SerialNumber: big.NewInt(rd.Int63()), //证书序列号
+		Subject: pkix.Name{
+			Country:            []string{"CN"},
+			Organization:       Oinfo,
+			OrganizationalUnit: []string{"system"},
+			Province:           []string{"beijing"},
+			CommonName:         CNinfo,
+			Locality:           []string{"beijing"},
+		},
+		NotBefore:             now,                                                                        //证书有效期开始时间
+		NotAfter:              now.AddDate(100, 0, 0),                                                     //证书有效期结束时间
+		BasicConstraintsValid: true,                                                                       //基本的有效性约束
+		IsCA:                  false,                                                                      //是否是根证书
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth}, //证书用途(客户端认证，数据加密)
+		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageDataEncipherment,
+		IPAddresses:           IPs,
+		DNSNames:              dnsNames,
+	}
+}
+
+// Generate 生成证书信息
+func Generate(cer *x509.Certificate, caFile string) {
+	// CA根证书可以通过openssl或cfssl工具生成，未使用go代码生成
+
+	//解析CA根证书
+	//caFile, err := ioutil.ReadFile("caPublicfile")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//caBlock, _ := pem.Decode(caFile)
+
+	caBlock, _ := pem.Decode([]byte(customConst.CaPublicKey))
+
+	cert, err := x509.ParseCertificate(caBlock.Bytes)
+	if err != nil {
+		panic(err)
+	}
+	//解析CA根私钥
+	//keyFile, err := ioutil.ReadFile(caPrivatefile)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//keyBlock, _ := pem.Decode(keyFile)
+
+	keyBlock, _ := pem.Decode([]byte(customConst.CaPrivateKey))
+	praKey, err := x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
 	if err != nil {
 		panic(err)
 	}
 
-	//4.将得到的证书放入pem.Block结构体中
-	block := pem.Block{
-		Type:    "CERTIFICATE",
-		Headers: nil,
-		Bytes:   certificate,
-	}
-
-	//5.通过pem编码并写入磁盘文件
-	file, err := os.Create(certDir + "/" + CertName + ".pem")
+	//生成公钥私钥对
+	priKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
-	pem.Encode(file, &block)
-
-	//6.将私钥中的密钥对放入pem.Block结构体中
-	block = pem.Block{
-		Type:    "RSA PRIVATE KEY",
-		Headers: nil,
-		Bytes:   x509.MarshalPKCS1PrivateKey(priv),
-	}
-
-	//7.通过pem编码并写入磁盘文件
-	file, err = os.Create(certDir + "/" + CertName + "-key.pem")
+	ca, err := x509.CreateCertificate(rand.Reader, cer, cert, &priKey.PublicKey, praKey)
 	if err != nil {
 		panic(err)
 	}
-	pem.Encode(file, &block)
+
+	//编码证书文件和私钥文件
+	caPem := &pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: ca,
+	}
+	ca = pem.EncodeToMemory(caPem)
+
+	buf := x509.MarshalPKCS1PrivateKey(priKey)
+	keyPem := &pem.Block{
+		Type:  "PRIVATE KEY",
+		Bytes: buf,
+	}
+
+	key := pem.EncodeToMemory(keyPem)
+	file.Create(caFile+".pem", string(ca))
+	file.Create(caFile+"-key.pem", string(key))
 }

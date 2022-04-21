@@ -2,7 +2,7 @@ package initialize
 
 import (
 	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/file"
+	"erbiaoOS/utils/file"
 	"strconv"
 	"strings"
 )

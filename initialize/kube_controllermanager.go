@@ -2,7 +2,7 @@ package initialize
 
 import (
 	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/file"
+	"erbiaoOS/utils/file"
 )
 
 // KubeControllerManagerSystemdScript 生成kube-controller-manager systemd管理脚本

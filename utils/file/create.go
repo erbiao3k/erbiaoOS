@@ -14,6 +14,8 @@ func Create(filename string, content string) {
 	}
 	defer file.Close()
 	//fmt.Println("生成文件：", filename)
-	file.Write([]byte(content + "\n")) //写入字节切片数据
-	//file.WriteString(content + "\n") //直接写入字符串数据
+	_, err = file.Write([]byte(content + "\n"))
+	if err != nil {
+		panic(err)
+	}
 }

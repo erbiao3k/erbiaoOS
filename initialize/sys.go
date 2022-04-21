@@ -1,10 +1,10 @@
 package initialize
 
 import (
-	"erbiaoOS/pkg/file"
 	"erbiaoOS/pkg/hostname"
-	"erbiaoOS/pkg/login/sshd"
 	"erbiaoOS/setting"
+	"erbiaoOS/utils/file"
+	sshd2 "erbiaoOS/utils/login/sshd"
 	"fmt"
 	"log"
 )
@@ -34,7 +34,7 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	for _, temp := range linuxServer {
 		for _, node := range temp {
 			for _, f := range file.List(initScriptDir) {
-				sshd.SftpUploadFile(node.RemoteIp, node.User, node.Password, node.Port, initScriptDir+f, remoteTempData)
+				sshd2.SftpUploadFile(node.RemoteIp, node.User, node.Password, node.Port, initScriptDir+f, remoteTempData)
 			}
 		}
 	}
@@ -46,7 +46,7 @@ func SysInit(clusterHost *setting.ClusterHost) {
 			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
 			node := node
 			cmd := fmt.Sprintf("mkdir %s -p && sh -x %s/SetHostname.sh %s", remoteTempData, remoteTempData, hName)
-			sshd.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
+			sshd2.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
 		}
 	}
 
@@ -55,7 +55,7 @@ func SysInit(clusterHost *setting.ClusterHost) {
 		for _, temp := range severList {
 			for _, node := range temp {
 				node := node
-				sshd.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
+				sshd2.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
 			}
 		}
 	}

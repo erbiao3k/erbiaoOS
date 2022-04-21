@@ -2,7 +2,7 @@ package initialize
 
 import (
 	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/file"
+	"erbiaoOS/utils/file"
 )
 
 // CfsslBinary cfssl二进制文件路径

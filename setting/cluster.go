@@ -2,7 +2,7 @@ package setting
 
 import (
 	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/login/sshd"
+	"erbiaoOS/utils/login/sshd"
 	"io"
 	"log"
 	"os"

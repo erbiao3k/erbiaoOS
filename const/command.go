@@ -1,6 +1,8 @@
 package customConst
 
-import "erbiaoOS/pkg/file"
+import (
+	"erbiaoOS/utils/file"
+)
 
 const (
 	// LanIp 获取节点内网IP

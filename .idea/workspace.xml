@@ -4,11 +4,34 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本">
+    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1">
+      <change afterPath="$PROJECT_DIR$/const/ca.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initialize/cert-old.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/calico_yaml.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/calico_yaml.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/const/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/binary.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/binary.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/calico.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/calico.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/cert.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/cert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/coredns.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/coredns.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/etcd.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/etcd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/kube_apiserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/kube_apiserver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/kube_controllermanager.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/kube_controllermanager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/kube_proxy.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/kube_proxy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/kube_scheduler.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/kube_scheduler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/kubelet.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/kubelet.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/nginx.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/nginx.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/sys.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/sys.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cert/cert.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/copy.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/copy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/create.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/create.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/download.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/download.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/list.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/list.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/file/untargz.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/untargz.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/login/sshd/sftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/sftp.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/login/sshd/ssh.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/ssh.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setting/cluster.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +65,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -51,7 +75,15 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pkg/cert/pki" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg/cert/pki" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -69,8 +101,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本" />
-    <option name="LAST_COMMIT_MESSAGE" value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本" />
+    <MESSAGE value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

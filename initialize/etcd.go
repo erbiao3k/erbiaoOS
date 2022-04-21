@@ -2,8 +2,8 @@ package initialize
 
 import (
 	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/file"
 	"erbiaoOS/pkg/hostname"
+	"erbiaoOS/utils/file"
 	"strings"
 )
 

@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="95753e08-143c-4e55-a9e3-640b86a32327" name="变更" comment="20220421 21:12">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/cert.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/url.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/binary.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/cert-old.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/component.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +77,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本" />
     <MESSAGE value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1" />
-    <option name="LAST_COMMIT_MESSAGE" value="初始化calico网络组件编排文件，初始化coreDNS组件编排文件，初始化nginx主配置文件，以及nginx systemd管理脚本1" />
+    <MESSAGE value="20220421 21:12" />
+    <option name="LAST_COMMIT_MESSAGE" value="20220421 21:12" />
   </component>
 </project>

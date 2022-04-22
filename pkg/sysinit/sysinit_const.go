@@ -5,7 +5,7 @@ const (
 	TopDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
 
 	// setHostname 设置主机名的字符串
-	setHostname = `hostnamectl set-hostname $1`
+	setHostname = "hostnamectl set-hostname "
 
 	// disableSELinux 关闭SELinux的字符串
 	disableSELinux = "sed -i 's/\\=enforcing/\\=disabled/' /etc/selinux/config &&  setenforce 0 || echo SELinux已经是关闭状态"
@@ -14,7 +14,7 @@ const (
 	disableFirewalld = "systemctl disable firewalld && systemctl stop firewalld"
 
 	// disableSwap 停止使用swap
-	disableSwap = "grep -v swap /etc/fstab  > /opt/tempData/fstab && cat /opt/tempData/fstab >/etc/fstab && mount -a && swapoff -a"
+	disableSwap = "grep -v swap /etc/fstab  > /tmp/fstab && cat /tmp/fstab >/etc/fstab && mount -a && swapoff -a"
 
 	//enableChrony 启用chrony时间同步服务
 	enableChrony = "yum -y initialize chrony* \n" +
@@ -78,8 +78,6 @@ const (
 
 	// dockerInstall 安装docker
 	dockerInstall = "systemctl stop docker\n" +
-		"tar xf /opt/tempData/docker-20.10.8.tgz -C /opt/tempData && \n" +
-		"cp /opt/tempData/docker/* /usr/local/bin &&\n" +
 		"dockerDisk=`df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print \\$5,\\$NF}'|sort -nr|awk '{print \\$2}'|head -1|tr '\\n' ' '|awk '{print \\$1}'`\n" +
 		"dockerDataDir=`echo ${dockerDisk}/dockerData|sed s'/\\/\\//\\//g'`\n" +
 		"mkdir ${dockerDataDir} 2> /dev/null \n" +

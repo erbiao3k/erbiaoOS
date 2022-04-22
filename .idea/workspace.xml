@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="部署目录调整" />
+    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="部署目录调整">
+      <change afterPath="$PROJECT_DIR$/setting/cluster_cmd.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/GetInnerIP.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/chdir.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/dir.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/dir.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cert/cert_ca_content.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/etcd/etcd_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/login/sshd/sftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/sftp.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/login/sshd/ssh.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/ssh.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,11 +68,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils/login/sshd" />
+      <recent name="$PROJECT_DIR$/utils/login" />
       <recent name="$PROJECT_DIR$/pkg/sys_init" />
       <recent name="$PROJECT_DIR$/pkg/kube_scheduler" />
       <recent name="$PROJECT_DIR$/pkg/kube_proxy" />
-      <recent name="$PROJECT_DIR$/pkg/kubelet" />
-      <recent name="$PROJECT_DIR$/pkg/kube_controllermanager" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />

@@ -1,9 +1,12 @@
 package sshd
 
 import (
+	"bytes"
+	"erbiaoOS/utils"
 	gossh "golang.org/x/crypto/ssh"
 	"log"
 	"net"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -54,25 +57,45 @@ func (c Cli) runShell(shell string) (string, error) {
 
 // RemoteSshExec 远程执行指令
 func RemoteSshExec(host, user, password, port, command string) string {
-	cli := Cli{
-		host:     host + ":" + port,
-		user:     user,
-		password: password,
-	}
-	// 建立连接对象
-	c, err := cli.sshConnect()
-	if err != nil {
-		panic("创建ssh连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
-	}
-	// 退出时关闭连接
-	defer c.client.Close()
-	exec, _ := c.runShell(command + "|| echo ErrorFlag:$?")
 
-	if strings.Contains(exec, "ErrorFlag") {
-		log.Fatalf("在节点【%s】执行指令【%s】失败，执行结果：\n ------------\n%s------------", host, command, exec)
+	var cmdRes string
+	command = command + "|| echo ErrorFlag:$?"
+
+	lanIP := utils.CurrentIP
+
+	// 当当前节点IP与要ssh的IP一致时，直接在本地执行
+	if host == lanIP {
+		cmd := exec.Command("bash", "-c", command)
+		var out bytes.Buffer
+		cmd.Stdout = &out
+		err := cmd.Run()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		cmdRes = out.String()
+
+	} else {
+		cli := Cli{
+			host:     host + ":" + port,
+			user:     user,
+			password: password,
+		}
+		// 建立连接对象
+		c, err := cli.sshConnect()
+		if err != nil {
+			panic("创建ssh连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
+		}
+		// 退出时关闭连接
+		defer c.client.Close()
+		cmdRes, _ = c.runShell(command)
+	}
+
+	if strings.Contains(cmdRes, "ErrorFlag") {
+		log.Fatalf("在节点【%s】执行指令【%s】失败，执行结果：\n ------------\n%s------------", host, command, cmdRes)
 	}
 	//} else {
-	//	log.Printf("在节点【%s】执行指令【%s】成功，执行结果：\n ------------\n%s------------", host, command, exec)
+	//	log.Printf("在节点【%s】执行指令【%s】成功，执行结果：\n ------------\n%s------------", host, command, res)
 	//}
-	return exec
+	return cmdRes
 }

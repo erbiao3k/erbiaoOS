@@ -25,21 +25,20 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	k8sMasters := clusterHost.K8sMaster
 	k8sNodes := clusterHost.K8sNode
 
+	utils.Chdir(customConst.InitScriptDir)
+
 	for f, cmd := range script {
-		file.Create(customConst.InitScriptDir+f, cmd)
+		file.Create(f, cmd)
 	}
 
 	// 设置主机名(所有linux节点操作)
 	linuxServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 	k8sServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 
-	remoteTempData := "/opt/tempData"
 	log.Println("正在为所有linux服务器上传系统初始化脚本")
 	for _, temp := range linuxServer {
 		for _, node := range temp {
-			for _, f := range file.List(customConst.InitScriptDir) {
-				sshd2.SftpUploadFile(node.LanIp, node.User, node.Password, node.Port, customConst.InitScriptDir+f, remoteTempData)
-			}
+			sshd2.UploadDir(node.LanIp, node.User, node.Password, node.Port, customConst.InitScriptDir, customConst.DeployDir)
 		}
 	}
 
@@ -48,9 +47,7 @@ func SysInit(clusterHost *setting.ClusterHost) {
 		for _, node := range temp {
 			hName := utils.GenerateHostname(node.Role, node.LanIp)
 			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
-			node := node
-			cmd := fmt.Sprintf("mkdir %s -p && sh -x %s/SetHostname.sh %s", remoteTempData, remoteTempData, hName)
-			sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, cmd)
+			sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, setHostname+hName)
 		}
 	}
 
@@ -58,37 +55,36 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	loopExec := func(severList [][]setting.HostInfo, cmd string) {
 		for _, temp := range severList {
 			for _, node := range temp {
-				node := node
 				sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, cmd)
 			}
 		}
 	}
 
 	log.Println("正在为所有linux服务器关闭SELinux")
-	loopExec(linuxServer, fmt.Sprintf("sh -x %sDisableSELinux.sh", remoteTempData))
+	loopExec(linuxServer, disableSELinux)
 
 	log.Println("正在为所有linux服务器关闭firewalld服务")
-	loopExec(linuxServer, fmt.Sprintf("sh -x %sDisableFirewalld.sh", remoteTempData))
+	loopExec(linuxServer, disableFirewalld)
 
 	log.Println("正在为所有linux服务器卸载swap")
-	loopExec(linuxServer, fmt.Sprintf("sh -x %sDisableSwap.sh", remoteTempData))
+	loopExec(linuxServer, disableSwap)
 
 	log.Println("正在为所有linux服务器配置chrony服务")
-	loopExec(linuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", remoteTempData))
+	loopExec(linuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", customConst.InitScriptDir))
 
 	log.Println("正在为k8s集群节点linux服务器优化内核")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", remoteTempData))
+	loopExec(k8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", customConst.InitScriptDir))
 
 	log.Println("正在为k8s集群节点基础软件安装")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sSoftwareInstall.sh", remoteTempData))
+	loopExec(k8sServer, softwareInstall)
 
 	log.Println("正在为k8s集群节点启用iptables")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sEnableIptables.sh", remoteTempData))
+	loopExec(k8sServer, enableIptables)
 
 	log.Println("正在为k8s集群节点开启ipvs")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", remoteTempData))
+	loopExec(k8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", customConst.InitScriptDir))
 
 	log.Println("正在为k8s集群节点安装docker")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", remoteTempData))
+	loopExec(k8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", customConst.InitScriptDir))
 
 }

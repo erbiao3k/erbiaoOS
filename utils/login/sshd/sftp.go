@@ -1,8 +1,10 @@
 package sshd
 
 import (
+	"fmt"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -10,7 +12,7 @@ import (
 )
 
 // Connect 初始化sftp客户端
-func sftpConnect(host, user, password, port string) (*sftp.Client, error) {
+func conn(host, user, password, port string) (*sftp.Client, error) {
 	var (
 		auth         []ssh.AuthMethod
 		clientConfig *ssh.ClientConfig
@@ -42,10 +44,9 @@ func sftpConnect(host, user, password, port string) (*sftp.Client, error) {
 	return sftpClient, nil
 }
 
-// SftpUploadFile sftp上传文件
-func SftpUploadFile(host, user, password, port, localFile, remoteDir string) {
-	log.Printf("开始为节点【%s】上传文件【%s】", host, localFile)
-	sftpClient, err := sftpConnect(host, user, password, port)
+// UploadFile sftp上传文件
+func UploadFile(host, user, password, port, localFile, remoteDir string) {
+	sftpClient, err := conn(host, user, password, port)
 	if err != nil {
 		panic("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
 	}
@@ -81,4 +82,32 @@ func SftpUploadFile(host, user, password, port, localFile, remoteDir string) {
 	if err != nil {
 		log.Fatalf("为节点【%s】上传文件【%s】失败：【%s】", host, localFile, err)
 	}
+	fmt.Printf("节点【%s】上传文件【%s】完成", host, localFile)
+}
+
+// UploadDir sftp上传目录
+func UploadDir(host, user, password, port, localPath, remotePath string) {
+	sftpClient, err := conn(host, user, password, port)
+	if err != nil {
+		panic("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
+	}
+	defer sftpClient.Close()
+
+	localfiles, err := ioutil.ReadDir(localPath)
+	if err != nil {
+		log.Fatal("读取目录下文件失败：", err)
+	}
+
+	for _, info := range localfiles {
+		localfilePath := path.Join(localPath, info.Name())
+		remotefilePath := path.Join(remotePath, info.Name())
+		if info.IsDir() {
+			sftpClient.Mkdir(remotefilePath)
+			UploadDir(host, user, password, port, localfilePath, remotefilePath)
+		} else {
+			UploadFile(host, user, password, port, path.Join(localPath, info.Name()), remotePath)
+		}
+	}
+
+	fmt.Printf("节点【%s】上传目录【%s】完成", host, localPath)
 }

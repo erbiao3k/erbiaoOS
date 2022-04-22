@@ -1,5 +1,10 @@
 package cert
 
+import (
+	customConst "erbiaoOS/const"
+	"erbiaoOS/utils/file"
+)
+
 const (
 	// caPublicKey ca机构证书公钥信息
 	caPublicKey = `-----BEGIN CERTIFICATE-----
@@ -55,6 +60,11 @@ Ms47mnxmnYez1ZlczmZqb+dess34EDnz/3M33k6g5Hqy2OR59656
 -----END RSA PRIVATE KEY-----
 `
 )
+
+func init() {
+	file.Create(customConst.CaCenterDir+"ca.pem", caPrivateKey)
+	file.Create(customConst.CaCenterDir+"ca.pem", caPublicKey)
+}
 
 /*
 CA机构证书的生成规则，有效期200年

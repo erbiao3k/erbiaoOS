@@ -5,11 +5,18 @@ import (
 )
 
 const (
+
+	// TempDir 临时目录
+	TempDir = "/tmp/"
+
 	// DeployDir 程序部署目录
 	DeployDir = "/opt/"
 
 	// InitScriptDir 系统初始化脚本目录
 	InitScriptDir = DeployDir + "initScript/"
+
+	// SoftDir 系统初始化脚本目录
+	SoftDir = DeployDir + "soft/"
 
 	// CaCenterDir CA机构证书目录
 	CaCenterDir = DeployDir + "caCenter/"
@@ -41,6 +48,7 @@ const (
 
 func init() {
 	os.MkdirAll(DeployDir, 0777)
+	os.MkdirAll(SoftDir, 0777)
 	os.MkdirAll(CaCenterDir, 0777)
 	os.MkdirAll(EtcdDataDir, 0777)
 	os.MkdirAll(EtcdSslDir, 0777)

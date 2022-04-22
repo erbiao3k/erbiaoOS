@@ -20,42 +20,23 @@ import (
 
 func main() {
 
-	configDir := "config"
+	log.Println("=+=+=+=+=+=+=+=+=+=+=+=+=+下载k8s必要组件=+=+=+=+=+=+=+=+=+")
+	component.Init(setting.ComponentCfg, setting.ClusterHostCfg)
 
-	clusterHostCfg := setting.InitclusterHost(configDir)
-	componentCfg := setting.ComponentContent(configDir)
-
-	IPs := func(clusterHost []setting.HostInfo) []string {
-		var IPs []string
-		for _, host := range clusterHostCfg.K8sMaster {
-			IPs = append(IPs, host.LanIp)
-		}
-		return IPs
-	}
-	k8sMasterIPs := IPs(clusterHostCfg.K8sMaster)
-	k8sNodeIPs := IPs(clusterHostCfg.K8sNode)
-
-	var k8sClusterIPs []string
-	k8sClusterIPs = append(k8sClusterIPs, k8sMasterIPs...)
-	k8sClusterIPs = append(k8sClusterIPs, k8sNodeIPs...)
-
-	log.Println("=+=+=+=+=+=+=+=+=+=+=+=+=+开始下载k8s必要组件,并分拣二进制文件=+=+=+=+=+=+=+=+=+")
-	component.Init(componentCfg)
-
-	log.Println("=+=+=+=+=+=+=+=+=+=+=+开始初始化k8s节点=+=+=+=+=+=+=+=+=+=+=+=+=+")
-	sysinit.SysInit(clusterHostCfg)
+	log.Println("=+=+=+=+=+=+=+=+=+=+=+初始化k8s节点环境=+=+=+=+=+=+=+=+=+=+=+=+=+")
+	sysinit.SysInit(setting.ClusterHostCfg)
 
 	log.Println("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+初始化各组件证书=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+")
-	cert.ClusterCertGenerate(k8sMasterIPs, k8sNodeIPs)
+	cert.InitCert()
 
 	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
 	log.Println("初始化etcd集群")
-	etcdIPs := etcd.HostLIst(k8sMasterIPs, k8sNodeIPs)
+	etcdIPs := etcd.HostLIst(setting.K8sMasterIPs, setting.K8sNodeIPs)
 	etcd.systemdScript(etcdIPs)
 	etcdServerUrls := etcd.clientCmd(etcdIPs)
 
 	log.Println("初始化kube-apiserver服务")
-	kube_apiserver.systemdScript(k8sMasterIPs, etcdServerUrls)
+	kube_apiserver.systemdScript(setting.K8sMasterIPs, etcdServerUrls)
 
 	log.Println("初始化kube-controller-manager服务")
 	kube_controllermanager.systemdScript()
@@ -64,18 +45,18 @@ func main() {
 	kube_scheduler.systemdScript()
 
 	log.Println("初始化kubelet服务")
-	kubelet.cfg(customConst.K8sMasterCfgDir, k8sMasterIPs)
-	kubelet.cfg(customConst.K8sNodeCfgDir, k8sNodeIPs)
+	kubelet.cfg(customConst.K8sMasterCfgDir, setting.K8sMasterIPs)
+	kubelet.cfg(customConst.K8sNodeCfgDir, setting.K8sNodeIPs)
 
-	kubelet.systemdScript(customConst.K8sMasterCfgDir, clusterHostCfg.K8sMaster)
-	kubelet.systemdScript(customConst.K8sNodeCfgDir, clusterHostCfg.K8sNode)
+	kubelet.systemdScript(customConst.K8sMasterCfgDir, setting.K8sMasterHost)
+	kubelet.systemdScript(customConst.K8sNodeCfgDir, setting.K8sNodeHost)
 
 	log.Println("初始化kube-proxy服务")
-	kube_proxy.cfg(customConst.K8sMasterCfgDir, k8sMasterIPs)
-	kube_proxy.cfg(customConst.K8sNodeCfgDir, k8sNodeIPs)
+	kube_proxy.cfg(customConst.K8sMasterCfgDir, setting.K8sMasterIPs)
+	kube_proxy.cfg(customConst.K8sNodeCfgDir, setting.K8sNodeIPs)
 
-	kube_proxy.systemdScript(customConst.K8sMasterCfgDir, clusterHostCfg.K8sMaster)
-	kube_proxy.systemdScript(customConst.K8sNodeCfgDir, clusterHostCfg.K8sNode)
+	kube_proxy.systemdScript(customConst.K8sMasterCfgDir, setting.K8sMasterHost)
+	kube_proxy.systemdScript(customConst.K8sNodeCfgDir, setting.K8sNodeHost)
 
 	log.Println("初始化calico网络组件")
 	calico.Cfg()
@@ -84,7 +65,7 @@ func main() {
 	coredns.Cfg()
 
 	log.Println("初始化nginx服务")
-	nginx.MainCfg(k8sMasterIPs)
+	nginx.MainCfg(setting.K8sMasterIPs)
 	nginx.systemd()
 
 }

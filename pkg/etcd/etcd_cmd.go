@@ -23,7 +23,8 @@ func isEven(num int) bool {
 	return false
 }
 
-// HostLIst 只要有集群高可用的规划，那么：
+// HostLIst 按照逻辑选定etcd部署架构以及节点清单
+//只要有集群高可用的规划，那么：
 // 		1、master节点数一定是大于等于2的
 //		2、当master节点数为2时，从node节点列表中选出一个节点，组成3节点etcd集群
 //		3、当master节点数大于3，且为偶数个时，减少一个节点，组成n-1节点的etcd集群

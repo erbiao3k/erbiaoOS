@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="项目结构修正">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/dir.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/dir.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
-    </list>
+    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="部署目录调整" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,7 +77,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="项目结构修正" />
-    <option name="LAST_COMMIT_MESSAGE" value="项目结构修正" />
+    <MESSAGE value="部署目录调整" />
+    <option name="LAST_COMMIT_MESSAGE" value="部署目录调整" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

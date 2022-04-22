@@ -5,37 +5,46 @@ import (
 )
 
 const (
-	// LocalTemp 部署程序临时目录
-	LocalTemp = "localTemp/"
+	// DeployDir 程序部署目录
+	DeployDir = "/opt/"
 
-	CaCenterDir             = LocalTemp + "caCenter/"
-	EtcdSslDir              = LocalTemp + "etcd/ssl/"
-	EtcdDataDir             = LocalTemp + "etcd/data/"
-	EtcdSystemdDir          = LocalTemp + "etcd/systemd/"
-	KubernetesMasterSslDir  = LocalTemp + "kubernetes/masterSsl/"
-	KubernetesNodeSslDir    = LocalTemp + "kubernetes/nodeSsl/"
-	KubernetesClusterSslDir = LocalTemp + "kubernetes/clusterSsl/"
-	InitScriptDir           = LocalTemp + "initScript/"
-	K8sMasterCfgDir         = LocalTemp + "k8sMasterCfg/"
-	K8sNodeCfgDir           = LocalTemp + "k8sNodeCfg/"
-	K8sMasterBinaryDir      = LocalTemp + "k8sMasterBinary/"
-	K8sNodeBinaryDir        = LocalTemp + "k8sNodeBinaryDir/"
-	DockerTempData          = LocalTemp + "docker/"
+	// InitScriptDir 系统初始化脚本目录
+	InitScriptDir = DeployDir + "initScript/"
+
+	// CaCenterDir CA机构证书目录
+	CaCenterDir = DeployDir + "caCenter/"
+
+	// EtcdDir etcd部署目录
+	EtcdDir = DeployDir + "etcd/"
+
+	// EtcdSslDir etcd ssl部署目录
+	EtcdSslDir = EtcdDir + "ssl/"
+
+	// EtcdDataDir etcd数据目录
+	EtcdDataDir = EtcdDir + "data/"
+
+	// K8sDir k8s部署目录
+	K8sDir = DeployDir + "kubernetes/"
+
+	// K8sSslDir k8s ssl部署目录
+	K8sSslDir = K8sDir + "ssl/"
+
+	// K8sCfgDir k8s配置目录
+	K8sCfgDir = K8sDir + "cfg/"
+
+	// BinaryDir 二进制目录
+	BinaryDir = "/usr/local/bin/"
+
+	// SystemdServiceDir systemd管理脚本目录
+	SystemdServiceDir = "/etc/systemd/system/"
 )
 
 func init() {
-	os.MkdirAll(LocalTemp, 0777)
+	os.MkdirAll(DeployDir, 0777)
 	os.MkdirAll(CaCenterDir, 0777)
 	os.MkdirAll(EtcdDataDir, 0777)
 	os.MkdirAll(EtcdSslDir, 0777)
-	os.MkdirAll(EtcdSystemdDir, 0777)
-	os.MkdirAll(KubernetesMasterSslDir, 0777)
-	os.MkdirAll(KubernetesNodeSslDir, 0777)
-	os.MkdirAll(KubernetesClusterSslDir, 0777)
+	os.MkdirAll(K8sSslDir, 0777)
+	os.MkdirAll(K8sCfgDir, 0777)
 	os.MkdirAll(InitScriptDir, 0777)
-	os.MkdirAll(K8sMasterCfgDir, 0777)
-	os.MkdirAll(K8sNodeCfgDir, 0777)
-	os.MkdirAll(K8sMasterBinaryDir, 0777)
-	os.MkdirAll(K8sNodeBinaryDir, 0777)
-	os.MkdirAll(DockerTempData, 0777)
 }

@@ -4,46 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/pkg/calico/calico_cmd.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/etcd/etcd_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/nginx/nginx_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="项目结构修正">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/ca.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_ca_content.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/calico_yaml.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/calico/calico_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/coredns_yaml.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/coredns/coredns_const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/const/dir.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/dir.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/kube_config.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/nginx.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/systemd.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/url.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/calico.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/cert.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/component.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/coredns.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/coredns/coredns_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/etcd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/kube_apiserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/kube_controllermanager.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllermanager_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/kube_proxy.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/kube_scheduler.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/kubelet.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/nginx.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initialize/sys.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cert/cert.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/hostname/hostname.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/hostname.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +78,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="项目结构修正" />
+    <option name="LAST_COMMIT_MESSAGE" value="项目结构修正" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

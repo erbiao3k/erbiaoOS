@@ -50,9 +50,9 @@ func main() {
 
 	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
 	log.Println("初始化etcd集群")
-	etcdHost := etcd.HostLIst(k8sMasterIPs, k8sNodeIPs)
-	etcd.systemdScript(etcdHost)
-	etcdServerUrls := etcd.clientCmd(etcdHost)
+	etcdIPs := etcd.HostLIst(k8sMasterIPs, k8sNodeIPs)
+	etcd.systemdScript(etcdIPs)
+	etcdServerUrls := etcd.clientCmd(etcdIPs)
 
 	log.Println("初始化kube-apiserver服务")
 	kube_apiserver.systemdScript(k8sMasterIPs, etcdServerUrls)

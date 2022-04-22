@@ -1,14 +1,14 @@
-package customConst
+package calico
 
 const (
-	// CalicoYaml calico网络组件编排文件
-	CalicoYaml = "---\n" +
+	// yaml calico网络组件编排文件
+	yaml = "---\n" +
 		"# Source: calico/templates/calico-config.yaml\n" +
 		"# This ConfigMap is used to configure a self-hosted Calico installation.\n" +
 		"kind: ConfigMap\n" +
 		"apiVersion: v1\n" +
 		"metadata:\n" +
-		"  name: calico-config\n" +
+		"  name: calico-yaml\n" +
 		"  namespace: kube-system\n" +
 		"data:\n" +
 		"  # Typha is disabled.\n" +

@@ -1,30 +1,23 @@
-package customConst
-
-import (
-	"erbiaoOS/utils/file"
-)
+package sysinit
 
 const (
-	// LanIp 获取节点内网IP
-	LanIp = "hostname -I|awk '{print $1}'"
-
 	// TopDisk 获取当前本地文件系统最大的分区
 	TopDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
 
-	// SetHostname 设置主机名的字符串
-	SetHostname = `hostnamectl set-hostname $1`
+	// setHostname 设置主机名的字符串
+	setHostname = `hostnamectl set-hostname $1`
 
-	// DisableSELinux 关闭SELinux的字符串
-	DisableSELinux = "sed -i 's/\\=enforcing/\\=disabled/' /etc/selinux/config &&  setenforce 0 || echo SELinux已经是关闭状态"
+	// disableSELinux 关闭SELinux的字符串
+	disableSELinux = "sed -i 's/\\=enforcing/\\=disabled/' /etc/selinux/config &&  setenforce 0 || echo SELinux已经是关闭状态"
 
-	//DisableFirewalld 停止firewalld服务，并取消开机自启
-	DisableFirewalld = "systemctl disable firewalld && systemctl stop firewalld"
+	//disableFirewalld 停止firewalld服务，并取消开机自启
+	disableFirewalld = "systemctl disable firewalld && systemctl stop firewalld"
 
-	// DisableSwap 停止使用swap
-	DisableSwap = "grep -v swap /etc/fstab  > /opt/tempData/fstab && cat /opt/tempData/fstab >/etc/fstab && mount -a && swapoff -a"
+	// disableSwap 停止使用swap
+	disableSwap = "grep -v swap /etc/fstab  > /opt/tempData/fstab && cat /opt/tempData/fstab >/etc/fstab && mount -a && swapoff -a"
 
-	//EnableChrony 启用chrony时间同步服务
-	EnableChrony = "yum -y initialize chrony* \n" +
+	//enableChrony 启用chrony时间同步服务
+	enableChrony = "yum -y initialize chrony* \n" +
 		"cat > /etc/chrony.conf <<EOF\n" +
 		"pool ntp1.aliyun.com iburst\n" +
 		"driftfile /var/lib/chrony/drift\n" +
@@ -37,8 +30,8 @@ const (
 		"systemctl enable --now chronyd && \n" +
 		"systemctl restart chronyd"
 
-	// KernelOptimize 内核优化
-	KernelOptimize = "# 将桥接的IPv4流量传递到iptables的链\n" +
+	// kernelOptimize 内核优化
+	kernelOptimize = "# 将桥接的IPv4流量传递到iptables的链\n" +
 		"cat > /etc/sysctl.d/k8s.conf << EOF\n" +
 		"net.ipv6.conf.all.disable_ipv6 = 1\n" +
 		"net.ipv6.conf.default.disable_ipv6 = 1\n" +
@@ -52,20 +45,20 @@ const (
 		"EOF\n" +
 		"sysctl --system"
 
-	// SoftwareInstall 安装基础软件包
-	SoftwareInstall = "yum install -y " +
+	// softwareInstall 安装基础软件包
+	softwareInstall = "yum install -y " +
 		"yum-utils device-mapper-persistent-data lvm2 rpcbind device-mapper " +
 		"conntrack socat telnet lsof wget vim make gcc gcc-c++ pcre* " +
 		"ipvsadm net-tools libnl libnl-devel openssl openssl-devel bash-completion"
 
-	// EnableIptables 安装iptables，关闭即可，k8s自己初始化
-	EnableIptables = "yum initialize iptables-services -y &&" +
+	// enableIptables 安装iptables，关闭即可，k8s自己初始化
+	enableIptables = "yum initialize iptables-services -y &&" +
 		"systemctl stop iptables &&" +
 		"systemctl disable iptables &&" +
 		"iptables -F"
 
-	// EnableIpvs 开启ipvs
-	EnableIpvs = "cat > /etc/sysconfig/modules/ipvs.modules << EOF\n" +
+	// enableIpvs 开启ipvs
+	enableIpvs = "cat > /etc/sysconfig/modules/ipvs.modules << EOF\n" +
 		"modprobe -- ip_vs\n" +
 		"modprobe -- ip_vs_lc\n" +
 		"modprobe -- ip_vs_wlc\n" +
@@ -83,8 +76,8 @@ const (
 		"chmod 755 /etc/sysconfig/modules/ipvs.modules &&" +
 		"bash /etc/sysconfig/modules/ipvs.modules"
 
-	// DockerInstall 安装docker
-	DockerInstall = "systemctl stop docker\n" +
+	// dockerInstall 安装docker
+	dockerInstall = "systemctl stop docker\n" +
 		"tar xf /opt/tempData/docker-20.10.8.tgz -C /opt/tempData && \n" +
 		"cp /opt/tempData/docker/* /usr/local/bin &&\n" +
 		"dockerDisk=`df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print \\$5,\\$NF}'|sort -nr|awk '{print \\$2}'|head -1|tr '\\n' ' '|awk '{print \\$1}'`\n" +
@@ -132,30 +125,20 @@ const (
 		"EOF\n" +
 		"systemctl daemon-reload && systemctl enable docker && systemctl restart docker\n"
 
-	// BashCompletion CentOS Linux bash shell 自动补全
-	BashCompletion = "chmod a+x /usr/share/bash-completion/bash_completion && /usr/share/bash-completion/bash_completion"
-
-	// EtcdctlManagerCommand 生成etcdctl指令
-	EtcdctlManagerCommand = "alias etcdctl3='ETCDCTL_API=3 etcdctl --cacert=/opt/caCenter/ca.pem --cert=/opt/etcd/ssl/etcd.pem --key=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'\n" +
-		"alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'"
+	// bashCompletion CentOS Linux bash shell 自动补全
+	bashCompletion = "chmod a+x /usr/share/bash-completion/bash_completion && /usr/share/bash-completion/bash_completion"
 )
 
 var script = map[string]string{
-	"SetHostname.sh":      SetHostname,
-	"BashCompletion.sh":   BashCompletion,
-	"DisableSELinux.sh":   DisableSELinux,
-	"DisableFirewalld.sh": DisableFirewalld,
-	"DisableSwap.sh":      DisableSwap,
-	"EnableChrony.sh":     EnableChrony,
-	"KernelOptimize.sh":   KernelOptimize,
-	"SoftwareInstall.sh":  SoftwareInstall,
-	"EnableIptables.sh":   EnableIptables,
-	"EnableIpvs.sh":       EnableIpvs,
-	"DockerInstall.sh":    DockerInstall,
-}
-
-func InitScript() {
-	for f, cmd := range script {
-		file.Create(InitScriptDir+f, cmd)
-	}
+	"SetHostname.sh":      setHostname,
+	"BashCompletion.sh":   bashCompletion,
+	"DisableSELinux.sh":   disableSELinux,
+	"DisableFirewalld.sh": disableFirewalld,
+	"DisableSwap.sh":      disableSwap,
+	"EnableChrony.sh":     enableChrony,
+	"KernelOptimize.sh":   kernelOptimize,
+	"SoftwareInstall.sh":  softwareInstall,
+	"EnableIptables.sh":   enableIptables,
+	"EnableIpvs.sh":       enableIpvs,
+	"DockerInstall.sh":    dockerInstall,
 }

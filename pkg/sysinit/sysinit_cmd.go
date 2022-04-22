@@ -1,8 +1,9 @@
-package initialize
+package sysinit
 
 import (
-	"erbiaoOS/pkg/hostname"
+	customConst "erbiaoOS/const"
 	"erbiaoOS/setting"
+	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	sshd2 "erbiaoOS/utils/login/sshd"
 	"fmt"
@@ -24,17 +25,20 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	k8sMasters := clusterHost.K8sMaster
 	k8sNodes := clusterHost.K8sNode
 
+	for f, cmd := range script {
+		file.Create(customConst.InitScriptDir+f, cmd)
+	}
+
 	// 设置主机名(所有linux节点操作)
 	linuxServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 	k8sServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 
-	initScriptDir := "tempData/initScript/"
 	remoteTempData := "/opt/tempData"
 	log.Println("正在为所有linux服务器上传系统初始化脚本")
 	for _, temp := range linuxServer {
 		for _, node := range temp {
-			for _, f := range file.List(initScriptDir) {
-				sshd2.SftpUploadFile(node.RemoteIp, node.User, node.Password, node.Port, initScriptDir+f, remoteTempData)
+			for _, f := range file.List(customConst.InitScriptDir) {
+				sshd2.SftpUploadFile(node.LanIp, node.User, node.Password, node.Port, customConst.InitScriptDir+f, remoteTempData)
 			}
 		}
 	}
@@ -42,11 +46,11 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	log.Println("正在为所有linux服务器设置主机名")
 	for _, temp := range linuxServer {
 		for _, node := range temp {
-			hName := hostname.GenerateHostname(node.Role, node.LanIp)
+			hName := utils.GenerateHostname(node.Role, node.LanIp)
 			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
 			node := node
 			cmd := fmt.Sprintf("mkdir %s -p && sh -x %s/SetHostname.sh %s", remoteTempData, remoteTempData, hName)
-			sshd2.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
+			sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, cmd)
 		}
 	}
 
@@ -55,7 +59,7 @@ func SysInit(clusterHost *setting.ClusterHost) {
 		for _, temp := range severList {
 			for _, node := range temp {
 				node := node
-				sshd2.RemoteSshExec(node.RemoteIp, node.User, node.Password, node.Port, cmd)
+				sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, cmd)
 			}
 		}
 	}

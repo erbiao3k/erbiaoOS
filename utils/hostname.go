@@ -1,4 +1,4 @@
-package hostname
+package utils
 
 import (
 	"strings"

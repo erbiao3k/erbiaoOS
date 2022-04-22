@@ -1,8 +1,8 @@
-package customConst
+package coredns
 
 const (
-	// CoreDnsYaml coredns的编排文件
-	CoreDnsYaml = "# Warning: This is a file generated from the base underscore template file: coredns.yaml.base\n\n" +
+	// yaml coredns的编排文件
+	yaml = "# Warning: This is a file generated from the base underscore template file: coredns.yaml.base\n\n" +
 		"apiVersion: v1\n" +
 		"kind: ServiceAccount\n" +
 		"metadata:\n" +

@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
-	customConst "erbiaoOS/const"
 	"erbiaoOS/utils/file"
 	"math/big"
 	rd "math/rand"
@@ -14,26 +13,14 @@ import (
 	"time"
 )
 
-// Config 创建一个证书所需的基本字段信息
-type Config struct {
-	Filename           string
-	Country            []string
-	Organization       []string
-	OrganizationalUnit []string
-	Province           []string
-	Locality           []string
-	CommonName         string
-	AltNames           AltNames
-}
-
 // AltNames 可使用证书的域名、IP
-type AltNames struct {
+type altNames struct {
 	DNSNames []string
 	IPs      []net.IP
 }
 
 // NewAltNames 初始化默认的域名、IP
-func NewAltNames(IPs, dnsName []string) *AltNames {
+func NewAltNames(IPs, dnsName []string) *altNames {
 	dnsName = append(dnsName, "localhost", "localhost.localdomain", "localhost4", "localhost4.localdomain4")
 
 	ips := []net.IP{net.ParseIP("127.0.0.1")}
@@ -43,14 +30,14 @@ func NewAltNames(IPs, dnsName []string) *AltNames {
 			ips = append(ips, i)
 		}
 	}
-	return &AltNames{
+	return &altNames{
 		DNSNames: dnsName,
 		IPs:      ips,
 	}
 }
 
 // NewCertInfo 初始化证书信息
-func NewCertInfo(Oinfo []string, CNinfo string, IPs []net.IP, dnsNames []string) *x509.Certificate {
+func newCertInfo(Oinfo []string, CNinfo string, IPs []net.IP, dnsNames []string) *x509.Certificate {
 	var now = time.Now()
 
 	return &x509.Certificate{
@@ -75,7 +62,7 @@ func NewCertInfo(Oinfo []string, CNinfo string, IPs []net.IP, dnsNames []string)
 }
 
 // Generate 生成证书信息
-func Generate(cer *x509.Certificate, caFile string) {
+func generate(cer *x509.Certificate, caFile string) {
 	// CA根证书可以通过openssl或cfssl工具生成，未使用go代码生成
 
 	//解析CA根证书
@@ -85,7 +72,7 @@ func Generate(cer *x509.Certificate, caFile string) {
 	//}
 	//caBlock, _ := pem.Decode(caFile)
 
-	caBlock, _ := pem.Decode([]byte(customConst.CaPublicKey))
+	caBlock, _ := pem.Decode([]byte(caPublicKey))
 
 	cert, err := x509.ParseCertificate(caBlock.Bytes)
 	if err != nil {
@@ -98,7 +85,7 @@ func Generate(cer *x509.Certificate, caFile string) {
 	//}
 	//keyBlock, _ := pem.Decode(keyFile)
 
-	keyBlock, _ := pem.Decode([]byte(customConst.CaPrivateKey))
+	keyBlock, _ := pem.Decode([]byte(caPrivateKey))
 	praKey, err := x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
 	if err != nil {
 		panic(err)

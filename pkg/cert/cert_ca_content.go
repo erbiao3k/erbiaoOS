@@ -1,8 +1,8 @@
-package customConst
+package cert
 
 const (
-	// CaPublicKey ca机构证书公钥信息
-	CaPublicKey = `-----BEGIN CERTIFICATE-----
+	// caPublicKey ca机构证书公钥信息
+	caPublicKey = `-----BEGIN CERTIFICATE-----
 MIIDnDCCAoSgAwIBAgIUBgmIRptWdX9nH0+AALFJ2bw11AMwDQYJKoZIhvcNAQEL
 BQAwZTELMAkGA1UEBhMCQ04xEDAOBgNVBAgTB0JlaWppbmcxEDAOBgNVBAcTB0Jl
 aWppbmcxDDAKBgNVBAoTA2s4czEPMA0GA1UECxMGc3lzdGVtMRMwEQYDVQQDEwpr
@@ -25,8 +25,8 @@ iBaGhqh18oxcmdqUMf4nlVFYNzhisciVwxe6GarJ9SuPK5jTOK0sdkU7QEJd5AAv
 PPdEyFDeV8uu1ebjVqDe8w==
 -----END CERTIFICATE-----
 `
-	// CaPrivateKey ca机构证书私钥信息
-	CaPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
+	// caPrivateKey ca机构证书私钥信息
+	caPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA39gfnfGhjaEWGSNc1R4p2p/9gi0AIbv4eg9h06EYr7wn7WDL
 NM8vZM+A0RDorwVBAB7FCEIZmvCljNAQcdVNAlgdRWPglRhWmTRKKE1p2wNUTCwb
 LGzi+vh4IYA/ymnBndkE/dZeoHicjM61Io9+G1nIPErG3fTcJW05Ov9Knhgs4vgd

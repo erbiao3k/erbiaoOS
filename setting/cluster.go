@@ -1,7 +1,7 @@
 package setting
 
 import (
-	customConst "erbiaoOS/const"
+	customConst "erbiaoOS/pkg/sysinit"
 	"erbiaoOS/utils/login/sshd"
 	"io"
 	"log"
@@ -21,7 +21,6 @@ type ClusterHost struct {
 // HostInfo 节点详细信息
 type HostInfo struct {
 	Role     string
-	RemoteIp string
 	LanIp    string
 	User     string
 	Password string
@@ -95,10 +94,8 @@ func InitclusterHost(path string) *ClusterHost {
 	analysis := contentAnalysis(content)
 
 	for _, s := range analysis {
-		hi.Role, hi.RemoteIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
-		hi.LanIp = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.LanIp)
-		hi.LanIp = strings.Split(hi.LanIp, "\n")[0]
-		hi.DataDir = sshd.RemoteSshExec(hi.RemoteIp, hi.User, hi.Password, hi.Port, customConst.TopDisk)
+		hi.Role, hi.LanIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
+		hi.DataDir = sshd.RemoteSshExec(hi.LanIp, hi.User, hi.Password, hi.Port, customConst.TopDisk)
 		hi.DataDir = strings.Split(hi.DataDir, "\n")[0]
 		if hi.Role == "k8sMaster" {
 			ch.K8sMaster = append(ch.K8sMaster, hi)

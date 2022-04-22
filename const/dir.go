@@ -5,24 +5,26 @@ import (
 )
 
 const (
-	TempData                = "tempData/"
-	CaCenterDir             = TempData + "caCenter/"
-	EtcdSslDir              = TempData + "etcd/ssl/"
-	EtcdDataDir             = TempData + "etcd/data/"
-	EtcdSystemdDir          = TempData + "etcd/systemd/"
-	KubernetesMasterSslDir  = TempData + "kubernetes/masterSsl/"
-	KubernetesNodeSslDir    = TempData + "kubernetes/nodeSsl/"
-	KubernetesClusterSslDir = TempData + "kubernetes/clusterSsl/"
-	InitScriptDir           = TempData + "initScript/"
-	K8sMasterCfgDir         = TempData + "k8sMasterCfg/"
-	K8sNodeCfgDir           = TempData + "k8sNodeCfg/"
-	K8sMasterBinaryDir      = TempData + "k8sMasterBinary/"
-	K8sNodeBinaryDir        = TempData + "k8sNodeBinaryDir/"
-	DockerTempData          = TempData + "docker/"
+	// LocalTemp 部署程序临时目录
+	LocalTemp = "localTemp/"
+
+	CaCenterDir             = LocalTemp + "caCenter/"
+	EtcdSslDir              = LocalTemp + "etcd/ssl/"
+	EtcdDataDir             = LocalTemp + "etcd/data/"
+	EtcdSystemdDir          = LocalTemp + "etcd/systemd/"
+	KubernetesMasterSslDir  = LocalTemp + "kubernetes/masterSsl/"
+	KubernetesNodeSslDir    = LocalTemp + "kubernetes/nodeSsl/"
+	KubernetesClusterSslDir = LocalTemp + "kubernetes/clusterSsl/"
+	InitScriptDir           = LocalTemp + "initScript/"
+	K8sMasterCfgDir         = LocalTemp + "k8sMasterCfg/"
+	K8sNodeCfgDir           = LocalTemp + "k8sNodeCfg/"
+	K8sMasterBinaryDir      = LocalTemp + "k8sMasterBinary/"
+	K8sNodeBinaryDir        = LocalTemp + "k8sNodeBinaryDir/"
+	DockerTempData          = LocalTemp + "docker/"
 )
 
 func init() {
-	os.MkdirAll(TempData, 0777)
+	os.MkdirAll(LocalTemp, 0777)
 	os.MkdirAll(CaCenterDir, 0777)
 	os.MkdirAll(EtcdDataDir, 0777)
 	os.MkdirAll(EtcdSslDir, 0777)

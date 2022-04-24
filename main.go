@@ -1,11 +1,8 @@
 package main
 
 import (
-	customConst "erbiaoOS/const"
-	"erbiaoOS/pkg/calico"
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/pkg/component"
-	"erbiaoOS/pkg/coredns"
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/pkg/kube_apiserver"
 	"erbiaoOS/pkg/kube_controllermanager"
@@ -31,9 +28,7 @@ func main() {
 
 	log.Println("=+=+=+=+=+=+=+==+=+=+=+=+=+=+初始化各组件配置文件=+=+=+=+=+=+=+=+=+=+=+=+=+")
 	log.Println("初始化etcd集群")
-	etcdIPs := etcd.HostLIst(setting.K8sMasterIPs, setting.K8sNodeIPs)
-	etcd.systemdScript(etcdIPs)
-	etcdServerUrls := etcd.clientCmd(etcdIPs)
+	etcd.InitEtcd()
 
 	log.Println("初始化kube-apiserver服务")
 	kube_apiserver.systemdScript(setting.K8sMasterIPs, etcdServerUrls)

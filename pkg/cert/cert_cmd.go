@@ -10,7 +10,7 @@ import (
 
 // certGenerate 生成k8s集群所需所有证书
 func certGenerate(masterIPs, nodeIPs []string) {
-	etcdAltNames := NewAltNames(etcd.HostLIst(masterIPs, nodeIPs), []string{})
+	etcdAltNames := NewAltNames(etcd.Hosts(masterIPs, nodeIPs), []string{})
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
 	generate(cer, customConst.EtcdSslDir+"etcd")
 

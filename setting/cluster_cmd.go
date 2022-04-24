@@ -1,10 +1,16 @@
 package setting
 
+import (
+	customConst "erbiaoOS/const"
+	"os"
+)
+
 const (
 	configDir = "config"
 )
 
 var (
+	// ClusterHostCfg 集群初始化节点信息
 	ClusterHostCfg = InitclusterHost(configDir)
 
 	ComponentCfg = ComponentContent(configDir)
@@ -26,4 +32,24 @@ func ipList() (k8sMasterIPs []string, k8sNodeIPs []string) {
 	}
 
 	return k8sMasterIPs, k8sNodeIPs
+}
+
+// GetHostInfo 获取对应IP的节点信息
+func GetHostInfo(ip string) *HostInfo {
+
+	for _, infos := range [][]HostInfo{K8sMasterHost, K8sNodeHost} {
+		for _, host := range infos {
+			if ip == host.LanIp {
+				return &host
+			}
+		}
+	}
+	return nil
+}
+
+func init() {
+	// 初始化每节点临时目录
+	for _, ip := range K8sClusterIPs {
+		os.MkdirAll(customConst.TempDir+ip, 0777)
+	}
 }

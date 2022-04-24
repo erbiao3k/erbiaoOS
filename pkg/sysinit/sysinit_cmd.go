@@ -36,26 +36,26 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	k8sServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 
 	log.Println("正在为所有linux服务器上传系统初始化脚本")
-	for _, temp := range linuxServer {
-		for _, node := range temp {
-			sshd2.UploadDir(node.LanIp, node.User, node.Password, node.Port, customConst.InitScriptDir, customConst.DeployDir)
+	for _, hosts := range linuxServer {
+		for _, host := range hosts {
+			sshd2.UploadDir(host.LanIp, host.User, host.Password, host.Port, customConst.InitScriptDir, customConst.DeployDir)
 		}
 	}
 
 	log.Println("正在为所有linux服务器设置主机名")
-	for _, temp := range linuxServer {
-		for _, node := range temp {
-			hName := utils.GenerateHostname(node.Role, node.LanIp)
+	for _, hosts := range linuxServer {
+		for _, host := range hosts {
+			hName := utils.GenerateHostname(host.Role, host.LanIp)
 			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
-			sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, setHostname+hName)
+			sshd2.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, setHostname+hName)
 		}
 	}
 
 	// 临时函数 for sshd.RemoteSshExec
-	loopExec := func(severList [][]setting.HostInfo, cmd string) {
-		for _, temp := range severList {
-			for _, node := range temp {
-				sshd2.RemoteSshExec(node.LanIp, node.User, node.Password, node.Port, cmd)
+	loopExec := func(hostList [][]setting.HostInfo, cmd string) {
+		for _, hosts := range hostList {
+			for _, host := range hosts {
+				sshd2.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, cmd)
 			}
 		}
 	}

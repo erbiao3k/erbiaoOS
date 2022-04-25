@@ -1,7 +1,7 @@
 package main
 
 import (
-	"erbiaoOS/pkg/kube_controllermanager"
+	"erbiaoOS/pkg/kube_scheduler"
 	"log"
 )
 
@@ -34,12 +34,12 @@ func main() {
 	//log.Println("初始化kubectl客户端管理工具")
 	//kubectl.InitKubectl()
 
-	log.Println("初始化kube-controller-manager服务")
-	kube_controllermanager.InitControllerManagerCluster()
+	//log.Println("初始化kube-controller-manager服务")
+	//kube_controllermanager.InitControllerManagerCluster()
 
-	//log.Println("初始化kube-scheduler服务")
-	//kube_scheduler.systemdScript()
-	//
+	log.Println("初始化kube-scheduler服务")
+	kube_scheduler.systemdScript()
+
 	//log.Println("初始化kubelet服务")
 	//kubelet.cfg(myConst.K8sMasterCfgDir, setting.K8sMasterIPs)
 	//kubelet.cfg(myConst.K8sNodeCfgDir, setting.K8sNodeIPs)

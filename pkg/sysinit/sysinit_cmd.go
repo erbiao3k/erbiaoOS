@@ -5,10 +5,18 @@ import (
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	sshd2 "erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/login/sshd"
 	"fmt"
-	"log"
 )
+
+// LoopExec 临时函数 for sshd.RemoteSshExec
+var LoopExec = func(hostList [][]setting.HostInfo, cmd string) {
+	for _, hosts := range hostList {
+		for _, host := range hosts {
+			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, cmd)
+		}
+	}
+}
 
 // SysInit 系统初始化，
 //		1、设置主机名；
@@ -20,10 +28,7 @@ import (
 //		7、启用iptables；
 //		8、开启ipvs；
 //		9、安装docker;
-func SysInit(clusterHost *setting.ClusterHost) {
-	// 获取各服务节点清单
-	k8sMasters := clusterHost.K8sMaster
-	k8sNodes := clusterHost.K8sNode
+func SysInit() {
 
 	utils.Chdir(customConst.InitScriptDir)
 
@@ -32,59 +37,62 @@ func SysInit(clusterHost *setting.ClusterHost) {
 	}
 
 	// 设置主机名(所有linux节点操作)
-	linuxServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
-	k8sServer := [][]setting.HostInfo{k8sMasters, k8sNodes}
 
-	log.Println("正在为所有linux服务器上传系统初始化脚本")
-	for _, hosts := range linuxServer {
+	fmt.Println("正在为所有linux服务器上传系统初始化脚本")
+	for _, hosts := range setting.LinuxServer {
 		for _, host := range hosts {
-			sshd2.UploadDir(host.LanIp, host.User, host.Password, host.Port, customConst.InitScriptDir, customConst.DeployDir)
+			if host.LanIp == utils.CurrentIP {
+				continue
+			}
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.InitScriptDir, customConst.InitScriptDir)
 		}
 	}
 
-	log.Println("正在为所有linux服务器设置主机名")
-	for _, hosts := range linuxServer {
+	fmt.Println("正在为所有linux服务器设置主机名")
+	for _, hosts := range setting.LinuxServer {
 		for _, host := range hosts {
 			hName := utils.GenerateHostname(host.Role, host.LanIp)
 			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
-			sshd2.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, setHostname+hName)
+			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, setHostname+hName)
 		}
 	}
 
-	// 临时函数 for sshd.RemoteSshExec
-	loopExec := func(hostList [][]setting.HostInfo, cmd string) {
-		for _, hosts := range hostList {
-			for _, host := range hosts {
-				sshd2.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, cmd)
+	fmt.Println("初始化集群/etc/hosts文件")
+	initHostfile()
+	for _, hosts := range setting.LinuxServer {
+		for _, host := range hosts {
+			if host.LanIp == utils.CurrentIP {
+				continue
 			}
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, hostsFile, SysConfigDir)
 		}
 	}
 
-	log.Println("正在为所有linux服务器关闭SELinux")
-	loopExec(linuxServer, disableSELinux)
+	fmt.Println("正在为所有linux服务器关闭SELinux")
+	LoopExec(setting.LinuxServer, disableSELinux)
 
-	log.Println("正在为所有linux服务器关闭firewalld服务")
-	loopExec(linuxServer, disableFirewalld)
+	fmt.Println("正在为所有linux服务器关闭firewalld服务")
+	LoopExec(setting.LinuxServer, disableFirewalld)
 
-	log.Println("正在为所有linux服务器卸载swap")
-	loopExec(linuxServer, disableSwap)
+	fmt.Println("正在为所有linux服务器卸载swap")
+	LoopExec(setting.LinuxServer, disableSwap)
 
-	log.Println("正在为所有linux服务器配置chrony服务")
-	loopExec(linuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", customConst.InitScriptDir))
+	fmt.Println("正在为所有linux服务器配置chrony服务")
+	LoopExec(setting.LinuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", customConst.InitScriptDir))
 
-	log.Println("正在为k8s集群节点linux服务器优化内核")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", customConst.InitScriptDir))
+	fmt.Println("正在为k8s集群节点linux服务器优化内核")
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", customConst.InitScriptDir))
 
-	log.Println("正在为k8s集群节点基础软件安装")
-	loopExec(k8sServer, softwareInstall)
+	fmt.Println("正在为k8s集群节点安装基础软件")
+	LoopExec(setting.K8sServer, softwareInstall)
 
-	log.Println("正在为k8s集群节点启用iptables")
-	loopExec(k8sServer, enableIptables)
+	fmt.Println("正在为k8s集群节点启用iptables")
+	LoopExec(setting.K8sServer, enableIptables)
 
-	log.Println("正在为k8s集群节点开启ipvs")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", customConst.InitScriptDir))
+	fmt.Println("正在为k8s集群节点开启ipvs")
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", customConst.InitScriptDir))
 
-	log.Println("正在为k8s集群节点安装docker")
-	loopExec(k8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", customConst.InitScriptDir))
+	fmt.Println("正在为k8s集群节点安装docker")
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", customConst.InitScriptDir))
 
 }

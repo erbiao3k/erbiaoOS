@@ -48,4 +48,7 @@ const (
 		"Restart=on-failure\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	// apiserverRestartCmd kube-apiserver重启指令
+	apiserverRestartCmd = "systemctl daemon-reload && systemctl enable kube-apiserver && systemctl restart kube-apiserver && sleep 1"
 )

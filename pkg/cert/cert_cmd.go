@@ -9,8 +9,8 @@ import (
 )
 
 // certGenerate 生成k8s集群所需所有证书
-func certGenerate(masterIPs, nodeIPs []string) {
-	etcdAltNames := NewAltNames(etcd.Hosts(masterIPs, nodeIPs), []string{})
+func certGenerate(masterIPs []string) {
+	etcdAltNames := NewAltNames(etcd.ClusterIPs, []string{})
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
 	generate(cer, customConst.EtcdSslDir+"etcd")
 
@@ -41,12 +41,30 @@ func certGenerate(masterIPs, nodeIPs []string) {
 // InitCert 初始化各节点所需证书
 func InitCert() {
 
-	certGenerate(setting.K8sMasterIPs, setting.K8sNodeIPs)
+	certGenerate(setting.K8sMasterIPs)
+
 	for _, host := range setting.K8sMasterHost {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		sshd.UploadDir(host.LanIp, host.User, host.Password, host.Port, customConst.EtcdDir, customConst.DeployDir)
-		sshd.UploadDir(host.LanIp, host.User, host.Password, host.Port, customConst.EtcdDir, customConst.DeployDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sSslDir, customConst.K8sSslDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.CaCenterDir, customConst.CaCenterDir)
 	}
+
+	for _, host := range setting.K8sNodeHost {
+		if host.LanIp == utils.CurrentIP {
+			continue
+		}
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sSslDir, customConst.K8sSslDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.CaCenterDir, customConst.CaCenterDir)
+	}
+
+	for _, host := range etcd.ClusterIPs {
+		if host == utils.CurrentIP {
+			continue
+		}
+		hostInfo := setting.GetHostInfo(host)
+		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, customConst.EtcdSslDir, customConst.EtcdSslDir)
+	}
+
 }

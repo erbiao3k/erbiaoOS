@@ -31,7 +31,10 @@ const (
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
-	// manageCommand 生成etcdctl指令
-	manageCommand = "alias etcdctl3='ETCDCTL_API=3 etcdctl --cacert=/opt/caCenter/ca.pem --cert=/opt/etcd/ssl/etcd.pem --key=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'\n" +
+	// manageCmd 生成etcdctl指令
+	manageCmd = "alias etcdctl3='ETCDCTL_API=3 etcdctl --cacert=/opt/caCenter/ca.pem --cert=/opt/etcd/ssl/etcd.pem --key=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'\n" +
 		"alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'"
+
+	// etcd服务重启指令
+	etcdRestartCmd = "systemctl daemon-reload && systemctl enable etcd && systemctl restart etcd && sleep 1"
 )

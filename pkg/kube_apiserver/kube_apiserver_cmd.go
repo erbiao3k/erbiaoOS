@@ -2,19 +2,40 @@ package kube_apiserver
 
 import (
 	customConst "erbiaoOS/const"
+	"erbiaoOS/pkg/etcd"
+	"erbiaoOS/setting"
+	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
+	"erbiaoOS/utils/login/sshd"
+	"fmt"
 	"strconv"
 	"strings"
 )
 
 // systemdScript 生成kube-apiserver systemd管理脚本
-func systemdScript(masterIPs []string, etcdServerUrls string) {
-	apiserverCount := len(masterIPs)
-	for _, ip := range masterIPs {
+func systemdScript() {
+	apiserverCount := len(setting.K8sMasterIPs)
+	for _, ip := range setting.K8sMasterIPs {
 		cfg := strings.ReplaceAll(systemd, "currentIPaddr", ip)
-		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcdServerUrls)
+		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.EtcdServerUrls)
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))
-		file.Create(customConst.K8sMasterCfgDir+ip+"-kube-apiserver.service", cfg)
+		file.Create(customConst.TempDir+ip+"/kube-apiserver.service", cfg)
 	}
+}
 
+// bootstrapToken 生成集群启动引导令牌
+func bootstrapToken() {
+	token := utils.RandLow(33)
+	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", token)
+	file.Create(customConst.K8sCfgDir+"token.csv", tokenCsv)
+}
+
+func ClusterInit() {
+	bootstrapToken()
+	systemdScript()
+	for _, host := range setting.K8sMasterHost {
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sCfgDir+"token.csv", customConst.K8sCfgDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", customConst.SystemdServiceDir)
+		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, apiserverRestartCmd)
+	}
 }

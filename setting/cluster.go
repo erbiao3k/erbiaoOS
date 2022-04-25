@@ -1,12 +1,16 @@
 package setting
 
 import (
-	customConst "erbiaoOS/pkg/sysinit"
 	"erbiaoOS/utils/login/sshd"
 	"io"
 	"log"
 	"os"
 	"strings"
+)
+
+const (
+	// topDisk 获取当前本地文件系统最大的分区
+	topDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
 )
 
 // ClusterHost 集群节点初始化信息
@@ -95,7 +99,7 @@ func InitclusterHost(path string) *ClusterHost {
 
 	for _, s := range analysis {
 		hi.Role, hi.LanIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
-		hi.DataDir = sshd.RemoteSshExec(hi.LanIp, hi.User, hi.Password, hi.Port, customConst.TopDisk)
+		hi.DataDir = sshd.RemoteSshExec(hi.LanIp, hi.User, hi.Password, hi.Port, topDisk)
 		hi.DataDir = strings.Split(hi.DataDir, "\n")[0]
 		if hi.Role == "k8sMaster" {
 			ch.K8sMaster = append(ch.K8sMaster, hi)

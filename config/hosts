@@ -1,9 +1,9 @@
 # 节点角色 IP地址 服务器账号 服务器密码 远程端口 远程方式
-k8sMaster 192.168.140.123 root Fadada123 22 ssh
-k8sMaster 192.168.140.195 root Fadada123 22 ssh
-k8sMaster 192.168.140.141 root Fadada123 22 ssh
-k8sNode 192.168.140.218 root Fadada123 22 ssh
-k8sNode 192.168.140.209 root Fadada123 22 ssh
+k8sMaster 10.21.8.21 root 80a=1994 22 ssh
+k8sMaster 10.21.8.41 root 80a=1994 22 ssh
+k8sMaster 10.21.8.48 root 80a=1994 22 ssh
+k8sNode 10.21.8.22 root 80a=1994 22 ssh
+#k8sNode 192.168.140.209 root Fadada123 22 ssh
 
 
 #k8sNode 192.168.1.171 root 1234 22 ssh

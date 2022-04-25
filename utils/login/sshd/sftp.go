@@ -1,7 +1,7 @@
 package sshd
 
 import (
-	"fmt"
+	"erbiaoOS/utils/file"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 	"io/ioutil"
@@ -12,7 +12,7 @@ import (
 )
 
 // Connect 初始化sftp客户端
-func conn(host, user, password, port string) (*sftp.Client, error) {
+func conn(host, user, password, port string) *sftp.Client {
 	var (
 		auth         []ssh.AuthMethod
 		clientConfig *ssh.ClientConfig
@@ -38,19 +38,14 @@ func conn(host, user, password, port string) (*sftp.Client, error) {
 
 	// 初始化sftp会话
 	if sftpClient, err = sftp.NewClient(sshClient); err != nil {
-		log.Fatal("初始化sftp会话失败：", err)
+		log.Fatal("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
 	}
 
-	return sftpClient, nil
+	return sftpClient
 }
 
-// UploadFile sftp上传文件
-func UploadFile(host, user, password, port, localFile, remoteDir string) {
-	sftpClient, err := conn(host, user, password, port)
-	if err != nil {
-		panic("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
-	}
-	defer sftpClient.Close()
+// File sftp上传文件
+func File(sftpClient *sftp.Client, localFile, remoteDir string) {
 
 	srcFile, err := os.Open(localFile)
 	if err != nil {
@@ -77,21 +72,16 @@ func UploadFile(host, user, password, port, localFile, remoteDir string) {
 			break
 		}
 		dstFile.Write(buf)
+
 	}
 
 	if err != nil {
-		log.Fatalf("为节点【%s】上传文件【%s】失败：【%s】", host, localFile, err)
+		log.Fatalf("为节点上传文件【%s】失败：【%s】\n", localFile, err)
 	}
-	fmt.Printf("节点【%s】上传文件【%s】完成", host, localFile)
 }
 
-// UploadDir sftp上传目录
-func UploadDir(host, user, password, port, localPath, remotePath string) {
-	sftpClient, err := conn(host, user, password, port)
-	if err != nil {
-		panic("创建sftp连接失败，请确认ssh地址、端口、账号、密码正确：" + err.Error())
-	}
-	defer sftpClient.Close()
+// Dir sftp上传目录
+func Dir(sftpClient *sftp.Client, localPath, remotePath string) {
 
 	localfiles, err := ioutil.ReadDir(localPath)
 	if err != nil {
@@ -102,12 +92,27 @@ func UploadDir(host, user, password, port, localPath, remotePath string) {
 		localfilePath := path.Join(localPath, info.Name())
 		remotefilePath := path.Join(remotePath, info.Name())
 		if info.IsDir() {
-			sftpClient.Mkdir(remotefilePath)
-			UploadDir(host, user, password, port, localfilePath, remotefilePath)
+			//sftpClient.Mkdir(remotefilePath)
+			Dir(sftpClient, localfilePath, remotefilePath)
 		} else {
-			UploadFile(host, user, password, port, path.Join(localPath, info.Name()), remotePath)
+			File(sftpClient, path.Join(localPath, info.Name()), remotePath)
 		}
 	}
+}
 
-	fmt.Printf("节点【%s】上传目录【%s】完成", host, localPath)
+// Upload 上传文件或目录总入口
+func Upload(host, user, password, port, localThing, remoteDir string) {
+	sftpClient := conn(host, user, password, port)
+
+	defer sftpClient.Close()
+
+	if !file.Exist(localThing) {
+		log.Panicf("上传的文件或目录%s不存在", localThing)
+	}
+	if file.IsDir(localThing) {
+		RemoteSshExec(host, user, password, port, "mkdir -p "+remoteDir)
+		Dir(sftpClient, localThing, remoteDir)
+	} else if file.IsFile(localThing) {
+		File(sftpClient, localThing, remoteDir)
+	}
 }

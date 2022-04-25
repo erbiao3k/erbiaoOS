@@ -6,6 +6,9 @@ import (
 )
 
 const (
+	CaPrivateKeyFile = customConst.CaCenterDir + "ca-key.pem"
+	CaPubilcKeyFile  = customConst.CaCenterDir + "ca.pem"
+
 	// caPublicKey ca机构证书公钥信息
 	caPublicKey = `-----BEGIN CERTIFICATE-----
 MIIDnDCCAoSgAwIBAgIUBgmIRptWdX9nH0+AALFJ2bw11AMwDQYJKoZIhvcNAQEL
@@ -62,8 +65,8 @@ Ms47mnxmnYez1ZlczmZqb+dess34EDnz/3M33k6g5Hqy2OR59656
 )
 
 func init() {
-	file.Create(customConst.CaCenterDir+"ca.pem", caPrivateKey)
-	file.Create(customConst.CaCenterDir+"ca.pem", caPublicKey)
+	file.Create(CaPrivateKeyFile, caPrivateKey)
+	file.Create(CaPubilcKeyFile, caPublicKey)
 }
 
 /*

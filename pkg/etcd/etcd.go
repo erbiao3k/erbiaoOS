@@ -2,6 +2,7 @@ package etcd
 
 import (
 	customConst "erbiaoOS/const"
+	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
@@ -9,13 +10,19 @@ import (
 	"strings"
 )
 
-// Hosts 按照逻辑选定etcd部署架构以及节点清单
+var (
+	ClusterIPs     = hosts(setting.K8sMasterIPs, setting.K8sNodeIPs)
+	EtcdServerUrls = ClientCmd()
+)
+
+// hosts 按照逻辑选定etcd部署架构以及节点清单
 //只要有集群高可用的规划，那么：
 // 		1、master节点数一定是大于等于2的
 //		2、当master节点数为2时，从node节点列表中选出一个节点，组成3节点etcd集群
 //		3、当master节点数大于3，且为偶数个时，减少一个节点，组成n-1节点的etcd集群
 //		4、etcd集群节点最多为9个
-func Hosts(masterIPs []string, nodeIPs []string) []string {
+
+func hosts(masterIPs []string, nodeIPs []string) []string {
 
 	countHost := len(masterIPs)
 
@@ -42,16 +49,16 @@ func Hosts(masterIPs []string, nodeIPs []string) []string {
 }
 
 // systemdScript 生成etcd systemd管理脚本
-func systemdScript(etcdIPs []string) {
+func systemdScript() {
 	etcdCluster := ""
-	for index, ip := range etcdIPs {
+	for index, ip := range ClusterIPs {
 		etcdName := utils.GenerateHostname("etcd", ip)
 		etcdCluster = etcdCluster + etcdName + "=" + "https://" + ip + ":2380"
-		if len(etcdIPs)-1 != index {
+		if len(ClusterIPs)-1 != index {
 			etcdCluster = etcdCluster + ","
 		}
 	}
-	for _, ip := range etcdIPs {
+	for _, ip := range ClusterIPs {
 		currentEtcdName := utils.GenerateHostname("etcd", ip)
 		systemd := strings.ReplaceAll(systemd, "currentEtcdName", currentEtcdName)
 		systemd = strings.ReplaceAll(systemd, "currentEtcdIp", ip)
@@ -61,24 +68,25 @@ func systemdScript(etcdIPs []string) {
 }
 
 // ClientCmd 生成etcdctl 客户端管理指令
-func ClientCmd(etcdIPs []string) (etcdServerUrls string) {
-	for index, ip := range etcdIPs {
+func ClientCmd() (etcdServerUrls string) {
+	for index, ip := range ClusterIPs {
 		etcdServerUrls = etcdServerUrls + "https://" + ip + ":2379"
-		if len(etcdIPs)-1 != index {
+		if len(ClusterIPs)-1 != index {
 			etcdServerUrls = etcdServerUrls + ","
 		}
 	}
-	file.Create(customConst.TempDir+"etcdctl", strings.ReplaceAll(manageCommand, "clientUrls", etcdServerUrls))
+	file.Create(sysinit.BashProfile, sysinit.CurrentUserBashProfile+"\n "+strings.ReplaceAll(manageCmd, "clientUrls", etcdServerUrls))
 	return etcdServerUrls
 }
 
 //InitEtcd 初始化etcd服务
 func InitEtcd() {
-	etcdIPs := Hosts(setting.K8sMasterIPs, setting.K8sNodeIPs)
-	systemdScript(etcdIPs)
-	ClientCmd(etcdIPs)
-	for _, ip := range etcdIPs {
+	systemdScript()
+	ClientCmd()
+	for _, ip := range ClusterIPs {
 		hostInfo := setting.GetHostInfo(ip)
-		sshd.UploadFile(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, customConst.TempDir+"/"+ip+"/etcd.service", customConst.SystemdServiceDir)
+		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, customConst.TempDir+"/"+ip+"/etcd.service", customConst.SystemdServiceDir)
+		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, sysinit.BashProfile, sysinit.SysConfigDir)
+		sshd.RemoteSshExec(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, etcdRestartCmd)
 	}
 }

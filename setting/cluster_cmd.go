@@ -20,6 +20,9 @@ var (
 
 	K8sMasterHost = ClusterHostCfg.K8sMaster
 	K8sNodeHost   = ClusterHostCfg.K8sNode
+
+	LinuxServer = [][]HostInfo{K8sMasterHost, K8sNodeHost}
+	K8sServer   = [][]HostInfo{K8sMasterHost, K8sNodeHost}
 )
 
 // ipList 返回集群节点IP清单

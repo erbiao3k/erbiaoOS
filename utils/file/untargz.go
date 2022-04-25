@@ -3,14 +3,13 @@ package file
 import (
 	"archive/tar"
 	"compress/gzip"
-	"fmt"
 	"io"
 	"os"
 )
 
 // UnTargz tar.gz解压
 func UnTargz(file string, dest string) {
-	fmt.Println("正在解压文件：", file)
+	//fmt.Println("解压文件：", file)
 	fr, err := os.Open(file)
 	if err != nil {
 		panic(err)

@@ -1,8 +1,16 @@
 package sysinit
 
+import "erbiaoOS/utils/file"
+
 const (
-	// TopDisk 获取当前本地文件系统最大的分区
-	TopDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
+	hostsFile      = "/etc/hosts"
+	HostsFileBak   = "/etc/hosts.bak-fadada"
+	BashProfile    = "/root/.bash_profile"
+	BashProfileBak = "/root/.bash_profile.bak-fadada"
+	SysConfigDir   = "/etc/"
+
+	// KillProcess 清理可能阻塞部署的进程
+	KillProcess = "systemctl stop etcd docker kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet || echo 服务已停止"
 
 	// setHostname 设置主机名的字符串
 	setHostname = "hostnamectl set-hostname "
@@ -52,7 +60,7 @@ const (
 		"ipvsadm net-tools libnl libnl-devel openssl openssl-devel bash-completion"
 
 	// enableIptables 安装iptables，关闭即可，k8s自己初始化
-	enableIptables = "yum initialize iptables-services -y &&" +
+	enableIptables = "yum install iptables-services -y &&" +
 		"systemctl stop iptables &&" +
 		"systemctl disable iptables &&" +
 		"iptables -F"
@@ -127,16 +135,40 @@ const (
 	bashCompletion = "chmod a+x /usr/share/bash-completion/bash_completion && /usr/share/bash-completion/bash_completion"
 )
 
-var script = map[string]string{
-	"SetHostname.sh":      setHostname,
-	"BashCompletion.sh":   bashCompletion,
-	"DisableSELinux.sh":   disableSELinux,
-	"DisableFirewalld.sh": disableFirewalld,
-	"DisableSwap.sh":      disableSwap,
-	"EnableChrony.sh":     enableChrony,
-	"KernelOptimize.sh":   kernelOptimize,
-	"SoftwareInstall.sh":  softwareInstall,
-	"EnableIptables.sh":   enableIptables,
-	"EnableIpvs.sh":       enableIpvs,
-	"DockerInstall.sh":    dockerInstall,
+var (
+	script = map[string]string{
+		"SetHostname.sh":      setHostname,
+		"BashCompletion.sh":   bashCompletion,
+		"DisableSELinux.sh":   disableSELinux,
+		"DisableFirewalld.sh": disableFirewalld,
+		"DisableSwap.sh":      disableSwap,
+		"EnableChrony.sh":     enableChrony,
+		"KernelOptimize.sh":   kernelOptimize,
+		"SoftwareInstall.sh":  softwareInstall,
+		"EnableIptables.sh":   enableIptables,
+		"EnableIpvs.sh":       enableIpvs,
+		"DockerInstall.sh":    dockerInstall,
+	}
+
+	SysHost                = hostFileInitContent()[0]
+	CurrentUserBashProfile = hostFileInitContent()[1]
+)
+
+// 初始化的/etc/hosts信息和/root/.bash_profile信息
+func hostFileInitContent() (initInfo []string) {
+
+	if !file.Exist(HostsFileBak) {
+		file.Copy(HostsFileBak, hostsFile)
+		initInfo = append(initInfo, file.Read(hostsFile))
+	} else {
+		initInfo = append(initInfo, file.Read(HostsFileBak))
+	}
+
+	if !file.Exist(BashProfileBak) {
+		file.Copy(BashProfileBak, BashProfile)
+		initInfo = append(initInfo, file.Read(BashProfile))
+	} else {
+		initInfo = append(initInfo, file.Read(BashProfileBak))
+	}
+	return
 }

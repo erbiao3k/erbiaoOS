@@ -1,4 +1,4 @@
-package customConst
+package myConst
 
 import (
 	"os"
@@ -44,6 +44,9 @@ const (
 
 	// SystemdServiceDir systemd管理脚本目录
 	SystemdServiceDir = "/etc/systemd/system/"
+
+	// KubectlConfigDir kubectl 客户端工具配置文件路径
+	KubectlConfigDir = "/root/.kube/"
 )
 
 func init() {

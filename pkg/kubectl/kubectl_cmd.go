@@ -2,6 +2,7 @@ package kubectl
 
 import (
 	"bytes"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/login/sshd"
@@ -12,8 +13,8 @@ import (
 
 // InitKubectl 初始化kubectl客户端
 func InitKubectl() {
-	os.Mkdir(kubectlConfigDir, 0600)
-
+	os.Mkdir(myConst.KubectlConfigDir, 0600)
+	//
 	cmd := exec.Command("bash", "-c", kubectlSetClusterCmd+kubectlSetCredentialsCmd+kubectlSetContextCmd+kubectlUseContextCmd)
 	var out bytes.Buffer
 	cmd.Stdout = &out
@@ -27,7 +28,7 @@ func InitKubectl() {
 			if host.LanIp == utils.CurrentIP {
 				continue
 			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubectlConfigDir, kubectlConfigDir)
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubectlConfigfile, myConst.KubectlConfigDir)
 		}
 	}
 }

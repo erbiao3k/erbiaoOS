@@ -1,7 +1,7 @@
 package kube_apiserver
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
@@ -19,7 +19,7 @@ func systemdScript() {
 		cfg := strings.ReplaceAll(systemd, "currentIPaddr", ip)
 		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.EtcdServerUrls)
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))
-		file.Create(customConst.TempDir+ip+"/kube-apiserver.service", cfg)
+		file.Create(myConst.TempDir+ip+"/kube-apiserver.service", cfg)
 	}
 }
 
@@ -27,15 +27,15 @@ func systemdScript() {
 func bootstrapToken() {
 	token := utils.RandLow(33)
 	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", token)
-	file.Create(customConst.K8sCfgDir+"token.csv", tokenCsv)
+	file.Create(myConst.K8sCfgDir+"token.csv", tokenCsv)
 }
 
 func ClusterInit() {
 	bootstrapToken()
 	systemdScript()
 	for _, host := range setting.K8sMasterHost {
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sCfgDir+"token.csv", customConst.K8sCfgDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", customConst.SystemdServiceDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.K8sCfgDir+"token.csv", myConst.K8sCfgDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", myConst.SystemdServiceDir)
 		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, apiserverRestartCmd)
 	}
 }

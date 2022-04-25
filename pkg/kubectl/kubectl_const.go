@@ -1,47 +1,37 @@
 package kubectl
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/cert"
-	"erbiaoOS/utils"
+	"erbiaoOS/setting"
 	"fmt"
 )
 
 const (
-	kubectlUser         = "admin"
-	kubectlContext      = "kubernetes"
-	kubectlConfigDir    = "/root/.kube/"
-	kubectlConfigfile   = kubectlConfigDir + "config"
-	adminPrivateKeyFile = customConst.K8sSslDir + "admin-key.pem"
-	adminPublicKeyFile  = customConst.K8sSslDir + "admin.pem"
+	kubectlUser    = "admin"
+	kubectlContext = "kubernetes"
 
-	kubeControllerManagerUser           = "system:kube-controller-manager"
-	kubeControllerManagerContext        = kubeControllerManagerUser
-	kubeControllerManagerKubeConfig     = customConst.K8sCfgDir + "kube-controller-manager.kubeconfig"
-	kubeControllerManagerPublicKeyFile  = customConst.K8sCfgDir + "kube-controller-manager.pem"
-	kubeControllerManagerPrivateKeyFile = customConst.K8sCfgDir + "kube-controller-manager-key.pem"
+	kubectlConfigfile   = myConst.KubectlConfigDir + "config"
+	adminPrivateKeyFile = myConst.K8sSslDir + "admin-key.pem"
+	adminPublicKeyFile  = myConst.K8sSslDir + "admin.pem"
 
 	kubeSchedulerUser           = "system:kube-scheduler"
 	kubeSchedulerContext        = kubeSchedulerUser
-	kubeSchedulerKubeConfig     = customConst.K8sCfgDir + "kube-scheduler.kubeconfig"
-	kubeSchedulerPublicKeyFile  = customConst.K8sCfgDir + "kube-scheduler.pem"
-	kubeSchedulerPrivateKeyFile = customConst.K8sCfgDir + "kube-scheduler-key.pem"
+	kubeSchedulerKubeConfig     = myConst.TempDir + "kube-scheduler.kubeconfig"
+	kubeSchedulerPublicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
+	kubeSchedulerPrivateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
 )
 
 var (
+
 	// kubectl 管理客户端初始化指令
-	kubectlSetClusterCmd     = fmt.Sprintf(customConst.SetClusterCmd, cert.CaPubilcKeyFile, utils.CurrentIP, kubectlConfigfile)
-	kubectlSetCredentialsCmd = fmt.Sprintf(customConst.SetCredentialsCmd, kubectlUser, adminPublicKeyFile, adminPrivateKeyFile, kubectlConfigfile)
-	kubectlSetContextCmd     = fmt.Sprintf(customConst.SetContextCmd, kubectlContext, kubectlUser, kubectlConfigfile)
-	kubectlUseContextCmd     = fmt.Sprintf(customConst.UseContextCmd, kubectlContext, kubectlConfigfile)
+	kubectlSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubectlConfigfile)
+	kubectlSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, kubectlUser, adminPublicKeyFile, adminPrivateKeyFile, kubectlConfigfile)
+	kubectlSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, kubectlContext, kubectlUser, kubectlConfigfile)
+	kubectlUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, kubectlContext, kubectlConfigfile)
 
-	controllerManagerSetClusterCmd     = fmt.Sprintf(customConst.SetClusterCmd, cert.CaPubilcKeyFile, utils.CurrentIP, kubeControllerManagerKubeConfig)
-	controllerManagerSetCredentialsCmd = fmt.Sprintf(customConst.SetCredentialsCmd, kubeControllerManagerUser, kubeControllerManagerPublicKeyFile, kubeControllerManagerPrivateKeyFile, kubeControllerManagerKubeConfig)
-	controllerManagerSetContextCmd     = fmt.Sprintf(customConst.SetContextCmd, kubeControllerManagerContext, kubeControllerManagerUser, kubeControllerManagerKubeConfig)
-	controllerManagerUseContextCmd     = fmt.Sprintf(customConst.UseContextCmd, kubeControllerManagerContext, kubeControllerManagerKubeConfig)
-
-	kubeSchedulerSetClusterCmd     = fmt.Sprintf(customConst.SetClusterCmd, cert.CaPubilcKeyFile, utils.CurrentIP, kubeSchedulerKubeConfig)
-	kubeSchedulerSetCredentialsCmd = fmt.Sprintf(customConst.SetCredentialsCmd, kubeSchedulerUser, kubeSchedulerPublicKeyFile, kubeSchedulerPrivateKeyFile, kubeSchedulerKubeConfig)
-	kubeSchedulerSetContextCmd     = fmt.Sprintf(customConst.SetContextCmd, kubeSchedulerContext, kubeSchedulerUser, kubeSchedulerKubeConfig)
-	kubeSchedulerUseContextCmd     = fmt.Sprintf(customConst.UseContextCmd, kubeSchedulerContext, kubeSchedulerKubeConfig)
+	kubeSchedulerSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeSchedulerKubeConfig)
+	kubeSchedulerSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, kubeSchedulerUser, kubeSchedulerPublicKeyFile, kubeSchedulerPrivateKeyFile, kubeSchedulerKubeConfig)
+	kubeSchedulerSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, kubeSchedulerContext, kubeSchedulerUser, kubeSchedulerKubeConfig)
+	kubeSchedulerUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, kubeSchedulerContext, kubeSchedulerKubeConfig)
 )

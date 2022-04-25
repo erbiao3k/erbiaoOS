@@ -1,7 +1,7 @@
 package cert
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
@@ -12,29 +12,29 @@ import (
 func certGenerate(masterIPs []string) {
 	etcdAltNames := NewAltNames(etcd.ClusterIPs, []string{})
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
-	generate(cer, customConst.EtcdSslDir+"etcd")
+	generate(cer, myConst.EtcdSslDir+"etcd")
 
 	apiserverClientIPs := append(masterIPs, "10.255.0.1")
 	apiserverClientDnsNames := []string{"kubernetes", "kubernetes.default", "kubernetes.default.svc", "kubernetes.default.svc.cluster", "kubernetes.default.svc.cluster.local"}
 	kubeApiserverAltNames := NewAltNames(apiserverClientIPs, apiserverClientDnsNames)
 	cer = newCertInfo([]string{"k8s"}, "kubernetes", kubeApiserverAltNames.IPs, kubeApiserverAltNames.DNSNames)
-	generate(cer, customConst.K8sSslDir+"kube-apiserver")
+	generate(cer, myConst.K8sSslDir+"kube-apiserver")
 
 	cer = newCertInfo([]string{"k8s"}, "system:kube-proxy", nil, nil)
-	generate(cer, customConst.K8sSslDir+"kube-proxy")
+	generate(cer, myConst.K8sSslDir+"kube-proxy")
 
 	cer = newCertInfo([]string{"system:masters"}, "admin", nil, nil)
-	generate(cer, customConst.K8sSslDir+"admin")
+	generate(cer, myConst.K8sSslDir+"admin")
 
 	ControllerManagerClientIPs := append(masterIPs, "10.255.0.1")
 	ControllerManagerAltNames := NewAltNames(ControllerManagerClientIPs, []string{})
 	cer = newCertInfo([]string{"system:kube-controller-manager"}, "system:kube-controller-manager", ControllerManagerAltNames.IPs, ControllerManagerAltNames.DNSNames)
-	generate(cer, customConst.K8sSslDir+"kube-controller-manager")
+	generate(cer, myConst.K8sSslDir+"kube-controller-manager")
 
 	kubeSchedulerClientIPs := append(masterIPs, "10.255.0.1")
 	kubeSchedulerAltNames := NewAltNames(kubeSchedulerClientIPs, []string{})
 	cer = newCertInfo([]string{"system:kube-scheduler"}, "system:kube-scheduler", kubeSchedulerAltNames.IPs, kubeApiserverAltNames.DNSNames)
-	generate(cer, customConst.K8sSslDir+"kube-scheduler")
+	generate(cer, myConst.K8sSslDir+"kube-scheduler")
 
 }
 
@@ -47,16 +47,16 @@ func InitCert() {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sSslDir, customConst.K8sSslDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.CaCenterDir, customConst.CaCenterDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.K8sSslDir, myConst.K8sSslDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.CaCenterDir, myConst.CaCenterDir)
 	}
 
 	for _, host := range setting.K8sNodeHost {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.K8sSslDir, customConst.K8sSslDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.CaCenterDir, customConst.CaCenterDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.K8sSslDir, myConst.K8sSslDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.CaCenterDir, myConst.CaCenterDir)
 	}
 
 	for _, host := range etcd.ClusterIPs {
@@ -64,7 +64,7 @@ func InitCert() {
 			continue
 		}
 		hostInfo := setting.GetHostInfo(host)
-		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, customConst.EtcdSslDir, customConst.EtcdSslDir)
+		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, myConst.EtcdSslDir, myConst.EtcdSslDir)
 	}
 
 }

@@ -1,7 +1,7 @@
 package nginx
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/utils/file"
 	"strings"
 )
@@ -13,12 +13,12 @@ func MainCfg(IPs []string) {
 		upstreamConf = upstreamConf + "        server " + ip + ":6443 max_fails=3 fail_timeout=30s;\n"
 	}
 	cfg := strings.ReplaceAll(mainConf, "upstreamConf", upstreamConf)
-	file.Create(customConst.K8sMasterCfgDir+"nginx.conf", cfg)
-	file.Create(customConst.K8sNodeCfgDir+"nginx.conf", cfg)
+	file.Create(myConst.K8sMasterCfgDir+"nginx.conf", cfg)
+	file.Create(myConst.K8sNodeCfgDir+"nginx.conf", cfg)
 }
 
 // systemdScript 生成nginx主配置文件
 func systemdScript() {
-	file.Create(customConst.K8sMasterCfgDir+"nginx.service", systemd)
-	file.Create(customConst.K8sNodeCfgDir+"nginx.service", systemd)
+	file.Create(myConst.K8sMasterCfgDir+"nginx.service", systemd)
+	file.Create(myConst.K8sNodeCfgDir+"nginx.service", systemd)
 }

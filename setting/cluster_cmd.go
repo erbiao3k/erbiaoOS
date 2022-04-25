@@ -1,7 +1,7 @@
 package setting
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"os"
 )
 
@@ -17,6 +17,8 @@ var (
 
 	K8sMasterIPs, K8sNodeIPs = ipList()
 	K8sClusterIPs            = append(K8sMasterIPs, K8sNodeIPs...)
+
+	RandMasterIP = K8sMasterIPs[0]
 
 	K8sMasterHost = ClusterHostCfg.K8sMaster
 	K8sNodeHost   = ClusterHostCfg.K8sNode
@@ -53,6 +55,6 @@ func GetHostInfo(ip string) *HostInfo {
 func init() {
 	// 初始化每节点临时目录
 	for _, ip := range K8sClusterIPs {
-		os.MkdirAll(customConst.TempDir+ip, 0777)
+		os.MkdirAll(myConst.TempDir+ip, 0777)
 	}
 }

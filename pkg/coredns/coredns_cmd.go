@@ -1,7 +1,7 @@
 package coredns
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/utils/file"
 	"strings"
 )
@@ -12,5 +12,5 @@ func cfg() {
 	cfg = strings.ReplaceAll(yaml, "$DNS_DOMAIN", "cluster.local")
 	cfg = strings.ReplaceAll(yaml, "$DNS_MEMORY_LIMIT", "170Mi")
 	cfg = strings.ReplaceAll(yaml, "k8s.gcr.io/coredns/coredns:v1.8.6", "registry.aliyuncs.com/google_containers/coredns:v1.8.6")
-	file.Create(customConst.K8sMasterCfgDir+"coredns.yaml", cfg)
+	file.Create(myConst.K8sMasterCfgDir+"coredns.yaml", cfg)
 }

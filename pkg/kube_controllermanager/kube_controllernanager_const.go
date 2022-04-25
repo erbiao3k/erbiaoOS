@@ -33,4 +33,7 @@ const (
 		"Restart=on-failure\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	// controllerManagerRestartCmd kube-apiserver重启指令
+	controllerManagerRestartCmd = "systemctl daemon-reload && systemctl enable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
 )

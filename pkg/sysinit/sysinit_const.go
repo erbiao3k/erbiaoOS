@@ -9,8 +9,8 @@ const (
 	BashProfileBak = "/root/.bash_profile.bak-fadada"
 	SysConfigDir   = "/etc/"
 
-	// KillProcess 清理可能阻塞部署的进程
-	KillProcess = "systemctl stop etcd docker kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet || echo 服务已停止"
+	// StopService 清理可能阻塞部署的进程
+	StopService = "systemctl stop etcd docker kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet || echo 服务已停止"
 
 	// setHostname 设置主机名的字符串
 	setHostname = "hostnamectl set-hostname "

@@ -1,7 +1,7 @@
 package component
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	file2 "erbiaoOS/utils/file"
@@ -22,7 +22,7 @@ func Init(component *setting.Component, clusterHost *setting.ClusterHost) {
 	k8sMasterHost := clusterHost.K8sMaster
 	k8sNodeHost := clusterHost.K8sNode
 
-	utils.Chdir(customConst.SoftDir)
+	utils.Chdir(myConst.SoftDir)
 
 	if !component.OfflineDeployment {
 
@@ -48,9 +48,9 @@ func Init(component *setting.Component, clusterHost *setting.ClusterHost) {
 		for _, host := range hosts {
 
 			for _, b := range binarys {
-				sshd.Upload(host.LanIp, host.User, host.Password, host.Port, b, customConst.BinaryDir)
+				sshd.Upload(host.LanIp, host.User, host.Password, host.Port, b, myConst.BinaryDir)
 			}
-			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+customConst.BinaryDir)
+			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+myConst.BinaryDir)
 		}
 	}
 

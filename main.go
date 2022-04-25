@@ -1,20 +1,20 @@
 package main
 
 import (
-	"erbiaoOS/pkg/kubectl"
+	"erbiaoOS/pkg/kube_controllermanager"
 	"log"
 )
 
 func main() {
 
 	//log.Println("【main】清理可能阻塞部署的进程")
-	//sysinit.LoopExec(setting.K8sServer, sysinit.KillProcess)
+	//sysinit.LoopExec(setting.K8sServer, sysinit.StopService)
 	//
 	//log.Println("【main】清理可能阻塞部署的历史数据")
-	//sysinit.LoopExec(setting.K8sServer, fmt.Sprintf("rm -rf %s", customConst.EtcdDataDir))
+	//sysinit.LoopExec(setting.K8sServer, fmt.Sprintf("rm -rf %s", myConst.EtcdDataDir))
 	//
 	//log.Println("【main】初始化环境目录")
-	//sysinit.LoopExec(setting.K8sServer, fmt.Sprintf("mkdir -p %s %s %s %s %s %s ", customConst.InitScriptDir, customConst.CaCenterDir, customConst.EtcdSslDir, customConst.EtcdDataDir, customConst.K8sSslDir, customConst.K8sCfgDir))
+	//sysinit.LoopExec(setting.K8sServer, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir))
 	//
 	//log.Println("【main】下载k8s必要组件")
 	//component.Init(setting.ComponentCfg, setting.ClusterHostCfg)
@@ -27,32 +27,32 @@ func main() {
 	//
 	//log.Println("【main】初始化etcd集群")
 	//etcd.InitEtcd()
-
+	//
 	//log.Println("初始化kube-apiserver服务")
 	//kube_apiserver.ClusterInit()
-
-	log.Println("初始化kubectl客户端管理工具")
-	kubectl.InitKubectl()
-
-	//log.Println("初始化kube-controller-manager服务")
-	//kube_controllermanager.systemdScript()
 	//
+	//log.Println("初始化kubectl客户端管理工具")
+	//kubectl.InitKubectl()
+
+	log.Println("初始化kube-controller-manager服务")
+	kube_controllermanager.InitControllerManagerCluster()
+
 	//log.Println("初始化kube-scheduler服务")
 	//kube_scheduler.systemdScript()
 	//
 	//log.Println("初始化kubelet服务")
-	//kubelet.cfg(customConst.K8sMasterCfgDir, setting.K8sMasterIPs)
-	//kubelet.cfg(customConst.K8sNodeCfgDir, setting.K8sNodeIPs)
+	//kubelet.cfg(myConst.K8sMasterCfgDir, setting.K8sMasterIPs)
+	//kubelet.cfg(myConst.K8sNodeCfgDir, setting.K8sNodeIPs)
 	//
-	//kubelet.systemdScript(customConst.K8sMasterCfgDir, setting.K8sMasterHost)
-	//kubelet.systemdScript(customConst.K8sNodeCfgDir, setting.K8sNodeHost)
+	//kubelet.systemdScript(myConst.K8sMasterCfgDir, setting.K8sMasterHost)
+	//kubelet.systemdScript(myConst.K8sNodeCfgDir, setting.K8sNodeHost)
 	//
 	//log.Println("初始化kube-proxy服务")
-	//kube_proxy.cfg(customConst.K8sMasterCfgDir, setting.K8sMasterIPs)
-	//kube_proxy.cfg(customConst.K8sNodeCfgDir, setting.K8sNodeIPs)
+	//kube_proxy.cfg(myConst.K8sMasterCfgDir, setting.K8sMasterIPs)
+	//kube_proxy.cfg(myConst.K8sNodeCfgDir, setting.K8sNodeIPs)
 	//
-	//kube_proxy.systemdScript(customConst.K8sMasterCfgDir, setting.K8sMasterHost)
-	//kube_proxy.systemdScript(customConst.K8sNodeCfgDir, setting.K8sNodeHost)
+	//kube_proxy.systemdScript(myConst.K8sMasterCfgDir, setting.K8sMasterHost)
+	//kube_proxy.systemdScript(myConst.K8sNodeCfgDir, setting.K8sNodeHost)
 	//
 	//log.Println("初始化calico网络组件")
 	//calico.Cfg()

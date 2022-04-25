@@ -1,7 +1,7 @@
 package etcd
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
@@ -63,7 +63,7 @@ func systemdScript() {
 		systemd := strings.ReplaceAll(systemd, "currentEtcdName", currentEtcdName)
 		systemd = strings.ReplaceAll(systemd, "currentEtcdIp", ip)
 		systemd = strings.ReplaceAll(systemd, "etcdCluster", etcdCluster)
-		file.Create(customConst.TempDir+"/"+ip+"/etcd.service", systemd)
+		file.Create(myConst.TempDir+"/"+ip+"/etcd.service", systemd)
 	}
 }
 
@@ -85,7 +85,7 @@ func InitEtcd() {
 	ClientCmd()
 	for _, ip := range ClusterIPs {
 		hostInfo := setting.GetHostInfo(ip)
-		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, customConst.TempDir+"/"+ip+"/etcd.service", customConst.SystemdServiceDir)
+		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, myConst.TempDir+"/"+ip+"/etcd.service", myConst.SystemdServiceDir)
 		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, sysinit.BashProfile, sysinit.SysConfigDir)
 		sshd.RemoteSshExec(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, etcdRestartCmd)
 	}

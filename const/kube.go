@@ -1,4 +1,4 @@
-package customConst
+package myConst
 
 const (
 	SetClusterCmd = "kubectl config set-cluster kubernetes --certificate-authority=%s --embed-certs=true --server=https://%s:6443 --kubeconfig=%s\n"

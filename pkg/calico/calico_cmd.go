@@ -1,7 +1,7 @@
 package calico
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/utils/file"
 	"strings"
 )
@@ -9,5 +9,5 @@ import (
 // cfg 初始化calico网络组件编排文件
 func cfg() {
 	cfg := strings.ReplaceAll(yaml, "192.168.0.0/16", "10.0.0.0/16")
-	file.Create(customConst.K8sMasterCfgDir+"calico.yaml", cfg)
+	file.Create(myConst.K8sMasterCfgDir+"calico.yaml", cfg)
 }

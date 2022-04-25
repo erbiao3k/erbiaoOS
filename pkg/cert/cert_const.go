@@ -1,13 +1,13 @@
 package cert
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/utils/file"
 )
 
 const (
-	CaPrivateKeyFile = customConst.CaCenterDir + "ca-key.pem"
-	CaPubilcKeyFile  = customConst.CaCenterDir + "ca.pem"
+	CaPrivateKeyFile = myConst.CaCenterDir + "ca-key.pem"
+	CaPubilcKeyFile  = myConst.CaCenterDir + "ca.pem"
 
 	// caPublicKey ca机构证书公钥信息
 	caPublicKey = `-----BEGIN CERTIFICATE-----

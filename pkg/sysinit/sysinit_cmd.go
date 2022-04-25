@@ -1,7 +1,7 @@
 package sysinit
 
 import (
-	customConst "erbiaoOS/const"
+	myConst "erbiaoOS/const"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
@@ -30,7 +30,7 @@ var LoopExec = func(hostList [][]setting.HostInfo, cmd string) {
 //		9、安装docker;
 func SysInit() {
 
-	utils.Chdir(customConst.InitScriptDir)
+	utils.Chdir(myConst.InitScriptDir)
 
 	for f, cmd := range script {
 		file.Create(f, cmd)
@@ -44,7 +44,7 @@ func SysInit() {
 			if host.LanIp == utils.CurrentIP {
 				continue
 			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, customConst.InitScriptDir, customConst.InitScriptDir)
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.InitScriptDir, myConst.InitScriptDir)
 		}
 	}
 
@@ -78,10 +78,10 @@ func SysInit() {
 	LoopExec(setting.LinuxServer, disableSwap)
 
 	fmt.Println("正在为所有linux服务器配置chrony服务")
-	LoopExec(setting.LinuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", customConst.InitScriptDir))
+	LoopExec(setting.LinuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点linux服务器优化内核")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", customConst.InitScriptDir))
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装基础软件")
 	LoopExec(setting.K8sServer, softwareInstall)
@@ -90,9 +90,9 @@ func SysInit() {
 	LoopExec(setting.K8sServer, enableIptables)
 
 	fmt.Println("正在为k8s集群节点开启ipvs")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", customConst.InitScriptDir))
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装docker")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", customConst.InitScriptDir))
+	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", myConst.InitScriptDir))
 
 }

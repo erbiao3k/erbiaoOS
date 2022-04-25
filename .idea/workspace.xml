@@ -4,29 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3e324b2-de8b-4de6-ad4a-578a8645d5df" name="变更" comment="etcd服务初始化">
-      <change afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/sysinit/sys_hosts.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/file/exist.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/file/read.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/rand.go" afterDir="false" />
+    <list default="true" id="a13e86ba-f2e2-4d01-9c96-f5ceb866d2ec" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/const/kube.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/hosts" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cert/cert_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/etcd/etcd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/etcd/etcd_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/file/untargz.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/untargz.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/login/sshd/sftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/sftp.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,56 +26,35 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../service/golang/go1.17.1" />
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="GoLibraries">
-    <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="288FWn5WeUKafiJtizAlo5VlaJs" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="28I8IXpt095rIiYniUQyfPhdrtm" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DefaultGoTemplateProperty" value="Go File" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="go.format.on.save.advertiser.fired" value="true" />
-    <property name="go.formatter.settings.were.checked" value="true" />
-    <property name="go.import.settings.migrated" value="true" />
-    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
-    <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="rearrange.code.on.save" value="true" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "D:/GolangProject/erbiaoOS/const/kube.go"
+  }
+}]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/utils/login/sshd" />
-      <recent name="$PROJECT_DIR$/utils/login" />
-      <recent name="$PROJECT_DIR$/pkg/sys_init" />
-      <recent name="$PROJECT_DIR$/pkg/kube_scheduler" />
-      <recent name="$PROJECT_DIR$/pkg/kube_proxy" />
+    <key name="GoMoveDeclarationDialog.RECENT_KEY">
+      <recent name="$PROJECT_DIR$/const" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
@@ -107,14 +72,7 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="项目结构修正" />
-    <MESSAGE value="部署目录调整" />
-    <MESSAGE value="etcd服务初始化" />
-    <option name="LAST_COMMIT_MESSAGE" value="etcd服务初始化" />
-  </component>
   <component name="VgoProject">
-    <integration-enabled>true</integration-enabled>
+    <settings-migrated>true</settings-migrated>
   </component>
 </project>

@@ -1,5 +1,10 @@
 package main
 
+import (
+	"erbiaoOS/pkg/kubectl"
+	"log"
+)
+
 func main() {
 
 	//log.Println("【main】清理可能阻塞部署的进程")
@@ -26,8 +31,8 @@ func main() {
 	//log.Println("初始化kube-apiserver服务")
 	//kube_apiserver.ClusterInit()
 
-	//log.Println("初始化kubectl客户端管理工具")
-	//kubectl.InitKubectl()
+	log.Println("初始化kubectl客户端管理工具")
+	kubectl.InitKubectl()
 
 	//log.Println("初始化kube-controller-manager服务")
 	//kube_controllermanager.systemdScript()

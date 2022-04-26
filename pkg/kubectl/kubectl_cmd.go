@@ -15,7 +15,7 @@ import (
 func InitKubectl() {
 	os.Mkdir(myConst.KubectlConfigDir, 0600)
 	//
-	cmd := exec.Command("bash", "-c", kubectlSetClusterCmd+kubectlSetCredentialsCmd+kubectlSetContextCmd+kubectlUseContextCmd)
+	cmd := exec.Command("bash", "-c", setClusterCmd+setCredentialsCmd+setContextCmd+useContextCmd)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
@@ -28,7 +28,7 @@ func InitKubectl() {
 			if host.LanIp == utils.CurrentIP {
 				continue
 			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubectlConfigfile, myConst.KubectlConfigDir)
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.KubectlConfigDir)
 		}
 	}
 }

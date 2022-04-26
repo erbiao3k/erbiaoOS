@@ -1,21 +1,31 @@
 package utils
 
-import "math/rand"
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"io"
+	"math/rand"
+	"time"
+)
 
-var letters = []byte("abcdefghijklmnpqrstuvwxyz0123456789")
+var RandomString = RandLow()
 
-func RandLow(n int) []byte {
-	if n <= 0 {
-		return []byte{}
+func randomInt(min, max int) int {
+	return min + rand.Intn(max-min)
+}
+
+// Generate a random string of A-Z chars with len = l
+func randomLetter(len int) string {
+	bytes := make([]byte, len)
+	for i := 0; i < len; i++ {
+		bytes[i] = byte(randomInt(97, 122))
 	}
-	b := make([]byte, n)
-	arc := uint8(0)
-	if _, err := rand.Read(b[:]); err != nil {
-		return []byte{}
-	}
-	for i, x := range b {
-		arc = x & 31
-		b[i] = letters[arc]
-	}
-	return b
+	return string(bytes)
+}
+
+func RandLow() string {
+	rand.Seed(time.Now().UnixNano())
+	m := md5.New()
+	io.WriteString(m, randomLetter(33))
+	return hex.EncodeToString(m.Sum(nil))
 }

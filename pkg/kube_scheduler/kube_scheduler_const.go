@@ -25,18 +25,18 @@ const (
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
-	schedulerUser           = "system:kube-scheduler"
-	schedulerContext        = schedulerUser
-	schedulerKubeConfig     = myConst.TempDir + "kube-scheduler.kubeconfig"
-	schedulerPublicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
-	schedulerPrivateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
+	user           = "system:kube-scheduler"
+	context        = user
+	kubeconfig     = myConst.TempDir + "kube-scheduler.kubeconfig"
+	publicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
+	privateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
 
-	schedulerRestartCmd = "systemctl daemon-reload && systemctl enable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
+	restartCmd = "systemctl daemon-reload && systemctl enable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
 )
 
 var (
-	schedulerSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, schedulerKubeConfig)
-	schedulerSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, schedulerUser, schedulerPublicKeyFile, schedulerPrivateKeyFile, schedulerKubeConfig)
-	schedulerSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, schedulerContext, schedulerUser, schedulerKubeConfig)
-	schedulerUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, schedulerContext, schedulerKubeConfig)
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

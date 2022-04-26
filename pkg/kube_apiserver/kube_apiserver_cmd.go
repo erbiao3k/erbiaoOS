@@ -25,8 +25,8 @@ func systemdScript() {
 
 // bootstrapToken 生成集群启动引导令牌
 func bootstrapToken() {
-	token := utils.RandLow(33)
-	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", token)
+
+	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", utils.RandomString)
 	file.Create(myConst.K8sCfgDir+"token.csv", tokenCsv)
 }
 

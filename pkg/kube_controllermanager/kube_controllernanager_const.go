@@ -41,19 +41,19 @@ const (
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
-	controllerManagerUser           = "system:kube-controller-manager"
-	controllerManagerContext        = controllerManagerUser
-	controllerManagerKubeConfig     = myConst.TempDir + "kube-controller-manager.kubeconfig"
-	controllerManagerPublicKeyFile  = myConst.K8sSslDir + "kube-controller-manager.pem"
-	controllerManagerPrivateKeyFile = myConst.K8sSslDir + "kube-controller-manager-key.pem"
+	user           = "system:kube-controller-manager"
+	context        = user
+	kubeconfig     = myConst.TempDir + "kube-controller-manager.kubeconfig"
+	publicKeyFile  = myConst.K8sSslDir + "kube-controller-manager.pem"
+	privateKeyFile = myConst.K8sSslDir + "kube-controller-manager-key.pem"
 
-	// controllerManagerRestartCmd kube-apiserver重启指令
-	controllerManagerRestartCmd = "systemctl daemon-reload && systemctl enable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
+	// restartCmd kube-apiserver重启指令
+	restartCmd = "systemctl daemon-reload && systemctl enable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
 )
 
 var (
-	controllerManagerSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, controllerManagerKubeConfig)
-	controllerManagerSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, controllerManagerUser, controllerManagerPublicKeyFile, controllerManagerPrivateKeyFile, controllerManagerKubeConfig)
-	controllerManagerSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, controllerManagerContext, controllerManagerUser, controllerManagerKubeConfig)
-	controllerManagerUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, controllerManagerContext, controllerManagerKubeConfig)
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

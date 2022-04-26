@@ -8,19 +8,19 @@ import (
 )
 
 const (
-	kubectlUser    = "admin"
-	kubectlContext = "kubernetes"
+	user    = "admin"
+	context = "kubernetes"
 
-	kubectlConfigfile   = myConst.KubectlConfigDir + "config"
-	adminPrivateKeyFile = myConst.K8sSslDir + "admin-key.pem"
-	adminPublicKeyFile  = myConst.K8sSslDir + "admin.pem"
+	kubeconfig     = myConst.KubectlConfigDir + "config"
+	privateKeyFile = myConst.K8sSslDir + "admin-key.pem"
+	publicKeyFile  = myConst.K8sSslDir + "admin.pem"
 )
 
 var (
 
 	// kubectl 管理客户端初始化指令
-	kubectlSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubectlConfigfile)
-	kubectlSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, kubectlUser, adminPublicKeyFile, adminPrivateKeyFile, kubectlConfigfile)
-	kubectlSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, kubectlContext, kubectlUser, kubectlConfigfile)
-	kubectlUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, kubectlContext, kubectlConfigfile)
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

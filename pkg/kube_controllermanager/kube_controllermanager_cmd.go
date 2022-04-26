@@ -18,7 +18,7 @@ func systemdScript() {
 
 // credentials 初始化认证信息
 func credentials() {
-	cmd := exec.Command("bash", "-c", controllerManagerSetClusterCmd+controllerManagerSetCredentialsCmd+controllerManagerSetContextCmd+controllerManagerUseContextCmd)
+	cmd := exec.Command("bash", "-c", setClusterCmd+setCredentialsCmd+setContextCmd+useContextCmd)
 	log.Println("----------------------")
 	fmt.Println(cmd)
 	log.Println("----------------------")
@@ -37,7 +37,7 @@ func InitControllerManagerCluster() {
 
 	for _, host := range setting.K8sMasterHost {
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"kube-controller-manager.service", myConst.SystemdServiceDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, controllerManagerKubeConfig, myConst.K8sCfgDir)
-		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, controllerManagerRestartCmd)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
 	}
 }

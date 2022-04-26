@@ -1,5 +1,12 @@
 package kubelet
 
+import (
+	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/cert"
+	"erbiaoOS/setting"
+	"fmt"
+)
+
 const (
 	// cfgContent kubelet 配置文件
 	cfgContent = "{\n" +
@@ -58,4 +65,19 @@ const (
 		"RestartSec=5\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	user           = "system:kube-scheduler"
+	context        = user
+	kubeconfig     = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
+	publicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
+	privateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
+
+	restartCmd = "systemctl daemon-reload && systemctl enable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
+)
+
+var (
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

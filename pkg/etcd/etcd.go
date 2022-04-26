@@ -79,8 +79,8 @@ func ClientCmd() (etcdServerUrls string) {
 	return etcdServerUrls
 }
 
-//InitEtcd 初始化etcd服务
-func InitEtcd() {
+//Start 初始化etcd服务
+func Start() {
 	systemdScript()
 	ClientCmd()
 	for _, ip := range ClusterIPs {

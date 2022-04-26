@@ -16,15 +16,14 @@ var (
 	ComponentCfg = ComponentContent(configDir)
 
 	K8sMasterIPs, K8sNodeIPs = ipList()
-	K8sClusterIPs            = append(K8sMasterIPs, K8sNodeIPs...)
 
 	RandMasterIP = K8sMasterIPs[0]
 
 	K8sMasterHost = ClusterHostCfg.K8sMaster
 	K8sNodeHost   = ClusterHostCfg.K8sNode
 
-	LinuxServer = [][]HostInfo{K8sMasterHost, K8sNodeHost}
-	K8sServer   = [][]HostInfo{K8sMasterHost, K8sNodeHost}
+	LinuxServer    = [][]HostInfo{K8sMasterHost, K8sNodeHost}
+	K8sClusterHost = [][]HostInfo{K8sMasterHost, K8sNodeHost}
 )
 
 // ipList 返回集群节点IP清单
@@ -54,7 +53,7 @@ func GetHostInfo(ip string) *HostInfo {
 
 func init() {
 	// 初始化每节点临时目录
-	for _, ip := range K8sClusterIPs {
+	for _, ip := range append(K8sMasterIPs, K8sNodeIPs...) {
 		os.MkdirAll(myConst.TempDir+ip, 0777)
 	}
 }

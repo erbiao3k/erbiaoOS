@@ -17,7 +17,7 @@ const (
 		"  --secure-port=10257 \\\n" +
 		"  --bind-address=127.0.0.1 \\\n" +
 		"  --kubeconfig=/opt/kubernetes/cfg/kube-controller-manager.kubeconfig \\\n" +
-		"  --service-cluster-ip-range==10.255.0.0/24 \\\n" +
+		"  --service-cluster-ip-range=10.255.0.0/24 \\\n" +
 		"  --cluster-name=kubernetes \\\n" +
 		"  --cluster-signing-cert-file=/opt/caCenter/ca.pem \\\n" +
 		"  --cluster-signing-key-file=/opt/caCenter/ca-key.pem \\\n" +

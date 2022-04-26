@@ -10,11 +10,15 @@ import (
 
 // certGenerate 生成k8s集群所需所有证书
 func certGenerate(masterIPs []string) {
+
 	etcdAltNames := NewAltNames(etcd.ClusterIPs, []string{})
+
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
+
 	generate(cer, myConst.EtcdSslDir+"etcd")
 
 	apiserverClientIPs := append(masterIPs, "10.255.0.1")
+
 	apiserverClientDnsNames := []string{"kubernetes", "kubernetes.default", "kubernetes.default.svc", "kubernetes.default.svc.cluster", "kubernetes.default.svc.cluster.local"}
 	kubeApiserverAltNames := NewAltNames(apiserverClientIPs, apiserverClientDnsNames)
 	cer = newCertInfo([]string{"k8s"}, "kubernetes", kubeApiserverAltNames.IPs, kubeApiserverAltNames.DNSNames)
@@ -40,7 +44,6 @@ func certGenerate(masterIPs []string) {
 
 // InitCert 初始化各节点所需证书
 func InitCert() {
-
 	certGenerate(setting.K8sMasterIPs)
 
 	for _, host := range setting.K8sMasterHost {

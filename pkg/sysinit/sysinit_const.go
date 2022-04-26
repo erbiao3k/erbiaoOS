@@ -25,7 +25,7 @@ const (
 	disableSwap = "grep -v swap /etc/fstab  > /tmp/fstab && cat /tmp/fstab >/etc/fstab && mount -a && swapoff -a"
 
 	//enableChrony 启用chrony时间同步服务
-	enableChrony = "yum -y initialize chrony* \n" +
+	enableChrony = "yum -y install chrony* \n" +
 		"cat > /etc/chrony.conf <<EOF\n" +
 		"pool ntp1.aliyun.com iburst\n" +
 		"driftfile /var/lib/chrony/drift\n" +
@@ -101,15 +101,14 @@ const (
 		"ExecReload=/bin/kill -s HUP \\$MAINPID\n" +
 		"TimeoutSec=0\n" +
 		"RestartSec=2\n" +
-		"Restart=always\n\n" +
-		"StartLimitBurst=3\n\n" +
-		"tartLimitInterval=60s\n\n" +
+		"Restart=always\n" +
+		"StartLimitBurst=3\n" +
 		"LimitNOFILE=infinity\n" +
 		"LimitNPROC=infinity\n" +
-		"LimitCORE=infinity\n\n" +
-		"TasksMax=infinity\n\n" +
-		"Delegate=yes\n\n" +
-		"KillMode=process\n\n" +
+		"LimitCORE=infinity\n" +
+		"TasksMax=infinity\n" +
+		"Delegate=yes\n" +
+		"KillMode=process\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target\n" +
 		"EOF\n" +

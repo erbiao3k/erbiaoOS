@@ -4,6 +4,7 @@ import (
 	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/setting"
+	"erbiaoOS/utils"
 	"fmt"
 )
 
@@ -57,27 +58,28 @@ const (
 		"  --network-plugin=cni \\\n" +
 		"  --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.6 \\\n" +
 		"  --alsologtostderr=true \\\n" +
-		"  --root-dir=kubeletDataDir\n" +
-		"  --logtostderr=false \\\n" +
 		"  --log-dir=/var/log/kubernetes \\\n" +
+		"  --logtostderr=false\\\n" +
+		"  --root-dir=kubeletDataDir\\\n" +
 		"  --v=2\n" +
 		"Restart=on-failure\n" +
 		"RestartSec=5\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
-	user           = "system:kube-scheduler"
-	context        = user
-	kubeconfig     = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
-	publicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
-	privateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
+	user               = "kubelet-bootstrap"
+	context            = "default"
+	kubeletCredentials = user
+	kubeconfig         = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
 
-	restartCmd = "systemctl daemon-reload && systemctl enable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
+	restartCmd = "systemctl daemon-reload && systemctl enable kubelet && systemctl restart kubelet && sleep 1"
 )
 
 var (
-	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
-	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
-	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
+	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd        = fmt.Sprintf(myConst.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
+	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
+	clusterrolebindingDelete = fmt.Sprintf(myConst.KubeletClusterrolebindingDelete, kubeletCredentials)
+	clusterrolebindingCreate = fmt.Sprintf(myConst.KubeletClusterrolebindingCreate, kubeletCredentials, user)
 )

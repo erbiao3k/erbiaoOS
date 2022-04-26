@@ -25,16 +25,15 @@ func systemdScript() {
 
 // bootstrapToken 生成集群启动引导令牌
 func bootstrapToken() {
-
 	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", utils.RandomString)
-	file.Create(myConst.K8sCfgDir+"token.csv", tokenCsv)
+	file.Create(myConst.TempDir+"token.csv", tokenCsv)
 }
 
-func ClusterInit() {
+func Start() {
 	bootstrapToken()
 	systemdScript()
 	for _, host := range setting.K8sMasterHost {
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.K8sCfgDir+"token.csv", myConst.K8sCfgDir)
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"token.csv", myConst.K8sCfgDir)
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", myConst.SystemdServiceDir)
 		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, apiserverRestartCmd)
 	}

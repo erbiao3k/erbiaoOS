@@ -6,7 +6,6 @@ import (
 	"erbiaoOS/utils"
 	file2 "erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
-	"fmt"
 )
 
 // 非k8s核心组件固定版本，不影响使用
@@ -53,8 +52,6 @@ func Init(component *setting.Component, clusterHost *setting.ClusterHost) {
 			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+myConst.BinaryDir)
 		}
 	}
-
-	fmt.Println("正在为节点上传k8s组件二进制文件")
 
 	loopExec(k8sMasterHost, etcdBinary)
 	loopExec(k8sMasterHost, dockerBinary)

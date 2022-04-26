@@ -81,18 +81,18 @@ func SysInit() {
 	LoopExec(setting.LinuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点linux服务器优化内核")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))
+	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装基础软件")
-	LoopExec(setting.K8sServer, softwareInstall)
+	LoopExec(setting.K8sClusterHost, softwareInstall)
 
 	fmt.Println("正在为k8s集群节点启用iptables")
-	LoopExec(setting.K8sServer, enableIptables)
+	LoopExec(setting.K8sClusterHost, enableIptables)
 
 	fmt.Println("正在为k8s集群节点开启ipvs")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sEnableIpvs.sh", myConst.InitScriptDir))
+	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableIpvs.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装docker")
-	LoopExec(setting.K8sServer, fmt.Sprintf("sh -x %sDockerInstall.sh", myConst.InitScriptDir))
+	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sDockerInstall.sh", myConst.InitScriptDir))
 
 }

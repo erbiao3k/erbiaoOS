@@ -1,14 +1,11 @@
 package kube_controllermanager
 
 import (
-	"bytes"
 	myConst "erbiaoOS/const"
 	"erbiaoOS/setting"
+	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
-	"fmt"
-	"log"
-	"os/exec"
 )
 
 // systemdScript 生成kube-controller-manager systemd管理脚本
@@ -16,24 +13,12 @@ func systemdScript() {
 	file.Create(myConst.TempDir+"kube-controller-manager.service", systemd)
 }
 
-// credentials 初始化认证信息
-func credentials() {
-	cmd := exec.Command("bash", "-c", setClusterCmd+setCredentialsCmd+setContextCmd+useContextCmd)
-	log.Println("----------------------")
-	fmt.Println(cmd)
-	log.Println("----------------------")
-
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal("初始化kubectl客户端异常：", err)
-	}
-}
-
-func InitControllerManagerCluster() {
+func Start() {
 	systemdScript()
-	credentials()
+	utils.ExecCmd(setClusterCmd)
+	utils.ExecCmd(setCredentialsCmd)
+	utils.ExecCmd(setContextCmd)
+	utils.ExecCmd(useContextCmd)
 
 	for _, host := range setting.K8sMasterHost {
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"kube-controller-manager.service", myConst.SystemdServiceDir)

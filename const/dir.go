@@ -47,6 +47,9 @@ const (
 
 	// KubectlConfigDir kubectl 客户端工具配置文件路径
 	KubectlConfigDir = "/root/.kube/"
+
+	// KubernetesLogDir kubernetes日志目录
+	KubernetesLogDir = "/var/log/kubernetes"
 )
 
 func init() {

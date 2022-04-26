@@ -1,5 +1,12 @@
 package kube_controllermanager
 
+import (
+	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/cert"
+	"erbiaoOS/setting"
+	"fmt"
+)
+
 const (
 	// systemd kube-controller-manager服务systemd管理脚本
 	systemd = "[Unit]\n" +
@@ -34,6 +41,19 @@ const (
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
 
+	controllerManagerUser           = "system:kube-controller-manager"
+	controllerManagerContext        = controllerManagerUser
+	controllerManagerKubeConfig     = myConst.TempDir + "kube-controller-manager.kubeconfig"
+	controllerManagerPublicKeyFile  = myConst.K8sSslDir + "kube-controller-manager.pem"
+	controllerManagerPrivateKeyFile = myConst.K8sSslDir + "kube-controller-manager-key.pem"
+
 	// controllerManagerRestartCmd kube-apiserver重启指令
 	controllerManagerRestartCmd = "systemctl daemon-reload && systemctl enable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
+)
+
+var (
+	controllerManagerSetClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, controllerManagerKubeConfig)
+	controllerManagerSetCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, controllerManagerUser, controllerManagerPublicKeyFile, controllerManagerPrivateKeyFile, controllerManagerKubeConfig)
+	controllerManagerSetContextCmd     = fmt.Sprintf(myConst.SetContextCmd, controllerManagerContext, controllerManagerUser, controllerManagerKubeConfig)
+	controllerManagerUseContextCmd     = fmt.Sprintf(myConst.UseContextCmd, controllerManagerContext, controllerManagerKubeConfig)
 )

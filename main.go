@@ -38,7 +38,7 @@ func main() {
 	//kube_controllermanager.InitControllerManagerCluster()
 
 	log.Println("初始化kube-scheduler服务")
-	kube_scheduler.systemdScript()
+	kube_scheduler.InitSchedulerCluster()
 
 	//log.Println("初始化kubelet服务")
 	//kubelet.cfg(myConst.K8sMasterCfgDir, setting.K8sMasterIPs)

@@ -38,7 +38,6 @@ func Start() {
 	utils.ExecCmd(useContextCmd)
 	utils.ExecCmd(clusterrolebindingDelete)
 	utils.ExecCmd(clusterrolebindingCreate)
-	utils.ExecCmd(approveNode)
 
 	for _, hosts := range setting.K8sClusterHost {
 		for _, host := range hosts {
@@ -48,4 +47,7 @@ func Start() {
 			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
 		}
 	}
+
+	utils.ExecCmd(approveNode)
+
 }

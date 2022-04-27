@@ -31,7 +31,7 @@ func main() {
 	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
 
 	log.Println("【main】下载k8s必要组件")
-	component.Init(setting.ComponentCfg, setting.ClusterHostCfg)
+	component.Init()
 
 	log.Println("【main】初始化k8s节点环境")
 	sysinit.SysInit()

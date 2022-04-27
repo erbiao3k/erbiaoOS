@@ -2,6 +2,7 @@ package component
 
 import (
 	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	file2 "erbiaoOS/utils/file"
@@ -16,18 +17,14 @@ const (
 )
 
 // Init 初始化组件信息
-func Init(component *setting.Component, clusterHost *setting.ClusterHost) {
-
-	k8sMasterHost := clusterHost.K8sMaster
-	k8sNodeHost := clusterHost.K8sNode
-
+func Init() {
 	utils.Chdir(myConst.SoftDir)
 
-	if !component.OfflineDeployment {
+	if !setting.ComponentCfg.OfflineDeployment {
 
 		file2.Download(dockerUrl, "./")
 		file2.Download(etcdUrl, "./")
-		file2.Download(component.Kubernetes, "./")
+		file2.Download(setting.ComponentCfg.Kubernetes, "./")
 	}
 
 	k8sPackage := file2.ListHasPrefix("./", []string{"kubernetes-server"})[0]
@@ -53,11 +50,15 @@ func Init(component *setting.Component, clusterHost *setting.ClusterHost) {
 		}
 	}
 
-	loopExec(k8sMasterHost, etcdBinary)
-	loopExec(k8sMasterHost, dockerBinary)
-	loopExec(k8sMasterHost, k8sBinary)
+	for _, ip := range etcd.ClusterIPs {
+		host := setting.GetHostInfo(ip)
+		for _, binary := range etcdBinary {
+			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, binary, myConst.BinaryDir)
+		}
+		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+myConst.BinaryDir)
+	}
 
-	loopExec(k8sNodeHost, dockerBinary)
-	loopExec(k8sNodeHost, k8sBinary)
+	loopExec(append(setting.K8sMasterHost, setting.K8sNodeHost...), k8sBinary)
+	loopExec(append(setting.K8sMasterHost, setting.K8sNodeHost...), dockerBinary)
 
 }

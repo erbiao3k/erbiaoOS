@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="网络组件calico和域名解析组件coredns组件初始化完成">
+    <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="etcd二进制文件分发优化">
+      <change afterPath="$PROJECT_DIR$/erbiaoOS" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/dir.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/dir.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/nginx/nginx_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/nginx/nginx_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +113,8 @@
     <MESSAGE value="kubelet 服务初始化完成" />
     <MESSAGE value="kube-proxy 服务初始化完成" />
     <MESSAGE value="网络组件calico和域名解析组件coredns组件初始化完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="网络组件calico和域名解析组件coredns组件初始化完成" />
+    <MESSAGE value="etcd二进制文件分发优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="etcd二进制文件分发优化" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

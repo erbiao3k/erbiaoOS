@@ -13,6 +13,7 @@ import (
 	"erbiaoOS/pkg/kube_scheduler"
 	"erbiaoOS/pkg/kubectl"
 	"erbiaoOS/pkg/kubelet"
+	"erbiaoOS/pkg/nginx"
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/setting"
 	"fmt"
@@ -28,7 +29,7 @@ func main() {
 	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
 
 	log.Println("【main】初始化环境目录")
-	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
+	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", myConst.NginxDir+"/{logs,conf,sbin}", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
 
 	log.Println("【main】下载k8s必要组件")
 	component.Init()
@@ -65,9 +66,8 @@ func main() {
 
 	log.Println("初始化coreDNS组件")
 	coredns.Deploy()
-	//
-	//log.Println("初始化nginx服务")
-	//nginx.MainCfg(setting.K8sMasterIPs)
-	//nginx.systemd()
+
+	log.Println("初始化nginx服务")
+	nginx.Start()
 
 }

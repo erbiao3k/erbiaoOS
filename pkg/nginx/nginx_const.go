@@ -41,4 +41,8 @@ const (
 		"PrivateTmp=true\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	nginxBuild = "./configure --prefix=%s --with-stream && make && make install"
+
+	restartCmd = "chmod +x /opt/nginx/sbin/nginx && systemctl daemon-reload && systemctl enable nginx && systemctl restart nginx"
 )

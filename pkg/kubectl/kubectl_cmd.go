@@ -5,15 +5,12 @@ import (
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/login/sshd"
-	"log"
 	"os"
 )
 
 // InitKubectl 初始化kubectl客户端
 func InitKubectl() {
 	os.Mkdir(myConst.KubectlConfigDir, 0600)
-
-	log.Println(setClusterCmd, "\n", setCredentialsCmd, "\n", setContextCmd, "\n", useContextCmd, "\n", clusterrolebindingDelete, "\n", clusterrolebindingCreate)
 
 	utils.ExecCmd(setClusterCmd)
 	utils.ExecCmd(setCredentialsCmd)

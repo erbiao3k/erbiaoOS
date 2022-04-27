@@ -5,7 +5,7 @@ import (
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
-	file2 "erbiaoOS/utils/file"
+	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
 )
 
@@ -14,6 +14,7 @@ import (
 const (
 	dockerUrl = "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.8.tgz"
 	etcdUrl   = "https://github.com/etcd-io/etcd/releases/download/v3.5.2/etcd-v3.5.2-linux-amd64.tar.gz"
+	nginxUrl  = "https://nginx.org/download/nginx-1.21.6.tar.gz"
 )
 
 // Init 初始化组件信息
@@ -22,18 +23,20 @@ func Init() {
 
 	if !setting.ComponentCfg.OfflineDeployment {
 
-		file2.Download(dockerUrl, "./")
-		file2.Download(etcdUrl, "./")
-		file2.Download(setting.ComponentCfg.Kubernetes, "./")
+		file.Download(dockerUrl, "./")
+		file.Download(etcdUrl, "./")
+		file.Download(nginxUrl, "./")
+		file.Download(setting.ComponentCfg.Kubernetes, "./")
 	}
 
-	k8sPackage := file2.ListHasPrefix("./", []string{"kubernetes-server"})[0]
-	dockerPackage := file2.ListHasPrefix("./", []string{"docker-"})[0]
-	etcdPackage := file2.ListHasPrefix("./", []string{"etcd-v"})[0]
+	k8sPackage := file.ListHasPrefix("./", []string{"kubernetes-server"})[0]
+	dockerPackage := "docker-20.10.8.tgz"
+	etcdPackage := "etcd-v3.5.2-linux-amd64.tar.gz"
+	nginxPackage := "nginx-1.21.6.tar.gz"
 
 	// 解压所有压缩包
-	for _, f := range []string{etcdPackage, dockerPackage, k8sPackage} {
-		file2.UnTargz(f, "./")
+	for _, f := range []string{etcdPackage, dockerPackage, k8sPackage, nginxPackage} {
+		file.UnTargz(f, "./")
 	}
 
 	var etcdBinary = []string{"etcd-v3.5.2-linux-amd64/etcd", "etcd-v3.5.2-linux-amd64/etcdctl", "etcd-v3.5.2-linux-amd64/etcdutl"}

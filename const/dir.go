@@ -39,6 +39,9 @@ const (
 	// K8sCfgDir k8s配置目录
 	K8sCfgDir = K8sDir + "cfg/"
 
+	// NginxDir nginx目录
+	NginxDir = DeployDir + "nginx/"
+
 	// BinaryDir 二进制目录
 	BinaryDir = "/usr/local/bin/"
 

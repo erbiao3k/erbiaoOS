@@ -70,9 +70,10 @@ const (
 	user               = "kubelet-bootstrap"
 	context            = "default"
 	kubeletCredentials = user
+	clusterrolebinding = user
 	kubeconfig         = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
-
-	restartCmd = "systemctl daemon-reload && systemctl enable kubelet && systemctl restart kubelet && sleep 1"
+	clusterrole        = "system:node-bootstrapper"
+	restartCmd         = "systemctl daemon-reload && systemctl enable kubelet && systemctl restart kubelet && sleep 1"
 )
 
 var (
@@ -80,7 +81,7 @@ var (
 	setCredentialsCmd        = fmt.Sprintf(myConst.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
 	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
 	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
-	clusterrolebindingDelete = fmt.Sprintf(myConst.KubeletClusterrolebindingDelete, kubeletCredentials)
-	clusterrolebindingCreate = fmt.Sprintf(myConst.KubeletClusterrolebindingCreate, kubeletCredentials, user)
+	clusterrolebindingDelete = fmt.Sprintf(myConst.ClusterrolebindingDelete, clusterrolebinding)
+	clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
 	approveNode              = "kubectl certificate approve `kubectl get csr|awk '/node/{print $1}'`"
 )

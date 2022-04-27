@@ -8,9 +8,12 @@ import (
 )
 
 const (
-	user    = "admin"
-	context = "kubernetes"
+	user               = "admin"
+	context            = "kubernetes"
+	credentials        = context
+	clusterrolebinding = context
 
+	clusterrole    = "cluster-admin"
 	kubeconfig     = myConst.KubectlConfigDir + "config"
 	privateKeyFile = myConst.K8sSslDir + "admin-key.pem"
 	publicKeyFile  = myConst.K8sSslDir + "admin.pem"
@@ -19,8 +22,10 @@ const (
 var (
 
 	// kubectl 管理客户端初始化指令
-	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
-	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
-	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
+	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd        = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
+	clusterrolebindingDelete = fmt.Sprintf(myConst.ClusterrolebindingDelete, credentials)
+	clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
 )

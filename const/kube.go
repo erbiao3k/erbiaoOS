@@ -9,7 +9,7 @@ const (
 
 	UseContextCmd = "kubectl config use-context %s --kubeconfig=%s"
 
-	SetContextCmd                   = "kubectl config set-context %s --cluster=kubernetes --user=%s --kubeconfig=%s"
-	KubeletClusterrolebindingDelete = "kubectl delete clusterrolebinding %s || echo 不存在此clusterrolebinding"
-	KubeletClusterrolebindingCreate = "kubectl create clusterrolebinding %s --clusterrole=system:node-bootstrapper --user=%s"
+	SetContextCmd            = "kubectl config set-context %s --cluster=kubernetes --user=%s --kubeconfig=%s"
+	ClusterrolebindingDelete = "kubectl delete clusterrolebinding %s || echo 不存在此clusterrolebinding"
+	ClusterrolebindingCreate = "kubectl create clusterrolebinding %s --clusterrole=%s --user=%s"
 )

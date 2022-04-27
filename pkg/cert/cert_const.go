@@ -2,7 +2,6 @@ package cert
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/utils/file"
 )
 
 const (
@@ -63,11 +62,6 @@ Ms47mnxmnYez1ZlczmZqb+dess34EDnz/3M33k6g5Hqy2OR59656
 -----END RSA PRIVATE KEY-----
 `
 )
-
-func init() {
-	file.Create(CaPrivateKeyFile, caPrivateKey)
-	file.Create(CaPubilcKeyFile, caPublicKey)
-}
 
 /*
 CA机构证书的生成规则，有效期200年

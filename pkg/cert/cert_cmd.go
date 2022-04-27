@@ -5,6 +5,7 @@ import (
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
+	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
 )
 
@@ -44,6 +45,10 @@ func certGenerate(masterIPs []string) {
 
 // InitCert 初始化各节点所需证书
 func InitCert() {
+
+	file.Create(CaPrivateKeyFile, caPrivateKey)
+	file.Create(CaPubilcKeyFile, caPublicKey)
+
 	certGenerate(setting.K8sMasterIPs)
 
 	for _, host := range setting.K8sMasterHost {

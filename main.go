@@ -25,7 +25,7 @@ func main() {
 	sysinit.LoopExec(setting.K8sClusterHost, sysinit.StopService)
 
 	log.Println("【main】清理可能阻塞部署的历史数据")
-	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("rm -rf %s", myConst.EtcdDataDir))
+	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
 
 	log.Println("【main】初始化环境目录")
 	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))

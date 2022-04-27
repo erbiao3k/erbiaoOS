@@ -47,7 +47,6 @@ func Start() {
 			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
 		}
 	}
-
 	utils.ExecCmd(approveNode)
 
 }

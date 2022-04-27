@@ -39,5 +39,5 @@ func GenerateHostname(role, ip string) string {
 	ipstr := addZero(ip)
 	n1 := strings.Split(ipstr, ".")[2]
 	n2 := strings.Split(ipstr, ".")[3]
-	return role + n1 + n2
+	return strings.ToLower(role) + n1 + n2
 }

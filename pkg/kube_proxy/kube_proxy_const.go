@@ -1,5 +1,12 @@
 package kube_proxy
 
+import (
+	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/cert"
+	"erbiaoOS/setting"
+	"fmt"
+)
+
 const (
 	// cfgContent kube-proxy配置文件
 	cfgContent = "apiVersion: kubeproxy.config.k8s.io/v1alpha1\n" +
@@ -30,4 +37,20 @@ const (
 		"LimitNOFILE=65536\n\n" +
 		"[Install]\n" +
 		"WantedBy=multi-user.target"
+
+	user           = "kube-proxy"
+	context        = "default"
+	kubeconfig     = myConst.TempDir + "kube-proxy.kubeconfig"
+	publicKeyFile  = myConst.K8sSslDir + "kube-proxy.pem"
+	privateKeyFile = myConst.K8sSslDir + "kube-proxy-key.pem"
+
+	// restartCmd 重启指令
+	restartCmd = "systemctl daemon-reload && systemctl enable kube-proxy && systemctl restart kube-proxy && sleep 1"
+)
+
+var (
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
+	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

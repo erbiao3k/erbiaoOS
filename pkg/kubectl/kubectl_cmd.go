@@ -17,12 +17,10 @@ func InitKubectl() {
 	utils.ExecCmd(setContextCmd)
 	utils.ExecCmd(useContextCmd)
 
-	for _, hosts := range setting.K8sClusterHost {
-		for _, host := range hosts {
-			if host.LanIp == utils.CurrentIP {
-				continue
-			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.KubectlConfigDir)
+	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
+		if host.LanIp == utils.CurrentIP {
+			continue
 		}
+		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.KubectlConfigDir)
 	}
 }

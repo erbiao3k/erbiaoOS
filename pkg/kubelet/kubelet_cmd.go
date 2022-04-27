@@ -38,7 +38,7 @@ func Start() {
 	utils.ExecCmd(useContextCmd)
 	utils.ExecCmd(clusterrolebindingDelete)
 	utils.ExecCmd(clusterrolebindingCreate)
-	//log.Println(setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd, clusterrolebindingDelete, clusterrolebindingCreate)
+	utils.ExecCmd(approveNode)
 
 	for _, hosts := range setting.K8sClusterHost {
 		for _, host := range hosts {

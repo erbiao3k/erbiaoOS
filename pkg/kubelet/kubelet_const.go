@@ -82,4 +82,5 @@ var (
 	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 	clusterrolebindingDelete = fmt.Sprintf(myConst.KubeletClusterrolebindingDelete, kubeletCredentials)
 	clusterrolebindingCreate = fmt.Sprintf(myConst.KubeletClusterrolebindingCreate, kubeletCredentials, user)
+	approveNode              = "kubectl certificate approve `kubectl get csr|awk '/node/{print $1}'`"
 )

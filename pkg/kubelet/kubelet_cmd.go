@@ -31,7 +31,6 @@ func systemdScript() {
 func Start() {
 	config()
 	systemdScript()
-
 	utils.ExecCmd(setClusterCmd)
 	utils.ExecCmd(setCredentialsCmd)
 	utils.ExecCmd(setContextCmd)

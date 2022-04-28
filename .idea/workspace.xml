@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="nginx实现k8s集群高可用完成">
+      <change afterPath="$PROJECT_DIR$/erbiaoOS" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/kube.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/kube.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setting/cluster_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster_cmd.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +73,26 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="erbiaoOS" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="erbiaoOS" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <configuration name="build_amd_linux.sh" type="ShConfigurationType" temporary="true">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />

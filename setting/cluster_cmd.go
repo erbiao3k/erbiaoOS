@@ -17,10 +17,11 @@ var (
 
 	K8sMasterIPs, K8sNodeIPs = ipList()
 
-	RandMasterIP = K8sMasterIPs[0]
+	KubeApiserverEndpoint = GetenterpointAddr()
 
-	K8sMasterHost = ClusterHostCfg.K8sMaster
-	K8sNodeHost   = ClusterHostCfg.K8sNode
+	ClusterApiserverEndpoint = "127.0.0.1:16443"
+	K8sMasterHost            = ClusterHostCfg.K8sMaster
+	K8sNodeHost              = ClusterHostCfg.K8sNode
 
 	LinuxServer    = [][]HostInfo{K8sMasterHost, K8sNodeHost}
 	K8sClusterHost = [][]HostInfo{K8sMasterHost, K8sNodeHost}
@@ -36,6 +37,20 @@ func ipList() (k8sMasterIPs []string, k8sNodeIPs []string) {
 	}
 
 	return k8sMasterIPs, k8sNodeIPs
+}
+
+// DeployMode 返回k8s的部署模式
+func DeployMode() string {
+	if len(K8sMasterIPs) < 2 {
+		return "standalone"
+	}
+	return "cluster"
+}
+func GetenterpointAddr() string {
+	if DeployMode() == "standalone" {
+		return K8sMasterIPs[0] + ":6443"
+	}
+	return ClusterApiserverEndpoint
 }
 
 // GetHostInfo 获取对应IP的节点信息

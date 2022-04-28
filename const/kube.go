@@ -1,7 +1,7 @@
 package myConst
 
 const (
-	SetClusterCmd = "kubectl config set-cluster kubernetes --certificate-authority=%s --embed-certs=true --server=https://%s:6443 --kubeconfig=%s"
+	SetClusterCmd = "kubectl config set-cluster kubernetes --certificate-authority=%s --embed-certs=true --server=https://%s --kubeconfig=%s"
 
 	SetCredentialsCmd = "kubectl config set-credentials %s --client-certificate=%s --client-key=%s --embed-certs=true --kubeconfig=%s"
 

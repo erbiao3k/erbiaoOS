@@ -7,6 +7,7 @@ import (
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
@@ -34,19 +35,21 @@ func systemdScript() {
 // deploy 部署nginx
 func deploy() {
 	os.Chdir(myConst.SoftDir + "nginx-1.21.6")
-	fmt.Println(fmt.Sprintf(nginxBuild, myConst.NginxDir))
 	utils.ExecCmd(fmt.Sprintf(nginxBuild, myConst.NginxDir))
 	file.Copy(myConst.TempDir+"nginx", myConst.NginxDir+"sbin/nginx")
 }
 
 func Start() {
+	if len(setting.K8sMasterIPs) == 1 {
+		log.Println("k8s控制平面为单节点，跳过高可用架构部署")
+		return
+	}
 	mainConfig()
 	systemdScript()
 	deploy()
 	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
 
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, nginxSystemd, myConst.SystemdServiceDir)
-		//sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.NginxDir+"conf", myConst.NginxDir+"conf/")
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, mainConfigFile, myConst.NginxDir+"conf/")
 		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"nginx", myConst.NginxDir+"sbin/")
 

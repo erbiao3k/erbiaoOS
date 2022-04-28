@@ -12,7 +12,9 @@ import (
 // config 生成配置文件
 func config() {
 	for _, ip := range append(setting.K8sMasterIPs, setting.K8sNodeIPs...) {
+
 		cfg := strings.ReplaceAll(cfgContent, "currentKubeproxyIP", ip)
+
 		file.Create(myConst.TempDir+ip+"/kube-proxy", cfg)
 	}
 }

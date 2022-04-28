@@ -9,6 +9,9 @@ const (
 	BashProfileBak = "/root/.bash_profile.bak-fadada"
 	SysConfigDir   = "/etc/"
 
+	// RemoveSoft 清理可能阻塞部署的软件
+	RemoveSoft = "yum -y remove docker* || echo 未安装软件包"
+
 	// StopService 清理可能阻塞部署的进程
 	StopService = "systemctl stop etcd docker kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet nginx || echo 服务已停止"
 

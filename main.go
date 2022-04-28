@@ -22,6 +22,9 @@ import (
 
 func main() {
 
+	log.Println("【main】清理可能阻塞部署的软件包")
+	sysinit.LoopExec(setting.K8sClusterHost, sysinit.RemoveSoft)
+
 	log.Println("【main】清理可能阻塞部署的进程")
 	sysinit.LoopExec(setting.K8sClusterHost, sysinit.StopService)
 
@@ -42,6 +45,9 @@ func main() {
 
 	log.Println("【main】初始化etcd集群")
 	etcd.Start()
+
+	log.Println("初始化高可用nginx服务")
+	nginx.Start()
 
 	log.Println("初始化kube-apiserver服务")
 	kube_apiserver.Start()
@@ -66,8 +72,5 @@ func main() {
 
 	log.Println("初始化coreDNS组件")
 	coredns.Deploy()
-
-	log.Println("初始化nginx服务")
-	nginx.Start()
 
 }

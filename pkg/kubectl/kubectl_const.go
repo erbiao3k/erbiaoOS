@@ -22,7 +22,7 @@ const (
 var (
 
 	// kubectl 管理客户端初始化指令
-	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.RandMasterIP, kubeconfig)
+	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.KubeApiserverEndpoint, kubeconfig)
 	setCredentialsCmd        = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
 	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
 	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)

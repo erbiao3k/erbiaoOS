@@ -12,7 +12,7 @@ import (
 )
 
 // Connect 初始化sftp客户端
-func conn(host, user, password, port string) *sftp.Client {
+func conn(host *Info) *sftp.Client {
 	var (
 		auth         []ssh.AuthMethod
 		clientConfig *ssh.ClientConfig
@@ -22,17 +22,17 @@ func conn(host, user, password, port string) *sftp.Client {
 	)
 	// get auth method
 	auth = make([]ssh.AuthMethod, 0)
-	auth = append(auth, ssh.Password(password))
+	auth = append(auth, ssh.Password(host.Password))
 
 	clientConfig = &ssh.ClientConfig{
-		User:            user,
+		User:            host.User,
 		Auth:            auth,
 		Timeout:         time.Second * 5,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
 	// 初始化ssh会话
-	if sshClient, err = ssh.Dial("tcp", host+":"+port, clientConfig); err != nil {
+	if sshClient, err = ssh.Dial("tcp", host.LanIp+":"+host.Port, clientConfig); err != nil {
 		log.Fatal("初始化ssh会话失败：", err)
 	}
 
@@ -92,7 +92,6 @@ func Dir(sftpClient *sftp.Client, localPath, remotePath string) {
 		localfilePath := path.Join(localPath, info.Name())
 		remotefilePath := path.Join(remotePath, info.Name())
 		if info.IsDir() {
-			//sftpClient.Mkdir(remotefilePath)
 			Dir(sftpClient, localfilePath, remotefilePath)
 		} else {
 			File(sftpClient, path.Join(localPath, info.Name()), remotePath)
@@ -101,8 +100,8 @@ func Dir(sftpClient *sftp.Client, localPath, remotePath string) {
 }
 
 // Upload 上传文件或目录总入口
-func Upload(host, user, password, port, localThing, remoteDir string) {
-	sftpClient := conn(host, user, password, port)
+func Upload(host *Info, localThing, remoteDir string) {
+	sftpClient := conn(host)
 
 	defer sftpClient.Close()
 
@@ -110,7 +109,7 @@ func Upload(host, user, password, port, localThing, remoteDir string) {
 		log.Panicf("上传的文件或目录%s不存在", localThing)
 	}
 	if file.IsDir(localThing) {
-		RemoteSshExec(host, user, password, port, "mkdir -p "+remoteDir)
+		RemoteSshExec(host, "mkdir -p "+remoteDir)
 		Dir(sftpClient, localThing, remoteDir)
 	} else if file.IsFile(localThing) {
 		File(sftpClient, localThing, remoteDir)

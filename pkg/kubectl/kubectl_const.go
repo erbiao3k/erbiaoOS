@@ -8,10 +8,11 @@ import (
 )
 
 const (
-	user               = "admin"
-	context            = "kubernetes"
-	credentials        = context
-	clusterrolebinding = context
+	user                   = "admin"
+	context                = "kubernetes"
+	credentials            = context
+	clusterrolebinding     = context
+	clusterrolebindingUser = context
 
 	clusterrole    = "cluster-admin"
 	kubeconfig     = myConst.KubectlConfigDir + "config"
@@ -27,5 +28,5 @@ var (
 	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
 	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 	clusterrolebindingDelete = fmt.Sprintf(myConst.ClusterrolebindingDelete, credentials)
-	clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
+	clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, clusterrolebindingUser)
 )

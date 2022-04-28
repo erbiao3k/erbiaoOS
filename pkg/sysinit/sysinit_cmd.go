@@ -10,11 +10,15 @@ import (
 )
 
 // LoopExec 临时函数 for sshd.RemoteSshExec
-var LoopExec = func(hostList [][]setting.HostInfo, cmd string) {
-	for _, hosts := range hostList {
-		for _, host := range hosts {
-			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, cmd)
+var LoopExec = func(hosts []setting.HostInfo, cmd string) {
+	for _, host := range hosts {
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
 		}
+		sshd.RemoteSshExec(hostInfo, cmd)
 	}
 }
 
@@ -39,46 +43,62 @@ func SysInit() {
 	// 设置主机名(所有linux节点操作)
 
 	fmt.Println("正在为所有linux服务器上传系统初始化脚本")
-	for _, hosts := range setting.LinuxServer {
-		for _, host := range hosts {
-			if host.LanIp == utils.CurrentIP {
-				continue
-			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.InitScriptDir, myConst.InitScriptDir)
+	for _, host := range setting.K8sClusterHost {
+		if host.LanIp == utils.CurrentIP {
+			continue
 		}
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
+		sshd.Upload(hostInfo, myConst.InitScriptDir, myConst.InitScriptDir)
 	}
 
 	fmt.Println("正在为所有linux服务器设置主机名")
-	for _, hosts := range setting.LinuxServer {
-		for _, host := range hosts {
-			hName := utils.GenerateHostname(host.Role, host.LanIp)
-			// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
-			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, setHostname+hName)
+	for _, host := range setting.K8sClusterHost {
+
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
 		}
+
+		hName := utils.GenerateHostname(host.Role, host.LanIp)
+		// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
+		sshd.RemoteSshExec(hostInfo, setHostname+hName)
 	}
 
 	fmt.Println("初始化集群/etc/hosts文件")
 	initHostfile()
-	for _, hosts := range setting.LinuxServer {
-		for _, host := range hosts {
-			if host.LanIp == utils.CurrentIP {
-				continue
-			}
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, hostsFile, SysConfigDir)
+	for _, host := range setting.K8sClusterHost {
+		if host.LanIp == utils.CurrentIP {
+			continue
 		}
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
+
+		sshd.Upload(hostInfo, hostsFile, SysConfigDir)
+
 	}
 
 	fmt.Println("正在为所有linux服务器关闭SELinux")
-	LoopExec(setting.LinuxServer, disableSELinux)
+	LoopExec(setting.K8sClusterHost, disableSELinux)
 
 	fmt.Println("正在为所有linux服务器关闭firewalld服务")
-	LoopExec(setting.LinuxServer, disableFirewalld)
+	LoopExec(setting.K8sClusterHost, disableFirewalld)
 
 	fmt.Println("正在为所有linux服务器卸载swap")
-	LoopExec(setting.LinuxServer, disableSwap)
+	LoopExec(setting.K8sClusterHost, disableSwap)
 
 	fmt.Println("正在为所有linux服务器配置chrony服务")
-	LoopExec(setting.LinuxServer, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
+	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点linux服务器优化内核")
 	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))

@@ -21,7 +21,7 @@ func config() {
 
 // systemdScript 生成systemd管理脚本
 func systemdScript() {
-	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
+	for _, host := range setting.K8sClusterHost {
 		cfg := strings.ReplaceAll(systemd, "kubeProxyDataDir", host.DataDir)
 		file.Create(myConst.TempDir+host.LanIp+"/kube-proxy.service", cfg)
 	}
@@ -30,15 +30,19 @@ func systemdScript() {
 func Start() {
 	config()
 	systemdScript()
-	utils.ExecCmd(setClusterCmd)
-	utils.ExecCmd(setCredentialsCmd)
-	utils.ExecCmd(setContextCmd)
-	utils.ExecCmd(useContextCmd)
+	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd}
+	utils.MultiExecCmd(cmds)
 
-	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+host.LanIp+"/kube-proxy.service", myConst.SystemdServiceDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+host.LanIp+"/kube-proxy", myConst.K8sCfgDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.K8sCfgDir)
-		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
+	for _, host := range setting.K8sClusterHost {
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
+		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kube-proxy.service", myConst.SystemdServiceDir)
+		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kube-proxy", myConst.K8sCfgDir)
+		sshd.Upload(hostInfo, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteSshExec(hostInfo, restartCmd)
 	}
 }

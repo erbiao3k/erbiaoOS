@@ -19,32 +19,31 @@ func config() {
 
 // systemdScript 生成kubelet配置文件以及systemd管理脚本
 func systemdScript() {
-	for _, hosts := range setting.K8sClusterHost {
-		for _, host := range hosts {
-			cfg := strings.ReplaceAll(systemd, "kubeletDataDir", host.DataDir)
-			file.Create(myConst.TempDir+host.LanIp+"/kubelet.service", cfg)
-		}
-
+	for _, host := range setting.K8sClusterHost {
+		cfg := strings.ReplaceAll(systemd, "kubeletDataDir", host.DataDir)
+		file.Create(myConst.TempDir+host.LanIp+"/kubelet.service", cfg)
 	}
 }
 
 func Start() {
 	config()
 	systemdScript()
-	utils.ExecCmd(setClusterCmd)
-	utils.ExecCmd(setCredentialsCmd)
-	utils.ExecCmd(setContextCmd)
-	utils.ExecCmd(useContextCmd)
-	utils.ExecCmd(clusterrolebindingDelete)
-	utils.ExecCmd(clusterrolebindingCreate)
+	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd, clusterrolebindingDelete, clusterrolebindingCreate}
+	utils.MultiExecCmd(cmds)
 
-	for _, hosts := range setting.K8sClusterHost {
-		for _, host := range hosts {
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+host.LanIp+"/kubelet", myConst.K8sCfgDir)
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+host.LanIp+"/kubelet.service", myConst.SystemdServiceDir)
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.K8sCfgDir)
-			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
+	for _, host := range setting.K8sClusterHost {
+
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
 		}
+
+		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kubelet", myConst.K8sCfgDir)
+		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kubelet.service", myConst.SystemdServiceDir)
+		sshd.Upload(hostInfo, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteSshExec(hostInfo, restartCmd)
 	}
 	utils.ExecCmd(approveNode)
 

@@ -84,9 +84,15 @@ func Start() {
 	systemdScript()
 	ClientCmd()
 	for _, ip := range ClusterIPs {
-		hostInfo := setting.GetHostInfo(ip)
-		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, myConst.TempDir+"/"+ip+"/etcd.service", myConst.SystemdServiceDir)
-		sshd.Upload(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, sysinit.BashProfile, sysinit.SysConfigDir)
-		sshd.RemoteSshExec(hostInfo.LanIp, hostInfo.User, hostInfo.Password, hostInfo.Port, etcdRestartCmd)
+		info := setting.GetHostInfo(ip)
+		hostInfo := &sshd.Info{
+			LanIp:    info.LanIp,
+			User:     info.User,
+			Password: info.Password,
+			Port:     info.Port,
+		}
+		sshd.Upload(hostInfo, myConst.TempDir+"/"+ip+"/etcd.service", myConst.SystemdServiceDir)
+		sshd.Upload(hostInfo, sysinit.BashProfile, sysinit.SysConfigDir)
+		sshd.RemoteSshExec(hostInfo, etcdRestartCmd)
 	}
 }

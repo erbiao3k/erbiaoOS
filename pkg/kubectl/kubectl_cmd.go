@@ -12,17 +12,21 @@ import (
 func InitKubectl() {
 	os.Mkdir(myConst.KubectlConfigDir, 0600)
 
-	utils.ExecCmd(setClusterCmd)
-	utils.ExecCmd(setCredentialsCmd)
-	utils.ExecCmd(setContextCmd)
-	utils.ExecCmd(useContextCmd)
-	utils.ExecCmd(clusterrolebindingDelete)
-	utils.ExecCmd(clusterrolebindingCreate)
+	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd, clusterrolebindingDelete, clusterrolebindingCreate}
 
-	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
+	utils.MultiExecCmd(cmds)
+
+	for _, host := range setting.K8sClusterHost {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.KubectlConfigDir)
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
+
+		sshd.Upload(hostInfo, kubeconfig, myConst.KubectlConfigDir)
 	}
 }

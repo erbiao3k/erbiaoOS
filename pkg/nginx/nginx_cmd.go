@@ -47,12 +47,18 @@ func Start() {
 	mainConfig()
 	systemdScript()
 	deploy()
-	for _, host := range append(setting.K8sMasterHost, setting.K8sNodeHost...) {
+	for _, host := range setting.K8sClusterHost {
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
 
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, nginxSystemd, myConst.SystemdServiceDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, mainConfigFile, myConst.NginxDir+"conf/")
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"nginx", myConst.NginxDir+"sbin/")
+		sshd.Upload(hostInfo, nginxSystemd, myConst.SystemdServiceDir)
+		sshd.Upload(hostInfo, mainConfigFile, myConst.NginxDir+"conf/")
+		sshd.Upload(hostInfo, myConst.TempDir+"nginx", myConst.NginxDir+"sbin/")
 
-		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
+		sshd.RemoteSshExec(hostInfo, restartCmd)
 	}
 }

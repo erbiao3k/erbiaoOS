@@ -15,14 +15,21 @@ func systemdScript() {
 
 func Start() {
 	systemdScript()
-	utils.ExecCmd(setClusterCmd)
-	utils.ExecCmd(setCredentialsCmd)
-	utils.ExecCmd(setContextCmd)
-	utils.ExecCmd(useContextCmd)
+
+	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd}
+	utils.MultiExecCmd(cmds)
 
 	for _, host := range setting.K8sMasterHost {
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, myConst.TempDir+"kube-controller-manager.service", myConst.SystemdServiceDir)
-		sshd.Upload(host.LanIp, host.User, host.Password, host.Port, kubeconfig, myConst.K8sCfgDir)
-		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, restartCmd)
+
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
+		}
+
+		sshd.Upload(hostInfo, myConst.TempDir+"kube-controller-manager.service", myConst.SystemdServiceDir)
+		sshd.Upload(hostInfo, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteSshExec(hostInfo, restartCmd)
 	}
 }

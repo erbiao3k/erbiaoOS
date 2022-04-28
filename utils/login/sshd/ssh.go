@@ -53,14 +53,14 @@ func (c Cli) runShell(shell string) (string, error) {
 }
 
 // RemoteSshExec 远程执行指令
-func RemoteSshExec(host, user, password, port, command string) string {
+func RemoteSshExec(host *Info, command string) string {
 
 	command = command + "|| echo ErrorFlag:$?"
 
 	cli := Cli{
-		host:     host + ":" + port,
-		user:     user,
-		password: password,
+		host:     host.LanIp + ":" + host.Port,
+		user:     host.User,
+		password: host.Password,
 	}
 
 	// 建立连接对象

@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-// ExecCmd 当前Linux执行指令
+// ExecCmd 单Linux指令执行
 func ExecCmd(command string) {
 	cmd := exec.Command("bash", "-c", command)
 	var out bytes.Buffer
@@ -15,5 +15,12 @@ func ExecCmd(command string) {
 	if err != nil {
 		fmt.Println(out.String())
 		panic(err)
+	}
+}
+
+// MultiExecCmd 多Linux指令循环执行
+func MultiExecCmd(cmds []string) {
+	for _, cmd := range cmds {
+		ExecCmd(cmd)
 	}
 }

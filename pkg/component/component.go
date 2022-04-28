@@ -46,22 +46,37 @@ func Init() {
 	loopExec := func(hosts []setting.HostInfo, binarys []string) {
 		for _, host := range hosts {
 
-			for _, b := range binarys {
-				sshd.Upload(host.LanIp, host.User, host.Password, host.Port, b, myConst.BinaryDir)
+			hostInfo := &sshd.Info{
+				LanIp:    host.LanIp,
+				User:     host.User,
+				Password: host.Password,
+				Port:     host.Port,
 			}
-			sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+myConst.BinaryDir)
+
+			for _, b := range binarys {
+				sshd.Upload(hostInfo, b, myConst.BinaryDir)
+			}
+
+			sshd.RemoteSshExec(hostInfo, "chmod +x -R "+myConst.BinaryDir)
 		}
 	}
 
 	for _, ip := range etcd.ClusterIPs {
 		host := setting.GetHostInfo(ip)
-		for _, binary := range etcdBinary {
-			sshd.Upload(host.LanIp, host.User, host.Password, host.Port, binary, myConst.BinaryDir)
+		hostInfo := &sshd.Info{
+			LanIp:    host.LanIp,
+			User:     host.User,
+			Password: host.Password,
+			Port:     host.Port,
 		}
-		sshd.RemoteSshExec(host.LanIp, host.User, host.Password, host.Port, "chmod +x -R "+myConst.BinaryDir)
+
+		for _, binary := range etcdBinary {
+			sshd.Upload(hostInfo, binary, myConst.BinaryDir)
+		}
+		sshd.RemoteSshExec(hostInfo, "chmod +x -R "+myConst.BinaryDir)
 	}
 
-	loopExec(append(setting.K8sMasterHost, setting.K8sNodeHost...), k8sBinary)
-	loopExec(append(setting.K8sMasterHost, setting.K8sNodeHost...), dockerBinary)
+	loopExec(setting.K8sClusterHost, k8sBinary)
+	loopExec(setting.K8sClusterHost, dockerBinary)
 
 }

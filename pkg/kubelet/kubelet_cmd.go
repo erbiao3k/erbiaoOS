@@ -33,17 +33,10 @@ func Start() {
 
 	for _, host := range setting.K8sClusterHost {
 
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-
-		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kubelet", myConst.K8sCfgDir)
-		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kubelet.service", myConst.SystemdServiceDir)
-		sshd.Upload(hostInfo, kubeconfig, myConst.K8sCfgDir)
-		sshd.RemoteSshExec(hostInfo, restartCmd)
+		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kubelet", myConst.K8sCfgDir)
+		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kubelet.service", myConst.SystemdServiceDir)
+		sshd.Upload(&host, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteExec(&host, restartCmd)
 	}
 	utils.ExecCmd(approveNode)
 

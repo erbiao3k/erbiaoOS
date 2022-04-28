@@ -9,19 +9,6 @@ import (
 	"fmt"
 )
 
-// LoopExec 临时函数 for sshd.RemoteSshExec
-var LoopExec = func(hosts []setting.HostInfo, cmd string) {
-	for _, host := range hosts {
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-		sshd.RemoteSshExec(hostInfo, cmd)
-	}
-}
-
 // SysInit 系统初始化，
 //		1、设置主机名；
 //		2、关闭SELinux；
@@ -47,72 +34,51 @@ func SysInit() {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-		sshd.Upload(hostInfo, myConst.InitScriptDir, myConst.InitScriptDir)
+
+		sshd.Upload(&host, myConst.InitScriptDir, myConst.InitScriptDir)
 	}
 
 	fmt.Println("正在为所有linux服务器设置主机名")
 	for _, host := range setting.K8sClusterHost {
 
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-
 		hName := utils.GenerateHostname(host.Role, host.LanIp)
 		// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
-		sshd.RemoteSshExec(hostInfo, setHostname+hName)
+		sshd.RemoteExec(&host, setHostname+hName)
 	}
 
 	fmt.Println("初始化集群/etc/hosts文件")
 	initHostfile()
 	for _, host := range setting.K8sClusterHost {
-		if host.LanIp == utils.CurrentIP {
-			continue
-		}
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
 
-		sshd.Upload(hostInfo, hostsFile, SysConfigDir)
+		sshd.Upload(&host, myConst.TempDir, SysConfigDir)
 
 	}
 
 	fmt.Println("正在为所有linux服务器关闭SELinux")
-	LoopExec(setting.K8sClusterHost, disableSELinux)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, disableSELinux)
 
 	fmt.Println("正在为所有linux服务器关闭firewalld服务")
-	LoopExec(setting.K8sClusterHost, disableFirewalld)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, disableFirewalld)
 
 	fmt.Println("正在为所有linux服务器卸载swap")
-	LoopExec(setting.K8sClusterHost, disableSwap)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, disableSwap)
 
 	fmt.Println("正在为所有linux服务器配置chrony服务")
-	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableChrony.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点linux服务器优化内核")
-	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装基础软件")
-	LoopExec(setting.K8sClusterHost, softwareInstall)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, softwareInstall)
 
 	fmt.Println("正在为k8s集群节点启用iptables")
-	LoopExec(setting.K8sClusterHost, enableIptables)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, enableIptables)
 
 	fmt.Println("正在为k8s集群节点开启ipvs")
-	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableIpvs.sh", myConst.InitScriptDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sEnableIpvs.sh", myConst.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装docker")
-	LoopExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sDockerInstall.sh", myConst.InitScriptDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("sh -x %sDockerInstall.sh", myConst.InitScriptDir))
 
 }

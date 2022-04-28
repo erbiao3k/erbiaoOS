@@ -55,29 +55,18 @@ func InitCert() {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-		sshd.Upload(hostInfo, myConst.K8sSslDir, myConst.K8sSslDir)
-		sshd.Upload(hostInfo, myConst.CaCenterDir, myConst.CaCenterDir)
+
+		sshd.Upload(&host, myConst.K8sSslDir, myConst.K8sSslDir)
+		sshd.Upload(&host, myConst.CaCenterDir, myConst.CaCenterDir)
 	}
 
 	for _, host := range setting.K8sNodeHost {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
 
-		sshd.Upload(hostInfo, myConst.K8sSslDir, myConst.K8sSslDir)
-		sshd.Upload(hostInfo, myConst.CaCenterDir, myConst.CaCenterDir)
+		sshd.Upload(&host, myConst.K8sSslDir, myConst.K8sSslDir)
+		sshd.Upload(&host, myConst.CaCenterDir, myConst.CaCenterDir)
 	}
 
 	for _, host := range etcd.ClusterIPs {
@@ -85,13 +74,7 @@ func InitCert() {
 			continue
 		}
 		info := setting.GetHostInfo(host)
-		hostInfo := &sshd.Info{
-			LanIp:    info.LanIp,
-			User:     info.User,
-			Password: info.Password,
-			Port:     info.Port,
-		}
-		sshd.Upload(hostInfo, myConst.EtcdSslDir, myConst.EtcdSslDir)
+		sshd.Upload(info, myConst.EtcdSslDir, myConst.EtcdSslDir)
 	}
 
 }

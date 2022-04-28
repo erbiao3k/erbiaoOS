@@ -16,6 +16,7 @@ import (
 	"erbiaoOS/pkg/nginx"
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/setting"
+	"erbiaoOS/utils/login/sshd"
 	"fmt"
 	"log"
 )
@@ -23,16 +24,16 @@ import (
 func main() {
 
 	log.Println("【main】清理可能阻塞部署的软件包")
-	sysinit.LoopExec(setting.K8sClusterHost, sysinit.RemoveSoft)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, sysinit.RemoveSoft)
 
 	log.Println("【main】清理可能阻塞部署的进程")
-	sysinit.LoopExec(setting.K8sClusterHost, sysinit.StopService)
+	sshd.LoopRemoteExec(setting.K8sClusterHost, sysinit.StopService)
 
 	log.Println("【main】清理可能阻塞部署的历史数据")
-	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
 
 	log.Println("【main】初始化环境目录")
-	sysinit.LoopExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", myConst.NginxDir+"/{logs,conf,sbin}", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
+	sshd.LoopRemoteExec(setting.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", myConst.NginxDir+"/{logs,conf,sbin}", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
 
 	log.Println("【main】下载k8s必要组件")
 	component.Init()

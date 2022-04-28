@@ -100,14 +100,8 @@ func InitclusterHost(path string) *ClusterHost {
 	for _, s := range analysis {
 		hi.Role, hi.LanIp, hi.User, hi.Password, hi.Port, hi.Mode = s[0], s[1], s[2], s[3], s[4], s[5]
 
-		hostInfo := &sshd.Info{
-			LanIp:    hi.LanIp,
-			User:     hi.User,
-			Password: hi.Password,
-			Port:     hi.Port,
-		}
+		hi.DataDir = sshd.RemoteExec(&hi, topDisk)
 
-		hi.DataDir = sshd.RemoteSshExec(hostInfo, topDisk)
 		hi.DataDir = strings.Split(hi.DataDir, "\n")[0]
 		if hi.Role == "k8sMaster" {
 			ch.K8sMaster = append(ch.K8sMaster, hi)

@@ -34,15 +34,9 @@ func Start() {
 	utils.MultiExecCmd(cmds)
 
 	for _, host := range setting.K8sClusterHost {
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kube-proxy.service", myConst.SystemdServiceDir)
-		sshd.Upload(hostInfo, myConst.TempDir+host.LanIp+"/kube-proxy", myConst.K8sCfgDir)
-		sshd.Upload(hostInfo, kubeconfig, myConst.K8sCfgDir)
-		sshd.RemoteSshExec(hostInfo, restartCmd)
+		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kube-proxy.service", myConst.SystemdServiceDir)
+		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kube-proxy", myConst.K8sCfgDir)
+		sshd.Upload(&host, kubeconfig, myConst.K8sCfgDir)
+		sshd.RemoteExec(&host, restartCmd)
 	}
 }

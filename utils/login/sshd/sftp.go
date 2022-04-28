@@ -1,6 +1,7 @@
 package sshd
 
 import (
+	"erbiaoOS/setting"
 	"erbiaoOS/utils/file"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
@@ -12,7 +13,7 @@ import (
 )
 
 // Connect 初始化sftp客户端
-func conn(host *Info) *sftp.Client {
+func conn(host *setting.HostInfo) *sftp.Client {
 	var (
 		auth         []ssh.AuthMethod
 		clientConfig *ssh.ClientConfig
@@ -100,7 +101,7 @@ func Dir(sftpClient *sftp.Client, localPath, remotePath string) {
 }
 
 // Upload 上传文件或目录总入口
-func Upload(host *Info, localThing, remoteDir string) {
+func Upload(host *setting.HostInfo, localThing, remoteDir string) {
 	sftpClient := conn(host)
 
 	defer sftpClient.Close()
@@ -109,7 +110,7 @@ func Upload(host *Info, localThing, remoteDir string) {
 		log.Panicf("上传的文件或目录%s不存在", localThing)
 	}
 	if file.IsDir(localThing) {
-		RemoteSshExec(host, "mkdir -p "+remoteDir)
+		RemoteExec(host, "mkdir -p "+remoteDir)
 		Dir(sftpClient, localThing, remoteDir)
 	} else if file.IsFile(localThing) {
 		File(sftpClient, localThing, remoteDir)

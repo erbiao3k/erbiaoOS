@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="第一版本的已完成">
-      <change afterPath="$PROJECT_DIR$/erbiaoOS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/login/sshd/const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+    <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="ssh和sftp模块优化">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/etcd/etcd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd.go" afterDir="false" />
@@ -17,13 +15,12 @@
       <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_cmd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sys_hosts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sys_hosts.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setting/cluster.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/setting/cluster_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/exec_command.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/exec_command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/login/sshd/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/login/sshd/sftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/sftp.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/login/sshd/ssh.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/ssh.go" afterDir="false" />
     </list>
@@ -151,7 +148,8 @@
     <MESSAGE value="etcd二进制文件分发优化" />
     <MESSAGE value="nginx实现k8s集群高可用完成" />
     <MESSAGE value="第一版本的已完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="第一版本的已完成" />
+    <MESSAGE value="ssh和sftp模块优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="ssh和sftp模块优化" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

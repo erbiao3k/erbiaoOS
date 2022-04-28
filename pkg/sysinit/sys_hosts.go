@@ -1,6 +1,7 @@
 package sysinit
 
 import (
+	myConst "erbiaoOS/const"
 	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
@@ -21,5 +22,5 @@ func initHostfile() {
 	loopExec(setting.K8sNodeHost)
 
 	initHost = initHost + "# end section \n"
-	file.Create(hostsFile, initHost)
+	file.Create(myConst.TempDir+"hosts", initHost)
 }

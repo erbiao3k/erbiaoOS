@@ -34,14 +34,8 @@ func Start() {
 	systemdScript()
 	for _, host := range setting.K8sMasterHost {
 
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
-		sshd.Upload(hostInfo, myConst.TempDir+"token.csv", myConst.K8sCfgDir)
-		sshd.Upload(hostInfo, myConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", myConst.SystemdServiceDir)
-		sshd.RemoteSshExec(hostInfo, apiserverRestartCmd)
+		sshd.Upload(&host, myConst.TempDir+"token.csv", myConst.K8sCfgDir)
+		sshd.Upload(&host, myConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", myConst.SystemdServiceDir)
+		sshd.RemoteExec(&host, apiserverRestartCmd)
 	}
 }

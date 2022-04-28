@@ -46,34 +46,21 @@ func Init() {
 	loopExec := func(hosts []setting.HostInfo, binarys []string) {
 		for _, host := range hosts {
 
-			hostInfo := &sshd.Info{
-				LanIp:    host.LanIp,
-				User:     host.User,
-				Password: host.Password,
-				Port:     host.Port,
-			}
-
 			for _, b := range binarys {
-				sshd.Upload(hostInfo, b, myConst.BinaryDir)
+				sshd.Upload(&host, b, myConst.BinaryDir)
 			}
 
-			sshd.RemoteSshExec(hostInfo, "chmod +x -R "+myConst.BinaryDir)
+			sshd.RemoteExec(&host, "chmod +x -R "+myConst.BinaryDir)
 		}
 	}
 
 	for _, ip := range etcd.ClusterIPs {
 		host := setting.GetHostInfo(ip)
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
 
 		for _, binary := range etcdBinary {
-			sshd.Upload(hostInfo, binary, myConst.BinaryDir)
+			sshd.Upload(host, binary, myConst.BinaryDir)
 		}
-		sshd.RemoteSshExec(hostInfo, "chmod +x -R "+myConst.BinaryDir)
+		sshd.RemoteExec(host, "chmod +x -R "+myConst.BinaryDir)
 	}
 
 	loopExec(setting.K8sClusterHost, k8sBinary)

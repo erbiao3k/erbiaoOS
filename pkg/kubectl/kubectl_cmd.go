@@ -20,13 +20,7 @@ func InitKubectl() {
 		if host.LanIp == utils.CurrentIP {
 			continue
 		}
-		hostInfo := &sshd.Info{
-			LanIp:    host.LanIp,
-			User:     host.User,
-			Password: host.Password,
-			Port:     host.Port,
-		}
 
-		sshd.Upload(hostInfo, kubeconfig, myConst.KubectlConfigDir)
+		sshd.Upload(&host, kubeconfig, myConst.KubectlConfigDir)
 	}
 }

@@ -4,7 +4,6 @@ import (
 	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/etcd"
-	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
 	"strings"
@@ -12,7 +11,7 @@ import (
 
 // Init 初始化组件信息
 func Init() {
-	utils.Chdir(myConst.SoftDir)
+	file.Chdir(myConst.SoftDir)
 
 	// 下载并解压所有压缩包
 	temp := func(pkgs []string) {
@@ -24,7 +23,7 @@ func Init() {
 		}
 	}
 
-	temp([]string{myConst.K8sPkg, myConst.NginxPkg, myConst.EtcdPkg, myConst.DockerPkg})
+	temp([]string{config.K8sPkg, config.NginxPkg, config.EtcdPkg, config.DockerPkg})
 
 	var etcdBinary = []string{"etcd-v3.5.2-linux-amd64/etcd", "etcd-v3.5.2-linux-amd64/etcdctl", "etcd-v3.5.2-linux-amd64/etcdutl"}
 	var dockerBinary = []string{"docker/docker-proxy", "docker/dockerd", "docker/docker", "docker/containerd", "docker/containerd-shim-runc-v2", "docker/ctr", "docker/docker-init", "docker/runc", "docker/containerd-shim"}

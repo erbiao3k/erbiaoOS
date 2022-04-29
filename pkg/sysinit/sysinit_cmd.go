@@ -22,7 +22,7 @@ import (
 //		9、安装docker;
 func SysInit() {
 
-	utils.Chdir(myConst.InitScriptDir)
+	file.Chdir(myConst.InitScriptDir)
 
 	for f, cmd := range script {
 		file.Create(f, cmd)

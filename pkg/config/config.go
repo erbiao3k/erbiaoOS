@@ -5,6 +5,18 @@ import (
 	"os"
 )
 
+var (
+	K8sMasterIPs []string
+	K8sNodeIPs   []string
+	SshUser      string
+	SshPassword  string
+	SshPort      string
+	K8sPkg       string
+	EtcdPkg      string
+	NginxPkg     string
+	DockerPkg    string
+)
+
 const (
 	// topDisk 获取当前本地文件系统最大的分区
 	topDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
@@ -27,8 +39,6 @@ type HostInfo struct {
 }
 
 var (
-	K8sMasterIPs, K8sNodeIPs = myConst.MasterIPs, myConst.NodeIPs
-
 	KubeApiserverEndpoint = GetenterpointAddr()
 
 	ClusterApiserverEndpoint   = "127.0.0.1:16443"
@@ -38,24 +48,24 @@ var (
 )
 
 func hostInfo() (masterHost, nodeHost []HostInfo) {
-	for _, ip := range myConst.MasterIPs {
+	for _, ip := range K8sMasterIPs {
 		masterHost = append(masterHost, HostInfo{
 			Role:     "k8sMaster",
 			LanIp:    ip,
-			User:     myConst.SshUser,
-			Password: myConst.SshPassword,
-			Port:     myConst.SshPort,
+			User:     SshUser,
+			Password: SshPassword,
+			Port:     SshPort,
 			DataDir:  "",
 		})
 	}
 
-	for _, ip := range myConst.MasterIPs {
+	for _, ip := range K8sMasterIPs {
 		masterHost = append(nodeHost, HostInfo{
 			Role:     "k8sNode",
 			LanIp:    ip,
-			User:     myConst.SshUser,
-			Password: myConst.SshPassword,
-			Port:     myConst.SshPort,
+			User:     SshUser,
+			Password: SshPassword,
+			Port:     SshPort,
 			DataDir:  "",
 		})
 	}

@@ -27,19 +27,40 @@ type HostInfo struct {
 }
 
 var (
-	// ClusterHostCfg 集群初始化节点信息
-	ClusterHostCfg = InitclusterHost(configDir)
-
 	K8sMasterIPs, K8sNodeIPs = myConst.MasterIPs, myConst.NodeIPs
 
 	KubeApiserverEndpoint = GetenterpointAddr()
 
-	ClusterApiserverEndpoint = "127.0.0.1:16443"
-	K8sMasterHost            = ClusterHostCfg.K8sMaster
-	K8sNodeHost              = ClusterHostCfg.K8sNode
+	ClusterApiserverEndpoint   = "127.0.0.1:16443"
+	K8sMasterHost, K8sNodeHost = hostInfo()
 
 	K8sClusterHost = append(K8sMasterHost, K8sNodeHost...)
 )
+
+func hostInfo() (masterHost, nodeHost []HostInfo) {
+	for _, ip := range myConst.MasterIPs {
+		masterHost = append(masterHost, HostInfo{
+			Role:     "k8sMaster",
+			LanIp:    ip,
+			User:     myConst.SshUser,
+			Password: myConst.SshPassword,
+			Port:     myConst.SshPort,
+			DataDir:  "",
+		})
+	}
+
+	for _, ip := range myConst.MasterIPs {
+		masterHost = append(nodeHost, HostInfo{
+			Role:     "k8sNode",
+			LanIp:    ip,
+			User:     myConst.SshUser,
+			Password: myConst.SshPassword,
+			Port:     myConst.SshPort,
+			DataDir:  "",
+		})
+	}
+	return
+}
 
 // DeployMode 返回k8s的部署模式
 func DeployMode() string {

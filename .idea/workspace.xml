@@ -5,41 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="配置文件剔除，未完成">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/erbiaoOS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/net/parseIP.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/create.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/create.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/root.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/root.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/version.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/version.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/component.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/const/terminal.go" beforeDir="false" afterPath="$PROJECT_DIR$/const/terminal.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/cert/cert_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/component/component.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/component/component.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/etcd/etcd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/etcd/etcd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_apiserver/kube_apiserver_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllermanager_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllermanager_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/nginx/nginx_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sys_hosts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sys_hosts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_cmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/cluster_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting/component.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/GetInnerIP.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/net/innerIP.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/file/download.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file/download.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/login/sshd/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/login/sshd/sftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/sftp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/login/sshd/ssh.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/login/sshd/ssh.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/config/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

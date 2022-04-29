@@ -1,10 +1,11 @@
-package utils
+package net
 
 import "net"
 
-var CurrentIP, _ = GetInnerIP()
+var CurrentIP, _ = InnerIP()
 
-func GetInnerIP() (ip string, err error) {
+// InnerIP 获取内网IP地址
+func InnerIP() (ip string, err error) {
 	addrs, err := net.InterfaceAddrs()
 	if err == nil {
 		for _, a := range addrs {

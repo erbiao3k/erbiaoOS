@@ -1,7 +1,7 @@
 package sshd
 
 import (
-	"erbiaoOS/setting"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/utils/file"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
@@ -13,7 +13,7 @@ import (
 )
 
 // Connect 初始化sftp客户端
-func conn(host *setting.HostInfo) *sftp.Client {
+func conn(host *config.HostInfo) *sftp.Client {
 	var (
 		auth         []ssh.AuthMethod
 		clientConfig *ssh.ClientConfig
@@ -101,7 +101,7 @@ func Dir(sftpClient *sftp.Client, localPath, remotePath string) {
 }
 
 // Upload 上传文件或目录总入口
-func Upload(host *setting.HostInfo, localThing, remoteDir string) {
+func Upload(host *config.HostInfo, localThing, remoteDir string) {
 	sftpClient := conn(host)
 
 	defer sftpClient.Close()

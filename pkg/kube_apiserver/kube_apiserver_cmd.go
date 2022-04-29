@@ -2,8 +2,8 @@ package kube_apiserver
 
 import (
 	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/etcd"
-	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
@@ -14,8 +14,8 @@ import (
 
 // systemdScript 生成kube-apiserver systemd管理脚本
 func systemdScript() {
-	apiserverCount := len(setting.K8sMasterIPs)
-	for _, ip := range setting.K8sMasterIPs {
+	apiserverCount := len(config.K8sMasterIPs)
+	for _, ip := range config.K8sMasterIPs {
 		cfg := strings.ReplaceAll(systemd, "currentIPaddr", ip)
 		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.EtcdServerUrls)
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))
@@ -32,7 +32,7 @@ func bootstrapToken() {
 func Start() {
 	bootstrapToken()
 	systemdScript()
-	for _, host := range setting.K8sMasterHost {
+	for _, host := range config.K8sMasterHost {
 
 		sshd.Upload(&host, myConst.TempDir+"token.csv", myConst.K8sCfgDir)
 		sshd.Upload(&host, myConst.TempDir+"/"+host.LanIp+"/kube-apiserver.service", myConst.SystemdServiceDir)

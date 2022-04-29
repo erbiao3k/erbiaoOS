@@ -12,12 +12,12 @@ import (
 )
 
 // Download 单文件下载
-func Download(url, downloadDir string) {
+func Download(url, downloadDir string) (fileName string) {
 
 	fmt.Println("开始下载：", url)
 
 	temp := strings.Split(url, "/")
-	fileName := temp[len(temp)-1]
+	fileName = temp[len(temp)-1]
 
 	client := &http.Client{Transport: &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}}
 
@@ -41,4 +41,5 @@ func Download(url, downloadDir string) {
 	if err != nil {
 		panic(err)
 	}
+	return
 }

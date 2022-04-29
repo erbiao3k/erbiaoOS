@@ -1,6 +1,8 @@
 package main
 
-import "erbiaoOS/cmd"
+import (
+	"erbiaoOS/cmd"
+)
 
 //func main() {
 //

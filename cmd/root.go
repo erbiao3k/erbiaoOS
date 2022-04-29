@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	myConst "erbiaoOS/const"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -23,16 +24,13 @@ var rootShow = `
 		一键配置（开发中）
 `
 var rootCmd = &cobra.Command{
-	Use:   "erbiaoOS",
+	Use:   myConst.ProgramName,
 	Short: "本工具用于二进制版本k8s集群的自动化部署配置",
 	Long:  rootShow,
 	Run:   runRoot,
 }
 
 func Execute() {
-	//if err := rootCmd.Execute(); err != nil {
-	//	panic(err)
-	//}
 	rootCmd.Execute()
 }
 

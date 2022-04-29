@@ -1,7 +1,7 @@
 package sshd
 
 import (
-	"erbiaoOS/setting"
+	"erbiaoOS/pkg/config"
 	gossh "golang.org/x/crypto/ssh"
 	"log"
 	"net"
@@ -54,7 +54,7 @@ func (c Cli) runShell(shell string) (string, error) {
 }
 
 // RemoteExec 远程执行指令
-func RemoteExec(host *setting.HostInfo, command string) string {
+func RemoteExec(host *config.HostInfo, command string) string {
 
 	command = command + "|| echo ErrorFlag:$?"
 

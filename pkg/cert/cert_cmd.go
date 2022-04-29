@@ -2,11 +2,11 @@ package cert
 
 import (
 	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/etcd"
-	"erbiaoOS/setting"
-	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/net"
 )
 
 // certGenerate 生成k8s集群所需所有证书
@@ -49,10 +49,10 @@ func InitCert() {
 	file.Create(CaPrivateKeyFile, caPrivateKey)
 	file.Create(CaPubilcKeyFile, caPublicKey)
 
-	certGenerate(setting.K8sMasterIPs)
+	certGenerate(config.K8sMasterIPs)
 
-	for _, host := range setting.K8sMasterHost {
-		if host.LanIp == utils.CurrentIP {
+	for _, host := range config.K8sMasterHost {
+		if host.LanIp == net.CurrentIP {
 			continue
 		}
 
@@ -60,8 +60,8 @@ func InitCert() {
 		sshd.Upload(&host, myConst.CaCenterDir, myConst.CaCenterDir)
 	}
 
-	for _, host := range setting.K8sNodeHost {
-		if host.LanIp == utils.CurrentIP {
+	for _, host := range config.K8sNodeHost {
+		if host.LanIp == net.CurrentIP {
 			continue
 		}
 
@@ -70,10 +70,10 @@ func InitCert() {
 	}
 
 	for _, host := range etcd.ClusterIPs {
-		if host == utils.CurrentIP {
+		if host == net.CurrentIP {
 			continue
 		}
-		info := setting.GetHostInfo(host)
+		info := config.GetHostInfo(host)
 		sshd.Upload(info, myConst.EtcdSslDir, myConst.EtcdSslDir)
 	}
 

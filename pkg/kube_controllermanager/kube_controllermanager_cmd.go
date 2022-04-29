@@ -2,7 +2,7 @@ package kube_controllermanager
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/setting"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
@@ -19,7 +19,7 @@ func Start() {
 	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd}
 	utils.MultiExecCmd(cmds)
 
-	for _, host := range setting.K8sMasterHost {
+	for _, host := range config.K8sMasterHost {
 
 		sshd.Upload(&host, myConst.TempDir+"kube-controller-manager.service", myConst.SystemdServiceDir)
 		sshd.Upload(&host, kubeconfig, myConst.K8sCfgDir)

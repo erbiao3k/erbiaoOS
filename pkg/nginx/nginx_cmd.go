@@ -2,7 +2,7 @@ package nginx
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/setting"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
@@ -20,7 +20,7 @@ const (
 // mainConfig 生成nginx主配置文件
 func mainConfig() {
 	upstreamConf := ""
-	for _, ip := range setting.K8sMasterIPs {
+	for _, ip := range config.K8sMasterIPs {
 		upstreamConf = upstreamConf + "        server " + ip + ":6443 max_fails=3 fail_timeout=30s;\n"
 	}
 
@@ -40,14 +40,14 @@ func deploy() {
 }
 
 func Start() {
-	if len(setting.K8sMasterIPs) == 1 {
+	if len(config.K8sMasterIPs) == 1 {
 		log.Println("k8s控制平面为单节点，跳过高可用架构部署")
 		return
 	}
 	mainConfig()
 	systemdScript()
 	deploy()
-	for _, host := range setting.K8sClusterHost {
+	for _, host := range config.K8sClusterHost {
 
 		sshd.Upload(&host, nginxSystemd, myConst.SystemdServiceDir)
 		sshd.Upload(&host, mainConfigFile, myConst.NginxDir+"conf/")

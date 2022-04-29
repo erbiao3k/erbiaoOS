@@ -3,7 +3,7 @@ package kubelet
 import (
 	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/cert"
-	"erbiaoOS/setting"
+	config2 "erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"fmt"
 )
@@ -77,7 +77,7 @@ const (
 )
 
 var (
-	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, setting.KubeApiserverEndpoint, kubeconfig)
+	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.KubeApiserverEndpoint, kubeconfig)
 	setCredentialsCmd        = fmt.Sprintf(myConst.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
 	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
 	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)

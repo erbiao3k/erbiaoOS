@@ -2,8 +2,8 @@ package etcd
 
 import (
 	myConst "erbiaoOS/const"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/sysinit"
-	"erbiaoOS/setting"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	ClusterIPs     = hosts(setting.K8sMasterIPs, setting.K8sNodeIPs)
+	ClusterIPs     = hosts(config.K8sMasterIPs, config.K8sNodeIPs)
 	EtcdServerUrls = ClientCmd()
 )
 
@@ -84,7 +84,7 @@ func Start() {
 	systemdScript()
 	ClientCmd()
 	for _, ip := range ClusterIPs {
-		info := setting.GetHostInfo(ip)
+		info := config.GetHostInfo(ip)
 
 		sshd.Upload(info, myConst.TempDir+"/"+ip+"/etcd.service", myConst.SystemdServiceDir)
 		sshd.Upload(info, sysinit.BashProfile, sysinit.SysConfigDir)

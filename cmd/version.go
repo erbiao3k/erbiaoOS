@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	myConst "erbiaoOS/const"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -16,8 +17,8 @@ func init() {
 	rootCmd.AddCommand(versionCmd)
 }
 
-func runVersion(cmd *cobra.Command, args []string) {
+func runVersion(*cobra.Command, []string) {
 	// TODO 这里处理version子命令
 
-	fmt.Println("erbiaoOS: 1.0.0")
+	fmt.Println(myConst.ProgramName + ": 1.0.0")
 }

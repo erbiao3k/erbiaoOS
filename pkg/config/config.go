@@ -1,4 +1,4 @@
-package setting
+package config
 
 import (
 	myConst "erbiaoOS/const"
@@ -6,16 +6,31 @@ import (
 )
 
 const (
-	configDir = "config"
+	// topDisk 获取当前本地文件系统最大的分区
+	topDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
 )
+
+// ClusterHost 集群节点初始化信息
+type ClusterHost struct {
+	K8sMaster []HostInfo
+	K8sNode   []HostInfo
+}
+
+// HostInfo 节点详细信息
+type HostInfo struct {
+	Role     string
+	LanIp    string
+	User     string
+	Password string
+	Port     string
+	DataDir  string
+}
 
 var (
 	// ClusterHostCfg 集群初始化节点信息
 	ClusterHostCfg = InitclusterHost(configDir)
 
-	ComponentCfg = ComponentContent(configDir)
-
-	K8sMasterIPs, K8sNodeIPs = ipList()
+	K8sMasterIPs, K8sNodeIPs = myConst.MasterIPs, myConst.NodeIPs
 
 	KubeApiserverEndpoint = GetenterpointAddr()
 
@@ -26,18 +41,6 @@ var (
 	K8sClusterHost = append(K8sMasterHost, K8sNodeHost...)
 )
 
-// ipList 返回集群节点IP清单
-func ipList() (k8sMasterIPs []string, k8sNodeIPs []string) {
-	for _, host := range K8sMasterHost {
-		k8sMasterIPs = append(k8sMasterIPs, host.LanIp)
-	}
-	for _, host := range K8sNodeHost {
-		k8sNodeIPs = append(k8sNodeIPs, host.LanIp)
-	}
-
-	return k8sMasterIPs, k8sNodeIPs
-}
-
 // DeployMode 返回k8s的部署模式
 func DeployMode() string {
 	if len(K8sMasterIPs) < 2 {
@@ -45,6 +48,7 @@ func DeployMode() string {
 	}
 	return "cluster"
 }
+
 func GetenterpointAddr() string {
 	if DeployMode() == "standalone" {
 		return K8sMasterIPs[0] + ":6443"

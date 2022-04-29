@@ -2,9 +2,10 @@ package kubectl
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/setting"
+	"erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/net"
 	"os"
 )
 
@@ -16,8 +17,8 @@ func InitKubectl() {
 
 	utils.MultiExecCmd(cmds)
 
-	for _, host := range setting.K8sClusterHost {
-		if host.LanIp == utils.CurrentIP {
+	for _, host := range config.K8sClusterHost {
+		if host.LanIp == net.CurrentIP {
 			continue
 		}
 

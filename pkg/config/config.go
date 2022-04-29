@@ -17,11 +17,6 @@ var (
 	DockerPkg    string
 )
 
-const (
-	// topDisk 获取当前本地文件系统最大的分区
-	topDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
-)
-
 // ClusterHost 集群节点初始化信息
 type ClusterHost struct {
 	K8sMaster []HostInfo
@@ -39,7 +34,7 @@ type HostInfo struct {
 }
 
 var (
-	KubeApiserverEndpoint = GetenterpointAddr()
+	KubeApiserverEndpoint = enterpointAddr()
 
 	ClusterApiserverEndpoint   = "127.0.0.1:16443"
 	K8sMasterHost, K8sNodeHost = hostInfo()
@@ -80,7 +75,7 @@ func DeployMode() string {
 	return "cluster"
 }
 
-func GetenterpointAddr() string {
+func enterpointAddr() string {
 	if DeployMode() == "standalone" {
 		return K8sMasterIPs[0] + ":6443"
 	}

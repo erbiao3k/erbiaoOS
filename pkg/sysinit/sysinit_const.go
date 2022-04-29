@@ -3,6 +3,10 @@ package sysinit
 import "erbiaoOS/utils/file"
 
 const (
+
+	// topDisk 获取当前本地文件系统最大的分区
+	topDisk = "df -Tk|grep -Ev \"devtmpfs|tmpfs|overlay\"|grep -E \"ext4|ext3|xfs\"|awk '/\\//{print $5,$NF}'|sort -nr|awk '{print $2}'|head -1|tr '\\n' ' '|awk '{print $1}'"
+
 	hostsFile      = "/etc/hosts"
 	HostsFileBak   = "/etc/hosts.bak-fadada"
 	BashProfile    = "/root/.bash_profile"

@@ -6,10 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="41264985-7764-4b2e-af1e-939f8a99429b" name="变更" comment="配置文件剔除完成">
       <change afterPath="$PROJECT_DIR$/erbiaoOS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/root.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/root.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/sysinit/sysinit_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_controllermanager/kube_controllernanager_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_proxy/kube_proxy_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kube_scheduler/kube_scheduler_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubectl/kubectl_const.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/kubelet/kubelet_const.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +89,17 @@
       <recent name="$PROJECT_DIR$/utils/login/sshd" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go 测试.go test erbiaoOS">
+    <configuration name="go test erbiaoOS" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="erbiaoOS" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="erbiaoOS" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <configuration name="build_amd_linux.sh" type="ShConfigurationType" temporary="true">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -103,6 +117,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.go test erbiaoOS" />
         <item itemvalue="Shell Script.build_amd_linux.sh" />
       </list>
     </recent_temporary>

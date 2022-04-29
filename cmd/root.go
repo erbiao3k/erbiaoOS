@@ -4,6 +4,7 @@ import (
 	"erbiaoOS/utils"
 	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var rootShow = `
@@ -36,4 +37,7 @@ func Execute() {
 
 func runRoot(*cobra.Command, []string) {
 	fmt.Printf(rootShow)
+	if len(os.Args) < 5 {
+		return
+	}
 }

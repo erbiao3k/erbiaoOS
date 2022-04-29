@@ -49,7 +49,7 @@ const (
 )
 
 var (
-	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.KubeApiserverEndpoint, kubeconfig)
+	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.ApiserverEnterpoint, kubeconfig)
 	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
 	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
 	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)

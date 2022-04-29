@@ -34,7 +34,7 @@ type HostInfo struct {
 }
 
 var (
-	KubeApiserverEndpoint = enterpointAddr()
+	ApiserverEnterpoint = enterpointAddr()
 
 	ClusterApiserverEndpoint   = "127.0.0.1:16443"
 	K8sMasterHost, K8sNodeHost = hostInfo()

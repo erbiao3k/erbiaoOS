@@ -85,11 +85,9 @@ func enterpointAddr() string {
 // GetHostInfo 获取对应IP的节点信息
 func GetHostInfo(ip string) *HostInfo {
 
-	for _, infos := range [][]HostInfo{K8sMasterHost, K8sNodeHost} {
-		for _, host := range infos {
-			if ip == host.LanIp {
-				return &host
-			}
+	for _, host := range K8sClusterHost {
+		if ip == host.LanIp {
+			return &host
 		}
 	}
 	return nil

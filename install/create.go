@@ -22,28 +22,28 @@ import (
 )
 
 func K8sClusterInit() {
-	log.Println("【main】清理可能阻塞部署的软件包")
+	log.Println("清理可能阻塞部署的软件包")
 	sshd.LoopRemoteExec(config.K8sClusterHost, sysinit.RemoveSoft)
 
-	log.Println("【main】清理可能阻塞部署的进程")
+	log.Println("清理可能阻塞部署的进程")
 	sshd.LoopRemoteExec(config.K8sClusterHost, sysinit.StopService)
 
-	log.Println("【main】清理可能阻塞部署的历史数据")
+	log.Println("清理可能阻塞部署的历史数据")
 	sshd.LoopRemoteExec(config.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
 
-	log.Println("【main】初始化环境目录")
+	log.Println("初始化环境目录")
 	sshd.LoopRemoteExec(config.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", myConst.NginxDir+"/{logs,conf,sbin}", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
 
-	log.Println("【main】下载k8s必要组件")
+	log.Println("下载k8s必要组件")
 	component.Init()
 
-	log.Println("【main】初始化k8s节点环境")
+	log.Println("初始化k8s节点环境")
 	sysinit.SysInit()
 
-	log.Println("【main】初始化各组件证书")
+	log.Println("初始化各组件证书")
 	cert.InitCert()
 
-	log.Println("【main】初始化etcd集群")
+	log.Println("初始化etcd集群")
 	etcd.Start()
 
 	log.Println("初始化高可用nginx服务")

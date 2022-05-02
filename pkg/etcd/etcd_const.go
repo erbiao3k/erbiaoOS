@@ -1,6 +1,9 @@
 package etcd
 
 const (
+	BashProfile    = "/root/.bash_profile"
+	BashProfileBak = "/root/.bash_profile.bak-fadada"
+
 	// systemd etcd服务systemd管理脚本
 	systemd = "[Unit]\n" +
 		"Description=Etcd Server\n" +

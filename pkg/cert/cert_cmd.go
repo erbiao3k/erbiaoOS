@@ -49,7 +49,7 @@ func InitCert() {
 	file.Create(CaPrivateKeyFile, caPrivateKey)
 	file.Create(CaPubilcKeyFile, caPublicKey)
 
-	certGenerate(config.K8sMasterIPs)
+	certGenerate(myConst.K8sMasterIPs)
 
 	for _, host := range config.K8sMasterHost {
 		if host.LanIp == net.CurrentIP {

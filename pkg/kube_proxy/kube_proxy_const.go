@@ -2,9 +2,6 @@ package kube_proxy
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/pkg/cert"
-	config2 "erbiaoOS/pkg/config"
-	"fmt"
 )
 
 const (
@@ -46,11 +43,4 @@ const (
 
 	// restartCmd 重启指令
 	restartCmd = "systemctl daemon-reload && systemctl enable kube-proxy && systemctl restart kube-proxy && sleep 1"
-)
-
-var (
-	setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.ApiserverEnterpoint, kubeconfig)
-	setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
-	setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-	useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
 )

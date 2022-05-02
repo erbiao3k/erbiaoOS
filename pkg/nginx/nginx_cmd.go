@@ -20,7 +20,7 @@ const (
 // mainConfig 生成nginx主配置文件
 func mainConfig() {
 	upstreamConf := ""
-	for _, ip := range config.K8sMasterIPs {
+	for _, ip := range myConst.K8sMasterIPs {
 		upstreamConf = upstreamConf + "        server " + ip + ":6443 max_fails=3 fail_timeout=30s;\n"
 	}
 
@@ -40,7 +40,7 @@ func deploy() {
 }
 
 func Start() {
-	if len(config.K8sMasterIPs) == 1 {
+	if len(myConst.K8sMasterIPs) == 1 {
 		log.Println("k8s控制平面为单节点，跳过高可用架构部署")
 		return
 	}

@@ -2,10 +2,6 @@ package kubelet
 
 import (
 	myConst "erbiaoOS/const"
-	"erbiaoOS/pkg/cert"
-	config2 "erbiaoOS/pkg/config"
-	"erbiaoOS/utils"
-	"fmt"
 )
 
 const (
@@ -74,14 +70,4 @@ const (
 	kubeconfig         = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
 	clusterrole        = "system:node-bootstrapper"
 	restartCmd         = "systemctl daemon-reload && systemctl enable kubelet && systemctl restart kubelet && sleep 1"
-)
-
-var (
-	setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.ApiserverEnterpoint, kubeconfig)
-	setCredentialsCmd        = fmt.Sprintf(myConst.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
-	setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-	useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
-	clusterrolebindingDelete = fmt.Sprintf(myConst.ClusterrolebindingDelete, clusterrolebinding)
-	clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
-	approveNode              = "kubectl certificate approve `kubectl get csr|awk '/node/{print $1}'`"
 )

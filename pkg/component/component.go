@@ -23,7 +23,7 @@ func Init() {
 		}
 	}
 
-	temp([]string{config.K8sPkg, config.NginxPkg, config.EtcdPkg, config.DockerPkg})
+	temp([]string{myConst.K8sPkg, myConst.NginxPkg, myConst.EtcdPkg, myConst.DockerPkg})
 
 	var etcdBinary = []string{"etcd-v3.5.2-linux-amd64/etcd", "etcd-v3.5.2-linux-amd64/etcdctl", "etcd-v3.5.2-linux-amd64/etcdutl"}
 	var dockerBinary = []string{"docker/docker-proxy", "docker/dockerd", "docker/docker", "docker/containerd", "docker/containerd-shim-runc-v2", "docker/ctr", "docker/docker-init", "docker/runc", "docker/containerd-shim"}

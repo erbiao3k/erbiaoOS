@@ -11,8 +11,7 @@ import (
 )
 
 var (
-	ClusterIPs     = hosts(config.K8sMasterIPs, config.K8sNodeIPs)
-	EtcdServerUrls = ClientCmd()
+	ClusterIPs = hosts(myConst.K8sMasterIPs, myConst.K8sNodeIPs)
 )
 
 // hosts 按照逻辑选定etcd部署架构以及节点清单
@@ -75,7 +74,17 @@ func ClientCmd() (etcdServerUrls string) {
 			etcdServerUrls = etcdServerUrls + ","
 		}
 	}
-	file.Create(sysinit.BashProfile, sysinit.CurrentUserBashProfile+"\n "+strings.ReplaceAll(manageCmd, "clientUrls", etcdServerUrls))
+
+	var currentUserBashProfile string
+
+	if !file.Exist(BashProfileBak) {
+		file.Copy(BashProfileBak, BashProfile)
+		currentUserBashProfile = file.Read(BashProfile)
+	} else {
+		currentUserBashProfile = file.Read(BashProfileBak)
+	}
+
+	file.Create(sysinit.BashProfile, currentUserBashProfile+"\n "+strings.ReplaceAll(manageCmd, "clientUrls", etcdServerUrls))
 	return etcdServerUrls
 }
 

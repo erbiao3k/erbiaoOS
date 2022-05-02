@@ -14,10 +14,10 @@ import (
 
 // systemdScript 生成kube-apiserver systemd管理脚本
 func systemdScript() {
-	apiserverCount := len(config.K8sMasterIPs)
-	for _, ip := range config.K8sMasterIPs {
+	apiserverCount := len(myConst.K8sMasterIPs)
+	for _, ip := range myConst.K8sMasterIPs {
 		cfg := strings.ReplaceAll(systemd, "currentIPaddr", ip)
-		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.EtcdServerUrls)
+		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.ClientCmd())
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))
 		file.Create(myConst.TempDir+ip+"/kube-apiserver.service", cfg)
 	}

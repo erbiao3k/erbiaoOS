@@ -5,18 +5,6 @@ import (
 	"os"
 )
 
-var (
-	K8sMasterIPs []string
-	K8sNodeIPs   []string
-	SshUser      string
-	SshPassword  string
-	SshPort      string
-	K8sPkg       string
-	EtcdPkg      string
-	NginxPkg     string
-	DockerPkg    string
-)
-
 // ClusterHost 集群节点初始化信息
 type ClusterHost struct {
 	K8sMaster []HostInfo
@@ -34,8 +22,6 @@ type HostInfo struct {
 }
 
 var (
-	ApiserverEnterpoint = enterpointAddr()
-
 	ClusterApiserverEndpoint   = "127.0.0.1:16443"
 	K8sMasterHost, K8sNodeHost = hostInfo()
 
@@ -43,43 +29,26 @@ var (
 )
 
 func hostInfo() (masterHost, nodeHost []HostInfo) {
-	for _, ip := range K8sMasterIPs {
+	for _, ip := range myConst.K8sMasterIPs {
 		masterHost = append(masterHost, HostInfo{
 			Role:     "k8sMaster",
 			LanIp:    ip,
-			User:     SshUser,
-			Password: SshPassword,
-			Port:     SshPort,
-			DataDir:  "",
+			User:     myConst.SshUser,
+			Password: myConst.SshPassword,
+			Port:     myConst.SshPort,
 		})
 	}
 
-	for _, ip := range K8sMasterIPs {
+	for _, ip := range myConst.K8sMasterIPs {
 		masterHost = append(nodeHost, HostInfo{
 			Role:     "k8sNode",
 			LanIp:    ip,
-			User:     SshUser,
-			Password: SshPassword,
-			Port:     SshPort,
-			DataDir:  "",
+			User:     myConst.SshUser,
+			Password: myConst.SshPassword,
+			Port:     myConst.SshPort,
 		})
 	}
 	return
-}
-
-// DeployMode 返回k8s的部署模式
-func DeployMode() string {
-	if len(K8sMasterIPs) < 2 {
-		return "standalone"
-	}
-	return "cluster"
-}
-
-func enterpointAddr() string {
-	if DeployMode() == "standalone" {
-		return K8sMasterIPs[0] + ":6443"
-	}
-	return ClusterApiserverEndpoint
 }
 
 // GetHostInfo 获取对应IP的节点信息
@@ -95,7 +64,22 @@ func GetHostInfo(ip string) *HostInfo {
 
 func init() {
 	// 初始化每节点临时目录
-	for _, ip := range append(K8sMasterIPs, K8sNodeIPs...) {
+	for _, ip := range append(myConst.K8sMasterIPs, myConst.K8sNodeIPs...) {
 		os.MkdirAll(myConst.TempDir+ip, 0777)
 	}
+}
+
+// DeployMode 返回k8s的部署模式
+func DeployMode() string {
+	if len(myConst.K8sMasterIPs) < 2 {
+		return "standalone"
+	}
+	return "cluster"
+}
+
+func EnterpointAddr() string {
+	if DeployMode() == "standalone" {
+		return myConst.K8sMasterIPs[0] + ":6443"
+	}
+	return ClusterApiserverEndpoint
 }

@@ -1,7 +1,5 @@
 package sysinit
 
-import "erbiaoOS/utils/file"
-
 const (
 
 	// topDisk 获取当前本地文件系统最大的分区
@@ -155,26 +153,4 @@ var (
 		"EnableIpvs.sh":       enableIpvs,
 		"DockerInstall.sh":    dockerInstall,
 	}
-
-	SysHost                = hostFileInitContent()[0]
-	CurrentUserBashProfile = hostFileInitContent()[1]
 )
-
-// 初始化的/etc/hosts信息和/root/.bash_profile信息
-func hostFileInitContent() (initInfo []string) {
-
-	if !file.Exist(HostsFileBak) {
-		file.Copy(HostsFileBak, hostsFile)
-		initInfo = append(initInfo, file.Read(hostsFile))
-	} else {
-		initInfo = append(initInfo, file.Read(HostsFileBak))
-	}
-
-	if !file.Exist(BashProfileBak) {
-		file.Copy(BashProfileBak, BashProfile)
-		initInfo = append(initInfo, file.Read(BashProfile))
-	} else {
-		initInfo = append(initInfo, file.Read(BashProfileBak))
-	}
-	return
-}

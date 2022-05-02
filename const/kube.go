@@ -13,3 +13,15 @@ const (
 	ClusterrolebindingDelete = "kubectl delete clusterrolebinding %s || echo 不存在此clusterrolebinding"
 	ClusterrolebindingCreate = "kubectl create clusterrolebinding %s --clusterrole=%s --user=%s"
 )
+
+var (
+	K8sMasterIPs []string
+	K8sNodeIPs   []string
+	SshUser      string
+	SshPassword  string
+	SshPort      string
+	K8sPkg       string
+	EtcdPkg      string
+	NginxPkg     string
+	DockerPkg    string
+)

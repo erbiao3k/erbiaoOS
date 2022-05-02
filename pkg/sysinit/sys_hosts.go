@@ -9,6 +9,16 @@ import (
 
 // initHostfile 初始化/etc/hosts
 func initHostfile() {
+
+	// 初始化的/etc/hosts信息
+	var SysHost string
+	if !file.Exist(HostsFileBak) {
+		file.Copy(HostsFileBak, hostsFile)
+		SysHost = file.Read(hostsFile)
+	} else {
+		SysHost = file.Read(HostsFileBak)
+	}
+
 	initHost := SysHost + "# k8s section\n"
 	loopExec := func(hostInfo []config.HostInfo) {
 		for _, host := range hostInfo {

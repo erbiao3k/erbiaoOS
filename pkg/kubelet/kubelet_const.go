@@ -1,7 +1,7 @@
 package kubelet
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

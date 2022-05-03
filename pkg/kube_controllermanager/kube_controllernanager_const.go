@@ -1,7 +1,7 @@
 package kube_controllermanager
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

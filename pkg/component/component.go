@@ -1,17 +1,20 @@
 package component
 
 import (
-	myConst "erbiaoOS/const"
-	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/vars"
+	"fmt"
 	"strings"
 )
 
 // Init 初始化组件信息
 func Init() {
-	file.Chdir(myConst.SoftDir)
+
+	_, _, K8sClusterHost := vars.ClusterHostInfo()
+
+	file.Chdir(vars.SoftDir)
 
 	// 下载并解压所有压缩包
 	temp := func(pkgs []string) {
@@ -23,33 +26,32 @@ func Init() {
 		}
 	}
 
-	temp([]string{myConst.K8sPkg, myConst.NginxPkg, myConst.EtcdPkg, myConst.DockerPkg})
+	temp([]string{vars.K8sPkg, vars.NginxPkg, vars.EtcdPkg, vars.DockerPkg})
 
-	var etcdBinary = []string{"etcd-v3.5.2-linux-amd64/etcd", "etcd-v3.5.2-linux-amd64/etcdctl", "etcd-v3.5.2-linux-amd64/etcdutl"}
+	etcdDir := file.ListHasPrefix(vars.SoftDir, []string{"etcd-v", "."}, file.DIR)[0]
+	var etcdBinary = []string{"%s/etcd", "%s/etcdctl", "%s/etcdutl"}
 	var dockerBinary = []string{"docker/docker-proxy", "docker/dockerd", "docker/docker", "docker/containerd", "docker/containerd-shim-runc-v2", "docker/ctr", "docker/docker-init", "docker/runc", "docker/containerd-shim"}
 	var k8sBinary = []string{"kubernetes/server/bin/kube-apiserver", "kubernetes/server/bin/kube-controller-manager", "kubernetes/server/bin/kubectl", "kubernetes/server/bin/kubelet", "kubernetes/server/bin/kube-proxy", "kubernetes/server/bin/kube-scheduler"}
 
-	loopExec := func(hosts []config.HostInfo, binarys []string) {
+	loopExec := func(hosts []vars.HostInfo, binarys []string) {
 		for _, host := range hosts {
-
 			for _, b := range binarys {
-				sshd.Upload(&host, b, myConst.BinaryDir)
+				sshd.Upload(&host, b, vars.BinaryDir)
 			}
-
-			sshd.RemoteExec(&host, "chmod +x -R "+myConst.BinaryDir)
+			sshd.RemoteExec(&host, "chmod +x -R "+vars.BinaryDir)
 		}
 	}
 
 	for _, ip := range etcd.ClusterIPs {
-		host := config.GetHostInfo(ip)
+		host := vars.GetHostInfo(ip)
 
 		for _, binary := range etcdBinary {
-			sshd.Upload(host, binary, myConst.BinaryDir)
+			sshd.Upload(host, fmt.Sprintf(binary, etcdDir), vars.BinaryDir)
 		}
-		sshd.RemoteExec(host, "chmod +x -R "+myConst.BinaryDir)
+		sshd.RemoteExec(host, "chmod +x -R "+vars.BinaryDir)
 	}
 
-	loopExec(config.K8sClusterHost, k8sBinary)
-	loopExec(config.K8sClusterHost, dockerBinary)
+	loopExec(K8sClusterHost, k8sBinary)
+	loopExec(K8sClusterHost, dockerBinary)
 
 }

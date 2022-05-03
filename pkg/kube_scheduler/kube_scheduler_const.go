@@ -1,7 +1,7 @@
 package kube_scheduler
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

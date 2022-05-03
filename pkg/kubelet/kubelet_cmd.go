@@ -1,53 +1,55 @@
 package kubelet
 
 import (
-	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/cert"
-	config2 "erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/vars"
 	"fmt"
 	"strings"
 )
 
 // config 生成kubelet配置文件
 func config() {
-	for _, ip := range append(myConst.K8sMasterIPs, myConst.K8sNodeIPs...) {
+	for _, ip := range append(vars.K8sMasterIPs, vars.K8sNodeIPs...) {
 		cfg := strings.ReplaceAll(cfgContent, "currentKubeletIP", ip)
-		file.Create(myConst.TempDir+ip+"/kubelet", cfg)
+		file.Create(vars.TempDir+ip+"/kubelet", cfg)
 	}
 }
 
 // systemdScript 生成kubelet配置文件以及systemd管理脚本
-func systemdScript() {
-	for _, host := range config2.K8sClusterHost {
+func systemdScript(hostInfo []vars.HostInfo) {
+	for _, host := range hostInfo {
 		cfg := strings.ReplaceAll(systemd, "kubeletDataDir", host.DataDir)
-		file.Create(myConst.TempDir+host.LanIp+"/kubelet.service", cfg)
+		file.Create(vars.TempDir+host.LanIp+"/kubelet.service", cfg)
 	}
 }
 
 func Start() {
+
+	_, _, K8sClusterHost := vars.ClusterHostInfo()
+
 	var (
-		setClusterCmd            = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.EnterpointAddr(), kubeconfig)
-		setCredentialsCmd        = fmt.Sprintf(myConst.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
-		setContextCmd            = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-		useContextCmd            = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
-		clusterrolebindingDelete = fmt.Sprintf(myConst.ClusterrolebindingDelete, clusterrolebinding)
-		clusterrolebindingCreate = fmt.Sprintf(myConst.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
+		setClusterCmd            = fmt.Sprintf(vars.SetClusterCmd, cert.CaPubilcKeyFile, vars.EnterpointAddr(), kubeconfig)
+		setCredentialsCmd        = fmt.Sprintf(vars.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
+		setContextCmd            = fmt.Sprintf(vars.SetContextCmd, context, user, kubeconfig)
+		useContextCmd            = fmt.Sprintf(vars.UseContextCmd, context, kubeconfig)
+		clusterrolebindingDelete = fmt.Sprintf(vars.ClusterrolebindingDelete, clusterrolebinding)
+		clusterrolebindingCreate = fmt.Sprintf(vars.ClusterrolebindingCreate, clusterrolebinding, clusterrole, user)
 		approveNode              = "kubectl certificate approve `kubectl get csr|awk '/node/{print $1}'`"
 	)
 
 	config()
-	systemdScript()
+	systemdScript(K8sClusterHost)
 	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd, clusterrolebindingDelete, clusterrolebindingCreate}
 	utils.MultiExecCmd(cmds)
 
-	for _, host := range config2.K8sClusterHost {
+	for _, host := range K8sClusterHost {
 
-		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kubelet", myConst.K8sCfgDir)
-		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kubelet.service", myConst.SystemdServiceDir)
-		sshd.Upload(&host, kubeconfig, myConst.K8sCfgDir)
+		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kubelet", vars.K8sCfgDir)
+		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kubelet.service", vars.SystemdServiceDir)
+		sshd.Upload(&host, kubeconfig, vars.K8sCfgDir)
 		sshd.RemoteExec(&host, restartCmd)
 	}
 	utils.ExecCmd(approveNode)

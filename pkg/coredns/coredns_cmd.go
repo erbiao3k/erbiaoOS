@@ -1,9 +1,9 @@
 package coredns
 
 import (
-	myConst "erbiaoOS/const"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
+	myConst "erbiaoOS/vars"
 	"strings"
 )
 

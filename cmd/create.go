@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"erbiaoOS/const"
 	"erbiaoOS/install"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/net"
+	"erbiaoOS/vars"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -38,20 +38,20 @@ var createCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(createCmd)
 
-	localCmdStringSliceVarP(&myConst.K8sMasterIPs, "master-ip", "m", []string{}, "[必填]master节点IP")
-	localCmdStringSliceVarP(&myConst.K8sNodeIPs, "node-ip", "n", []string{}, "[必填]node节点IP")
+	localCmdStringSliceVarP(&vars.K8sMasterIPs, "master-ip", "m", []string{}, "[必填]master节点IP")
+	localCmdStringSliceVarP(&vars.K8sNodeIPs, "node-ip", "n", []string{}, "[必填]node节点IP")
 
-	localCmdStringVarP(&myConst.SshUser, "ssh-user", "u", "root", "master节点和node节点部署使用的账号，必须具备root权限")
-	localCmdStringVarP(&myConst.SshPort, "ssh-port", "P", "22", "master节点和node节点ssh端口")
-	localCmdStringVarP(&myConst.SshPassword, "ssh-password", "p", "", "[必填]master节点和node节点部署使用账号的密码")
+	localCmdStringVarP(&vars.SshUser, "ssh-user", "u", "root", "master节点和node节点部署使用的账号，必须具备root权限")
+	localCmdStringVarP(&vars.SshPort, "ssh-port", "P", "22", "master节点和node节点ssh端口")
+	localCmdStringVarP(&vars.SshPassword, "ssh-password", "p", "", "[必填]master节点和node节点部署使用账号的密码")
 
-	localCmdStringVarP(&myConst.K8sPkg, "k8s-pkg", "", "https://dl.k8s.io/v1.23.4/kubernetes-server-linux-amd64.tar.gz", "k8s二进制包位置，可以是url地址或文件系统位置(如：/tmp/kubernetes-server-linux-amd64.tar.gz)")
+	localCmdStringVarP(&vars.K8sPkg, "k8s-pkg", "", "https://dl.k8s.io/v1.23.4/kubernetes-server-linux-amd64.tar.gz", "k8s二进制包位置，可以是url地址或文件系统位置(如：/tmp/kubernetes-server-linux-amd64.tar.gz)")
 
-	localCmdStringVarP(&myConst.NginxPkg, "nginx-pkg", "", "https://nginx.org/download/nginx-1.21.6.tar.gz", "nginx源码位置，可以是url地址或文件系统位置(如：/tmp/nginx-1.21.6.tar.gz)")
+	localCmdStringVarP(&vars.NginxPkg, "nginx-pkg", "", "https://nginx.org/download/nginx-1.21.6.tar.gz", "nginx源码位置，可以是url地址或文件系统位置(如：/tmp/nginx-1.21.6.tar.gz)")
 
-	localCmdStringVarP(&myConst.DockerPkg, "docker-pkg", "", "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.8.tgz", "docker二进制包位置，可以是url地址或文件系统位置(如：/tmp/docker-20.10.8.tgz)")
+	localCmdStringVarP(&vars.DockerPkg, "docker-pkg", "", "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.8.tgz", "docker二进制包位置，可以是url地址或文件系统位置(如：/tmp/docker-20.10.8.tgz)")
 
-	localCmdStringVarP(&myConst.EtcdPkg, "etcd-pkg", "", "https://github.com/etcd-io/etcd/releases/download/v3.5.2/etcd-v3.5.2-linux-amd64.tar.gz", "etcd二进制包位置，可以是url地址或文件系统位置(如：/tmp/etcd-v3.5.2-linux-amd64.tar.gz)")
+	localCmdStringVarP(&vars.EtcdPkg, "etcd-pkg", "", "https://github.com/etcd-io/etcd/releases/download/v3.5.2/etcd-v3.5.2-linux-amd64.tar.gz", "etcd二进制包位置，可以是url地址或文件系统位置(如：/tmp/etcd-v3.5.2-linux-amd64.tar.gz)")
 
 	createCmd.MarkFlagRequired("master-ip")
 	createCmd.MarkFlagRequired("node-ip")
@@ -59,6 +59,6 @@ func init() {
 }
 
 func runCreate(*cobra.Command, []string) {
-	net.ParseMultiIPv4(append(myConst.K8sMasterIPs, myConst.K8sNodeIPs...))
+	net.ParseMultiIPv4(append(vars.K8sMasterIPs, vars.K8sNodeIPs...))
 	install.K8sClusterInit()
 }

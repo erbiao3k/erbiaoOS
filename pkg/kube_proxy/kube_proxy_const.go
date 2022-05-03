@@ -1,7 +1,7 @@
 package kube_proxy
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

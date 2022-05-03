@@ -1,17 +1,16 @@
 package etcd
 
 import (
-	myConst "erbiaoOS/const"
-	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/vars"
 	"strings"
 )
 
 var (
-	ClusterIPs = hosts(myConst.K8sMasterIPs, myConst.K8sNodeIPs)
+	ClusterIPs = hosts(vars.K8sMasterIPs, vars.K8sNodeIPs)
 )
 
 // hosts 按照逻辑选定etcd部署架构以及节点清单
@@ -62,7 +61,7 @@ func systemdScript() {
 		systemd := strings.ReplaceAll(systemd, "currentEtcdName", currentEtcdName)
 		systemd = strings.ReplaceAll(systemd, "currentEtcdIp", ip)
 		systemd = strings.ReplaceAll(systemd, "etcdCluster", etcdCluster)
-		file.Create(myConst.TempDir+"/"+ip+"/etcd.service", systemd)
+		file.Create(vars.TempDir+"/"+ip+"/etcd.service", systemd)
 	}
 }
 
@@ -93,9 +92,9 @@ func Start() {
 	systemdScript()
 	ClientCmd()
 	for _, ip := range ClusterIPs {
-		info := config.GetHostInfo(ip)
+		info := vars.GetHostInfo(ip)
 
-		sshd.Upload(info, myConst.TempDir+"/"+ip+"/etcd.service", myConst.SystemdServiceDir)
+		sshd.Upload(info, vars.TempDir+"/"+ip+"/etcd.service", vars.SystemdServiceDir)
 		sshd.Upload(info, sysinit.BashProfile, sysinit.SysConfigDir)
 		sshd.RemoteExec(info, etcdRestartCmd)
 	}

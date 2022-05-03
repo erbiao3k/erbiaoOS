@@ -1,7 +1,7 @@
 package cert
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

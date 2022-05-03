@@ -1,4 +1,4 @@
-package myConst
+package vars
 
 import (
 	"os"

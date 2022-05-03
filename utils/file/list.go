@@ -6,6 +6,11 @@ import (
 	"strings"
 )
 
+const (
+	FILE = "file"
+	DIR  = "dir"
+)
+
 // isValueInSlice 判断字符串切片中是否包含某个value
 func isValueInSlice(value string, slice []string) bool {
 	for _, v := range slice {
@@ -16,32 +21,38 @@ func isValueInSlice(value string, slice []string) bool {
 	return false
 }
 
-// List 列举目录下所有文件， 不包含子目录
-func List(path string) []string {
-	var fileList []string
+// List 列举目录下所有文件
+func List(path string) (files, dirs []string) {
 
-	fileInfoList, err := ioutil.ReadDir(path)
+	infoList, err := ioutil.ReadDir(path)
 	if err != nil {
 		panic(err)
 	}
-	for f := range fileInfoList {
-		if !fileInfoList[f].IsDir() {
-			fileList = append(fileList, fileInfoList[f].Name())
+	for info := range infoList {
+		if !infoList[info].IsDir() {
+			files = append(files, infoList[info].Name())
+		} else {
+			dirs = append(dirs, infoList[info].Name())
 		}
 	}
-	return fileList
+	return
 }
 
 // ListContains 匹配包含关键词列举目录下所有文件， 不包含子目录
-func ListContains(path string, searchWords []string) []string {
+func ListContains(path string, searchWords []string, obj string) (searchList []string) {
 	if len(searchWords) == 0 {
 		log.Fatal("匹配所需的关键字为空")
 	}
 
-	fileList := List(path)
-	var searchList []string
+	var info []string
 
-	for _, f := range fileList {
+	if obj == FILE {
+		info, _ = List(path)
+	} else if obj == DIR {
+		_, info = List(path)
+	}
+
+	for _, f := range info {
 		for _, s := range searchWords {
 			if strings.Contains(f, s) {
 				searchList = append(searchList, f)
@@ -52,15 +63,20 @@ func ListContains(path string, searchWords []string) []string {
 }
 
 // ListHasPrefix 匹配以关键词开头目录下所有文件， 不包含子目录
-func ListHasPrefix(path string, searchWords []string) []string {
+func ListHasPrefix(path string, searchWords []string, obj string) (searchList []string) {
 	if len(searchWords) == 0 {
 		log.Fatal("匹配所需的关键字为空")
 	}
 
-	fileList := List(path)
-	var searchList []string
+	var info []string
 
-	for _, f := range fileList {
+	if obj == FILE {
+		info, _ = List(path)
+	} else if obj == DIR {
+		_, info = List(path)
+	}
+
+	for _, f := range info {
 		for _, s := range searchWords {
 			if strings.HasPrefix(f, s) {
 				searchList = append(searchList, f)

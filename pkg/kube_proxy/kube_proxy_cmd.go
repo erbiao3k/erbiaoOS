@@ -1,52 +1,52 @@
 package kube_proxy
 
 import (
-	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/cert"
-	config2 "erbiaoOS/pkg/config"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/vars"
 	"fmt"
 	"strings"
 )
 
 // config 生成配置文件
 func config() {
-	for _, ip := range append(myConst.K8sMasterIPs, myConst.K8sNodeIPs...) {
+	for _, ip := range append(vars.K8sMasterIPs, vars.K8sNodeIPs...) {
 
 		cfg := strings.ReplaceAll(cfgContent, "currentKubeproxyIP", ip)
 
-		file.Create(myConst.TempDir+ip+"/kube-proxy", cfg)
+		file.Create(vars.TempDir+ip+"/kube-proxy", cfg)
 	}
 }
 
 // systemdScript 生成systemd管理脚本
-func systemdScript() {
-	for _, host := range config2.K8sClusterHost {
+func systemdScript(hostInfo []vars.HostInfo) {
+	for _, host := range hostInfo {
 		cfg := strings.ReplaceAll(systemd, "kubeProxyDataDir", host.DataDir)
-		file.Create(myConst.TempDir+host.LanIp+"/kube-proxy.service", cfg)
+		file.Create(vars.TempDir+host.LanIp+"/kube-proxy.service", cfg)
 	}
 }
 
 func Start() {
+	_, _, K8sClusterHost := vars.ClusterHostInfo()
 
 	var (
-		setClusterCmd     = fmt.Sprintf(myConst.SetClusterCmd, cert.CaPubilcKeyFile, config2.EnterpointAddr(), kubeconfig)
-		setCredentialsCmd = fmt.Sprintf(myConst.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
-		setContextCmd     = fmt.Sprintf(myConst.SetContextCmd, context, user, kubeconfig)
-		useContextCmd     = fmt.Sprintf(myConst.UseContextCmd, context, kubeconfig)
+		setClusterCmd     = fmt.Sprintf(vars.SetClusterCmd, cert.CaPubilcKeyFile, vars.EnterpointAddr(), kubeconfig)
+		setCredentialsCmd = fmt.Sprintf(vars.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
+		setContextCmd     = fmt.Sprintf(vars.SetContextCmd, context, user, kubeconfig)
+		useContextCmd     = fmt.Sprintf(vars.UseContextCmd, context, kubeconfig)
 	)
 
 	config()
-	systemdScript()
+	systemdScript(K8sClusterHost)
 	cmds := []string{setClusterCmd, setCredentialsCmd, setContextCmd, useContextCmd}
 	utils.MultiExecCmd(cmds)
 
-	for _, host := range config2.K8sClusterHost {
-		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kube-proxy.service", myConst.SystemdServiceDir)
-		sshd.Upload(&host, myConst.TempDir+host.LanIp+"/kube-proxy", myConst.K8sCfgDir)
-		sshd.Upload(&host, kubeconfig, myConst.K8sCfgDir)
+	for _, host := range K8sClusterHost {
+		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kube-proxy.service", vars.SystemdServiceDir)
+		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kube-proxy", vars.K8sCfgDir)
+		sshd.Upload(&host, kubeconfig, vars.K8sCfgDir)
 		sshd.RemoteExec(&host, restartCmd)
 	}
 }

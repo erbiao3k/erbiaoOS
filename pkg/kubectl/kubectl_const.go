@@ -1,7 +1,7 @@
 package kubectl
 
 import (
-	myConst "erbiaoOS/const"
+	myConst "erbiaoOS/vars"
 )
 
 const (

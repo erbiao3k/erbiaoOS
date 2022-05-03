@@ -1,11 +1,9 @@
 package install
 
 import (
-	myConst "erbiaoOS/const"
 	"erbiaoOS/pkg/calico"
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/pkg/component"
-	"erbiaoOS/pkg/config"
 	"erbiaoOS/pkg/coredns"
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/pkg/kube_apiserver"
@@ -17,24 +15,33 @@ import (
 	"erbiaoOS/pkg/nginx"
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/vars"
 	"fmt"
 	"log"
+	"os"
 )
 
 func K8sClusterInit() {
+
+	_, _, K8sClusterHost := vars.ClusterHostInfo()
+	// 初始化每节点临时目录
+	for _, ip := range append(vars.K8sMasterIPs, vars.K8sNodeIPs...) {
+		os.MkdirAll(vars.TempDir+ip, 0777)
+	}
+
 	log.Println("清理可能阻塞部署的软件包")
-	sshd.LoopRemoteExec(config.K8sClusterHost, sysinit.RemoveSoft)
+	sshd.LoopRemoteExec(K8sClusterHost, sysinit.RemoveSoft)
 
 	log.Println("清理可能阻塞部署的进程")
-	sshd.LoopRemoteExec(config.K8sClusterHost, sysinit.StopService)
+	sshd.LoopRemoteExec(K8sClusterHost, sysinit.StopService)
 
 	log.Println("清理可能阻塞部署的历史数据")
-	sshd.LoopRemoteExec(config.K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", myConst.EtcdDir, myConst.CaCenterDir, myConst.K8sSslDir))
+	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", vars.EtcdDir, vars.CaCenterDir, vars.K8sSslDir))
 
 	log.Println("初始化环境目录")
-	sshd.LoopRemoteExec(config.K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", myConst.NginxDir+"/{logs,conf,sbin}", myConst.InitScriptDir, myConst.CaCenterDir, myConst.EtcdSslDir, myConst.EtcdDataDir, myConst.K8sSslDir, myConst.K8sCfgDir, myConst.KubectlConfigDir, myConst.KubernetesLogDir))
+	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", vars.NginxDir+"/{logs,conf,sbin}", vars.InitScriptDir, vars.CaCenterDir, vars.EtcdSslDir, vars.EtcdDataDir, vars.K8sSslDir, vars.K8sCfgDir, vars.KubectlConfigDir, vars.KubernetesLogDir))
 
-	log.Println("下载k8s必要组件")
+	log.Println("准备k8s组件")
 	component.Init()
 
 	log.Println("初始化k8s节点环境")

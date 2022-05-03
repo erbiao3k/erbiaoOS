@@ -1,4 +1,4 @@
-package myConst
+package vars
 
 const (
 	SetClusterCmd = "kubectl config set-cluster kubernetes --certificate-authority=%s --embed-certs=true --server=https://%s --kubeconfig=%s"
@@ -12,16 +12,4 @@ const (
 	SetContextCmd            = "kubectl config set-context %s --cluster=kubernetes --user=%s --kubeconfig=%s"
 	ClusterrolebindingDelete = "kubectl delete clusterrolebinding %s || echo 不存在此clusterrolebinding"
 	ClusterrolebindingCreate = "kubectl create clusterrolebinding %s --clusterrole=%s --user=%s"
-)
-
-var (
-	K8sMasterIPs []string
-	K8sNodeIPs   []string
-	SshUser      string
-	SshPassword  string
-	SshPort      string
-	K8sPkg       string
-	EtcdPkg      string
-	NginxPkg     string
-	DockerPkg    string
 )

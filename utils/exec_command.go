@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"os/exec"
 )
 
@@ -13,6 +14,9 @@ func ExecCmd(command string) {
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
+		log.Println("----------------------")
+		log.Println(cmd)
+		log.Println("----------------------")
 		fmt.Println(out.String())
 		panic(err)
 	}

@@ -16,7 +16,7 @@ func systemdScript() {
 	apiserverCount := len(vars.K8sMasterIPs)
 	for _, ip := range vars.K8sMasterIPs {
 		cfg := strings.ReplaceAll(systemd, "currentIPaddr", ip)
-		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.ClientCmd())
+		cfg = strings.ReplaceAll(cfg, "etcdServerUrls", etcd.ClientCmd(etcd.Host(vars.K8sMasterIPs, vars.K8sNodeIPs)))
 		cfg = strings.ReplaceAll(cfg, "apiserverCount", strconv.Itoa(apiserverCount))
 		file.Create(vars.TempDir+ip+"/kube-apiserver.service", cfg)
 	}

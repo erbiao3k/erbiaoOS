@@ -11,7 +11,7 @@ import (
 // certGenerate 生成k8s集群所需所有证书
 func certGenerate(masterIPs []string) {
 
-	etcdAltNames := NewAltNames(etcd.ClusterIPs, []string{})
+	etcdAltNames := NewAltNames(etcd.Host(vars.K8sMasterIPs, vars.K8sNodeIPs), []string{})
 
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
 
@@ -70,7 +70,7 @@ func InitCert() {
 		sshd.Upload(&host, vars.CaCenterDir, vars.CaCenterDir)
 	}
 
-	for _, host := range etcd.ClusterIPs {
+	for _, host := range etcd.Host(vars.K8sMasterIPs, vars.K8sNodeIPs) {
 		if host == net.CurrentIP {
 			continue
 		}

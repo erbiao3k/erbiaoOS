@@ -42,7 +42,7 @@ func Init() {
 		}
 	}
 
-	for _, ip := range etcd.ClusterIPs {
+	for _, ip := range etcd.Host(vars.K8sMasterIPs, vars.K8sNodeIPs) {
 		host := vars.GetHostInfo(ip)
 
 		for _, binary := range etcdBinary {

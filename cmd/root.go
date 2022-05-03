@@ -40,7 +40,4 @@ func Execute() {
 
 func runRoot(*cobra.Command, []string) {
 	fmt.Printf(rootShow)
-	if len(os.Args) < 5 {
-		return
-	}
 }

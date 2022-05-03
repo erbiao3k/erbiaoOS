@@ -41,18 +41,14 @@ func SysInit() {
 
 	fmt.Println("正在为所有linux服务器设置主机名")
 	for _, host := range config.K8sClusterHost {
-
 		hName := utils.GenerateHostname(host.Role, host.LanIp)
-		// 登陆到服务器，若服务器主机名包含localhost则按照Generate规则重命名主机名
 		sshd.RemoteExec(&host, setHostname+hName)
 	}
 
 	fmt.Println("初始化集群/etc/hosts文件")
 	initHostfile()
 	for _, host := range config.K8sClusterHost {
-
 		sshd.Upload(&host, myConst.TempDir, SysConfigDir)
-
 	}
 
 	fmt.Println("正在为所有linux服务器关闭SELinux")

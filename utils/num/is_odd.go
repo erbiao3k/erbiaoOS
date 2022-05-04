@@ -1,4 +1,4 @@
-package utils
+package num
 
 // Odd 判断是奇数
 func Odd(num int) bool {

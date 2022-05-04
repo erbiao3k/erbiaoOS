@@ -3,8 +3,8 @@ package kubectl
 import (
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/utils"
-	"erbiaoOS/utils/login/sshd"
 	"erbiaoOS/utils/net"
+	"erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"os"

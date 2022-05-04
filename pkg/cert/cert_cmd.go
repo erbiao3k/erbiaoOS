@@ -3,8 +3,8 @@ package cert
 import (
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
 	"erbiaoOS/utils/net"
+	"erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 )
 

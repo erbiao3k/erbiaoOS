@@ -4,7 +4,7 @@ import (
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 )
@@ -32,8 +32,8 @@ func Start() {
 
 	for _, host := range K8sMasterHost {
 
-		sshd.Upload(&host, vars.TempDir+"kube-controller-manager.service", vars.SystemdServiceDir)
-		sshd.Upload(&host, kubeconfig, vars.K8sCfgDir)
-		sshd.RemoteExec(&host, restartCmd)
+		sshd2.Upload(&host, vars.TempDir+"kube-controller-manager.service", vars.SystemdServiceDir)
+		sshd2.Upload(&host, kubeconfig, vars.K8sCfgDir)
+		sshd2.RemoteExec(&host, restartCmd)
 	}
 }

@@ -1,4 +1,4 @@
-package utils
+package num
 
 // Even 判断是偶数
 func Even(num int) bool {

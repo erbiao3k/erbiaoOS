@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"strings"

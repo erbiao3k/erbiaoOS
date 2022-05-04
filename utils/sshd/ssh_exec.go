@@ -76,8 +76,21 @@ func RemoteExec(host *vars.HostInfo, command string) string {
 	if strings.Contains(cmdRes, "ErrorFlag") {
 		log.Fatalf("在节点【%s】执行指令【%s】失败，执行结果：\n ------------\n%s------------", host, command, cmdRes)
 	}
-	//} else {
-	//	log.Printf("在节点【%s】执行指令【%s】成功，执行结果：\n ------------\n%s------------", host, command, res)
-	//}
 	return cmdRes
+}
+
+// LoopRemoteExec 单个Linux指令在清单上的机器执行
+func LoopRemoteExec(hosts []vars.HostInfo, cmd string) {
+	for _, host := range hosts {
+		RemoteExec(&host, cmd)
+	}
+}
+
+// LoopRemoteMultiExec 多个Linux指令在清单上的机器执行
+func LoopRemoteMultiExec(hosts []vars.HostInfo, cmds []string) {
+	for _, host := range hosts {
+		for _, cmd := range cmds {
+			RemoteExec(&host, cmd)
+		}
+	}
 }

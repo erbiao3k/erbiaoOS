@@ -14,7 +14,7 @@ import (
 	"erbiaoOS/pkg/kubelet"
 	"erbiaoOS/pkg/nginx"
 	"erbiaoOS/pkg/sysinit"
-	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"log"

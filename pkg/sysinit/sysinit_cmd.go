@@ -3,8 +3,8 @@ package sysinit
 import (
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
 	"erbiaoOS/utils/net"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 )
@@ -32,7 +32,7 @@ func SysInit() {
 		if host.LanIp == net.CurrentIP {
 			continue
 		}
-		sshd.Upload(&host, vars.InitScriptDir, vars.InitScriptDir)
+		sshd2.Upload(&host, vars.InitScriptDir, vars.InitScriptDir)
 	}
 
 	//fmt.Println("初始化kubelet、kube-proxy数据目录")
@@ -43,41 +43,41 @@ func SysInit() {
 	fmt.Println("正在为所有linux服务器设置主机名")
 	for _, host := range K8sClusterHost {
 		hName := utils.GenerateHostname(host.Role, host.LanIp)
-		sshd.RemoteExec(&host, setHostname+hName)
+		sshd2.RemoteExec(&host, setHostname+hName)
 	}
 
 	fmt.Println("初始化集群/etc/hosts文件")
 	initHostfile()
 	for _, host := range K8sClusterHost {
-		sshd.Upload(&host, vars.TempDir+"hosts", SysConfigDir)
+		sshd2.Upload(&host, vars.TempDir+"hosts", SysConfigDir)
 	}
 
 	fmt.Println("正在为所有linux服务器关闭SELinux")
-	sshd.LoopRemoteExec(K8sClusterHost, disableSELinux)
+	sshd2.LoopRemoteExec(K8sClusterHost, disableSELinux)
 
 	fmt.Println("正在为所有linux服务器关闭firewalld服务")
-	sshd.LoopRemoteExec(K8sClusterHost, disableFirewalld)
+	sshd2.LoopRemoteExec(K8sClusterHost, disableFirewalld)
 
 	fmt.Println("正在为所有linux服务器卸载swap")
-	sshd.LoopRemoteExec(K8sClusterHost, disableSwap)
+	sshd2.LoopRemoteExec(K8sClusterHost, disableSwap)
 
 	fmt.Println("正在为所有linux服务器配置chrony服务")
-	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sEnableChrony.sh", vars.InitScriptDir))
+	sshd2.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sEnableChrony.sh", vars.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点linux服务器优化内核")
-	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", vars.InitScriptDir))
+	sshd2.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sKernelOptimize.sh", vars.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装基础软件")
 
-	sshd.LoopRemoteExec(K8sClusterHost, softwareInstall)
+	sshd2.LoopRemoteExec(K8sClusterHost, softwareInstall)
 
 	fmt.Println("正在为k8s集群节点启用iptables")
-	sshd.LoopRemoteExec(K8sClusterHost, enableIptables)
+	sshd2.LoopRemoteExec(K8sClusterHost, enableIptables)
 
 	fmt.Println("正在为k8s集群节点开启ipvs")
-	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sEnableIpvs.sh", vars.InitScriptDir))
+	sshd2.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sEnableIpvs.sh", vars.InitScriptDir))
 
 	fmt.Println("正在为k8s集群节点安装docker")
-	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sDockerInstall.sh", vars.InitScriptDir))
+	sshd2.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("sh -x %sDockerInstall.sh", vars.InitScriptDir))
 
 }

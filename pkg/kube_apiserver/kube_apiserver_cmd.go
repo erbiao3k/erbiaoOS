@@ -2,9 +2,9 @@ package kube_apiserver
 
 import (
 	"erbiaoOS/pkg/etcd"
-	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/num"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"strconv"
@@ -24,7 +24,7 @@ func systemdScript() {
 
 // bootstrapToken 生成集群启动引导令牌
 func bootstrapToken() {
-	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", utils.RandomString)
+	tokenCsv := fmt.Sprintf("%s,kubelet-bootstrap,10001,\"system:kubelet-bootstrap\"", num.RandomString)
 	file.Create(vars.TempDir+"token.csv", tokenCsv)
 }
 
@@ -36,8 +36,8 @@ func Start() {
 
 	for _, host := range K8sMasterHost {
 
-		sshd.Upload(&host, vars.TempDir+"token.csv", vars.K8sCfgDir)
-		sshd.Upload(&host, vars.TempDir+"/"+host.LanIp+"/kube-apiserver.service", vars.SystemdServiceDir)
-		sshd.RemoteExec(&host, apiserverRestartCmd)
+		sshd2.Upload(&host, vars.TempDir+"token.csv", vars.K8sCfgDir)
+		sshd2.Upload(&host, vars.TempDir+"/"+host.LanIp+"/kube-apiserver.service", vars.SystemdServiceDir)
+		sshd2.RemoteExec(&host, apiserverRestartCmd)
 	}
 }

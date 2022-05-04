@@ -4,7 +4,8 @@ import (
 	"erbiaoOS/pkg/cert"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/num"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"strings"
@@ -32,7 +33,7 @@ func Start() {
 
 	var (
 		setClusterCmd            = fmt.Sprintf(vars.SetClusterCmd, cert.CaPubilcKeyFile, vars.EnterpointAddr(), kubeconfig)
-		setCredentialsCmd        = fmt.Sprintf(vars.KubeletSetCredentialsCmd, kubeletCredentials, utils.RandomString, kubeconfig)
+		setCredentialsCmd        = fmt.Sprintf(vars.KubeletSetCredentialsCmd, kubeletCredentials, num.RandomString, kubeconfig)
 		setContextCmd            = fmt.Sprintf(vars.SetContextCmd, context, user, kubeconfig)
 		useContextCmd            = fmt.Sprintf(vars.UseContextCmd, context, kubeconfig)
 		clusterrolebindingDelete = fmt.Sprintf(vars.ClusterrolebindingDelete, clusterrolebinding)
@@ -47,10 +48,10 @@ func Start() {
 
 	for _, host := range K8sClusterHost {
 
-		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kubelet", vars.K8sCfgDir)
-		sshd.Upload(&host, vars.TempDir+host.LanIp+"/kubelet.service", vars.SystemdServiceDir)
-		sshd.Upload(&host, kubeconfig, vars.K8sCfgDir)
-		sshd.RemoteExec(&host, restartCmd)
+		sshd2.Upload(&host, vars.TempDir+host.LanIp+"/kubelet", vars.K8sCfgDir)
+		sshd2.Upload(&host, vars.TempDir+host.LanIp+"/kubelet.service", vars.SystemdServiceDir)
+		sshd2.Upload(&host, kubeconfig, vars.K8sCfgDir)
+		sshd2.RemoteExec(&host, restartCmd)
 	}
 	utils.ExecCmd(approveNode)
 

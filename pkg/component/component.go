@@ -3,7 +3,7 @@ package component
 import (
 	"erbiaoOS/pkg/etcd"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"strings"
@@ -36,9 +36,9 @@ func Init() {
 	loopExec := func(hosts []vars.HostInfo, binarys []string) {
 		for _, host := range hosts {
 			for _, b := range binarys {
-				sshd.Upload(&host, b, vars.BinaryDir)
+				sshd2.Upload(&host, b, vars.BinaryDir)
 			}
-			sshd.RemoteExec(&host, "chmod +x -R "+vars.BinaryDir)
+			sshd2.RemoteExec(&host, "chmod +x -R "+vars.BinaryDir)
 		}
 	}
 
@@ -46,9 +46,9 @@ func Init() {
 		host := vars.GetHostInfo(ip)
 
 		for _, binary := range etcdBinary {
-			sshd.Upload(host, fmt.Sprintf(binary, etcdDir), vars.BinaryDir)
+			sshd2.Upload(host, fmt.Sprintf(binary, etcdDir), vars.BinaryDir)
 		}
-		sshd.RemoteExec(host, "chmod +x -R "+vars.BinaryDir)
+		sshd2.RemoteExec(host, "chmod +x -R "+vars.BinaryDir)
 	}
 
 	loopExec(K8sClusterHost, k8sBinary)

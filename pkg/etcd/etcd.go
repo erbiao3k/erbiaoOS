@@ -4,7 +4,8 @@ import (
 	"erbiaoOS/pkg/sysinit"
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	"erbiaoOS/utils/num"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"strings"
 )
@@ -26,7 +27,7 @@ func Host(masterIPs []string, nodeIPs []string) []string {
 	}
 
 	// 条件1 + 条件3
-	if countHost > 3 && countHost <= 10 && utils.Even(countHost) {
+	if countHost > 3 && countHost <= 10 && num.Even(countHost) {
 		masterIPs = append(masterIPs[:0], masterIPs[1:]...)
 	}
 
@@ -91,8 +92,8 @@ func Start() {
 	for _, ip := range etcdIPs {
 		info := vars.GetHostInfo(ip)
 
-		sshd.Upload(info, vars.TempDir+"/"+ip+"/etcd.service", vars.SystemdServiceDir)
-		sshd.Upload(info, sysinit.BashProfile, sysinit.SysConfigDir)
-		sshd.RemoteExec(info, etcdRestartCmd)
+		sshd2.Upload(info, vars.TempDir+"/"+ip+"/etcd.service", vars.SystemdServiceDir)
+		sshd2.Upload(info, sysinit.BashProfile, sysinit.SysConfigDir)
+		sshd2.RemoteExec(info, etcdRestartCmd)
 	}
 }

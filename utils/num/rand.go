@@ -1,4 +1,4 @@
-package utils
+package num
 
 import (
 	"crypto/md5"
@@ -14,7 +14,7 @@ func randomInt(min, max int) int {
 	return min + rand.Intn(max-min)
 }
 
-// Generate a random string of A-Z chars with len = l
+// randomLetter 随机字符串
 func randomLetter(len int) string {
 	bytes := make([]byte, len)
 	for i := 0; i < len; i++ {

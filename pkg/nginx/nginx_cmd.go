@@ -3,7 +3,7 @@ package nginx
 import (
 	"erbiaoOS/utils"
 	"erbiaoOS/utils/file"
-	"erbiaoOS/utils/login/sshd"
+	sshd2 "erbiaoOS/utils/sshd"
 	"erbiaoOS/vars"
 	"fmt"
 	"log"
@@ -51,10 +51,10 @@ func Start() {
 	deploy()
 	for _, host := range K8sClusterHost {
 
-		sshd.Upload(&host, nginxSystemd, vars.SystemdServiceDir)
-		sshd.Upload(&host, mainConfigFile, vars.NginxDir+"conf/")
-		sshd.Upload(&host, vars.TempDir+"nginx", vars.NginxDir+"sbin/")
+		sshd2.Upload(&host, nginxSystemd, vars.SystemdServiceDir)
+		sshd2.Upload(&host, mainConfigFile, vars.NginxDir+"conf/")
+		sshd2.Upload(&host, vars.TempDir+"nginx", vars.NginxDir+"sbin/")
 
-		sshd.RemoteExec(&host, restartCmd)
+		sshd2.RemoteExec(&host, restartCmd)
 	}
 }

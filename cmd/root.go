@@ -4,7 +4,6 @@ import (
 	"erbiaoOS/utils"
 	"fmt"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 var rootShow = `
@@ -32,10 +31,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	rootCmd.Execute()
 }
 
 func runRoot(*cobra.Command, []string) {

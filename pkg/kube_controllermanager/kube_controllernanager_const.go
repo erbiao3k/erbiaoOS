@@ -45,5 +45,5 @@ const (
 	privateKeyFile = myConst.K8sSslDir + "kube-controller-manager-key.pem"
 
 	// restartCmd 重启指令
-	restartCmd = "systemctl daemon-reload && systemctl enable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
+	restartCmd = "systemctl daemon-reload && systemctl reenable kube-controller-manager && systemctl restart kube-controller-manager && sleep 1"
 )

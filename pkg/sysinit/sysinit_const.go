@@ -8,7 +8,7 @@ const (
 	SysConfigDir   = "/etc/"
 
 	// RemoveSoft 清理可能阻塞部署的软件
-	RemoveSoft = "yum -y remove docker* || echo 未安装软件包"
+	RemoveSoft = "yum -y remove docker* nginx* || echo 未安装软件包"
 
 	// StopService 清理可能阻塞部署的进程
 	StopService = "systemctl stop etcd docker kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet nginx || echo 服务已停止"
@@ -36,7 +36,7 @@ const (
 		"leapsectz right/UTC\n" +
 		"logdir /var/log/chrony\n" +
 		"EOF\n" +
-		"systemctl enable --now chronyd && \n" +
+		"systemctl reenable --now chronyd && \n" +
 		"systemctl restart chronyd"
 
 	// kernelOptimize 内核优化

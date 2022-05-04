@@ -32,7 +32,7 @@ func Start() {
 	_, _, K8sClusterHost := vars.ClusterHostInfo()
 
 	var (
-		setClusterCmd     = fmt.Sprintf(vars.SetClusterCmd, cert.CaPubilcKeyFile, vars.EnterpointAddr(), kubeconfig)
+		setClusterCmd     = fmt.Sprintf(vars.SetClusterCmd, cert.CaPubilcKeyFile, vars.KubeApiserverEndpoint(), kubeconfig)
 		setCredentialsCmd = fmt.Sprintf(vars.SetCredentialsCmd, user, publicKeyFile, privateKeyFile, kubeconfig)
 		setContextCmd     = fmt.Sprintf(vars.SetContextCmd, context, user, kubeconfig)
 		useContextCmd     = fmt.Sprintf(vars.UseContextCmd, context, kubeconfig)

@@ -42,5 +42,5 @@ const (
 	privateKeyFile = myConst.K8sSslDir + "kube-proxy-key.pem"
 
 	// restartCmd 重启指令
-	restartCmd = "systemctl daemon-reload && systemctl enable kube-proxy && systemctl restart kube-proxy && sleep 1"
+	restartCmd = "systemctl daemon-reload && systemctl reenable kube-proxy && systemctl restart kube-proxy && sleep 1"
 )

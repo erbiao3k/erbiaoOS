@@ -29,7 +29,7 @@ type HostInfo struct {
 }
 
 var (
-	ClusterApiserverEndpoint = "127.0.0.1:16443"
+	HaApiserverEndpoint = "127.0.0.1:16443"
 )
 
 // GetHostInfo 获取对应IP的节点信息
@@ -53,11 +53,11 @@ func DeployMode() string {
 	return "cluster"
 }
 
-func EnterpointAddr() string {
+func KubeApiserverEndpoint() string {
 	if DeployMode() == "standalone" {
 		return K8sMasterIPs[0] + ":6443"
 	}
-	return ClusterApiserverEndpoint
+	return HaApiserverEndpoint
 }
 
 func ClusterHostInfo() (masterHost, nodeHost, clusterHost []HostInfo) {

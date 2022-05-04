@@ -28,5 +28,5 @@ const (
 	publicKeyFile  = myConst.K8sSslDir + "kube-scheduler.pem"
 	privateKeyFile = myConst.K8sSslDir + "kube-scheduler-key.pem"
 
-	restartCmd = "systemctl daemon-reload && systemctl enable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
+	restartCmd = "systemctl daemon-reload && systemctl reenable kube-scheduler && systemctl restart kube-scheduler && sleep 1"
 )

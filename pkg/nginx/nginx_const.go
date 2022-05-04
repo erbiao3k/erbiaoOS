@@ -44,5 +44,5 @@ const (
 
 	nginxBuild = "./configure --prefix=%s --with-stream && make && make install"
 
-	restartCmd = "chmod +x /opt/nginx/sbin/nginx && systemctl daemon-reload && systemctl enable nginx && systemctl restart nginx"
+	restartCmd = "chmod +x /opt/nginx/sbin/nginx && systemctl daemon-reload && systemctl reenable nginx && systemctl restart nginx"
 )

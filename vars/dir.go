@@ -1,9 +1,5 @@
 package vars
 
-import (
-	"os"
-)
-
 const (
 
 	// TempDir 临时目录
@@ -50,18 +46,4 @@ const (
 
 	// KubectlConfigDir kubectl 客户端工具配置文件路径
 	KubectlConfigDir = "/root/.kube/"
-
-	// KubernetesLogDir kubernetes日志目录
-	KubernetesLogDir = "/var/log/kubernetes"
 )
-
-func init() {
-	os.MkdirAll(DeployDir, 0777)
-	os.MkdirAll(SoftDir, 0777)
-	os.MkdirAll(CaCenterDir, 0777)
-	os.MkdirAll(EtcdDataDir, 0777)
-	os.MkdirAll(EtcdSslDir, 0777)
-	os.MkdirAll(K8sSslDir, 0777)
-	os.MkdirAll(K8sCfgDir, 0777)
-	os.MkdirAll(InitScriptDir, 0777)
-}

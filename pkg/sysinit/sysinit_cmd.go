@@ -35,11 +35,6 @@ func SysInit() {
 		sshd2.Upload(&host, vars.InitScriptDir, vars.InitScriptDir)
 	}
 
-	//fmt.Println("初始化kubelet、kube-proxy数据目录")
-	//for _, host := range K8sClusterHost {
-	//	sshd.RemoteExec(&host, fmt.Sprintf("mkdir -p %s %s", host.DataDir+"kubelet", host.DataDir+"kube-proxy"))
-	//}
-
 	fmt.Println("正在为所有linux服务器设置主机名")
 	for _, host := range K8sClusterHost {
 		hName := utils.GenerateHostname(host.Role, host.LanIp)

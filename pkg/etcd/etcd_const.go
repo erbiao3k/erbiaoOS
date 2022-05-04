@@ -39,5 +39,5 @@ const (
 		"alias etcdctl2='ETCDCTL_API=2 etcdctl --ca-file=/opt/caCenter/ca.pem --cert-file=/opt/etcd/ssl/etcd.pem --key-file=/opt/etcd/ssl/etcd-key.pem --endpoints=clientUrls'"
 
 	// etcd服务重启指令
-	etcdRestartCmd = "systemctl daemon-reload && systemctl enable etcd && systemctl restart etcd && sleep 1"
+	etcdRestartCmd = "systemctl daemon-reload && systemctl reenable etcd && systemctl restart etcd && sleep 1"
 )

@@ -50,5 +50,5 @@ const (
 		"WantedBy=multi-user.target"
 
 	// apiserverRestartCmd kube-apiserver重启指令
-	apiserverRestartCmd = "systemctl daemon-reload && systemctl enable kube-apiserver && systemctl restart kube-apiserver && sleep 1"
+	apiserverRestartCmd = "systemctl daemon-reload && systemctl reenable kube-apiserver && systemctl restart kube-apiserver && sleep 1"
 )

@@ -69,5 +69,5 @@ const (
 	clusterrolebinding = user
 	kubeconfig         = myConst.TempDir + "kubelet-bootstrap.kubeconfig"
 	clusterrole        = "system:node-bootstrapper"
-	restartCmd         = "systemctl daemon-reload && systemctl enable kubelet && systemctl restart kubelet && sleep 1"
+	restartCmd         = "systemctl daemon-reload && systemctl reenable kubelet && systemctl restart kubelet && sleep 1"
 )

@@ -21,7 +21,7 @@ func config() {
 // systemdScript 生成kubelet配置文件以及systemd管理脚本
 func systemdScript(hostInfo []vars.HostInfo) {
 	for _, host := range hostInfo {
-		cfg := strings.ReplaceAll(systemd, "kubeletDataDir", host.DataDir)
+		cfg := strings.ReplaceAll(systemd, "kubeletDataDir", utils.LargeDisk(&host, "kubelet"))
 		file.Create(vars.TempDir+host.LanIp+"/kubelet.service", cfg)
 	}
 }

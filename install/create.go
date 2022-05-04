@@ -39,7 +39,7 @@ func K8sClusterInit() {
 	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("rm -rf %s %s %s", vars.EtcdDir, vars.CaCenterDir, vars.K8sSslDir))
 
 	log.Println("初始化环境目录")
-	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s", vars.NginxDir+"/{logs,conf,sbin}", vars.InitScriptDir, vars.CaCenterDir, vars.EtcdSslDir, vars.EtcdDataDir, vars.K8sSslDir, vars.K8sCfgDir, vars.KubectlConfigDir, vars.KubernetesLogDir))
+	sshd.LoopRemoteExec(K8sClusterHost, fmt.Sprintf("mkdir -p %s %s %s %s %s %s %s %s %s  ", vars.NginxDir+"/{logs,conf,sbin}", vars.InitScriptDir, vars.CaCenterDir, vars.EtcdSslDir, vars.EtcdDataDir, vars.K8sSslDir, vars.K8sCfgDir, vars.KubectlConfigDir, vars.KubernetesLogDir))
 
 	log.Println("准备k8s组件")
 	component.Init()

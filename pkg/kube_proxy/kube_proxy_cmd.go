@@ -23,7 +23,7 @@ func config() {
 // systemdScript 生成systemd管理脚本
 func systemdScript(hostInfo []vars.HostInfo) {
 	for _, host := range hostInfo {
-		cfg := strings.ReplaceAll(systemd, "kubeProxyDataDir", host.DataDir)
+		cfg := strings.ReplaceAll(systemd, "kubeProxyDataDir", utils.LargeDisk(&host, "kube-proxy"))
 		file.Create(vars.TempDir+host.LanIp+"/kube-proxy.service", cfg)
 	}
 }

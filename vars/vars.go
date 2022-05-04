@@ -62,23 +62,25 @@ func EnterpointAddr() string {
 
 func ClusterHostInfo() (masterHost, nodeHost, clusterHost []HostInfo) {
 	for _, ip := range K8sMasterIPs {
-		masterHost = append(masterHost, HostInfo{
+		info := HostInfo{
 			Role:     "k8sMaster",
 			LanIp:    ip,
 			User:     SshUser,
 			Password: SshPassword,
 			Port:     SshPort,
-		})
+		}
+		masterHost = append(masterHost, info)
 	}
 
 	for _, ip := range K8sNodeIPs {
-		nodeHost = append(nodeHost, HostInfo{
+		info := HostInfo{
 			Role:     "k8sNode",
 			LanIp:    ip,
 			User:     SshUser,
 			Password: SshPassword,
 			Port:     SshPort,
-		})
+		}
+		nodeHost = append(nodeHost, info)
 	}
 
 	clusterHost = append(masterHost, nodeHost...)

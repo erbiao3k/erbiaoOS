@@ -62,7 +62,6 @@ func PreStop() {
 		nodeRole := fmt.Sprintf(RoleCmd, hostname, "worker")
 		if len(K8sClusterHost) == 1 {
 			utils.ExecCmd(masterRole)
-			utils.ExecCmd(nodeRole)
 			return
 		}
 

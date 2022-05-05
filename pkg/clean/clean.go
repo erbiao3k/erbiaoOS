@@ -20,9 +20,7 @@ var (
 	// 部署结束后，需要清理数据
 	dirtyData = " " + vars.TempDir + "*.tar " + vars.SoftDir + "{etcd,nginx,kubernetes,offlineImage}"
 
-	// 节点角色编排
-	//kubectl label node k8smaster008021 k8smaster008041 k8smaster008048 node-role.kubernetes.io/master=true --overwrite=true
-	masterRole = "kubectl label node %s node-role.kubernetes.io/%s=true --overwrite=true"
+	RoleCmd = "kubectl label node %s node-role.kubernetes.io/%s=true --overwrite=true"
 
 	// master节点不允许调度pod
 	noScheduleCmd = "kubectl taint nodes -l node-role.kubernetes.io/master node-role.kubernetes.io/master=true:NoSchedule  --overwrite=true"
@@ -51,7 +49,7 @@ func PostStart() {
 
 }
 
-// PreStop 结束部署前，清理垃圾
+// PreStop 结束部署前，清理垃圾，设置节点属性
 func PreStop() {
 	_, _, K8sClusterHost := vars.ClusterHostInfo()
 
@@ -59,12 +57,22 @@ func PreStop() {
 		sshd.RemoteExec(&host, fmt.Sprintf("rm -rf %s", dirtyData))
 
 		hostname := utils.GenerateHostname(host.Role, host.LanIp)
+
+		masterRole := fmt.Sprintf(RoleCmd, hostname, "master")
+		nodeRole := fmt.Sprintf(RoleCmd, hostname, "worker")
+		if len(K8sClusterHost) == 1 {
+			utils.ExecCmd(masterRole)
+			utils.ExecCmd(nodeRole)
+			return
+		}
+
 		if host.Role == vars.MasterRole {
-			utils.ExecCmd(fmt.Sprintf(masterRole, hostname, "master"))
+			utils.ExecCmd(masterRole)
 			utils.ExecCmd(noScheduleCmd)
 		}
 		if host.Role == vars.NodeRole {
-			utils.ExecCmd(fmt.Sprintf(masterRole, hostname, "worker"))
+			utils.ExecCmd(nodeRole)
 		}
+
 	}
 }

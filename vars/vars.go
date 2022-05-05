@@ -30,6 +30,8 @@ type HostInfo struct {
 
 var (
 	HaApiserverEndpoint = "127.0.0.1:16443"
+	MasterRole          = "k8sMaster"
+	NodeRole            = "k8sNode"
 )
 
 // GetHostInfo 获取对应IP的节点信息
@@ -63,7 +65,7 @@ func KubeApiserverEndpoint() string {
 func ClusterHostInfo() (masterHost, nodeHost, clusterHost []HostInfo) {
 	for _, ip := range K8sMasterIPs {
 		info := HostInfo{
-			Role:     "k8sMaster",
+			Role:     MasterRole,
 			LanIp:    ip,
 			User:     SshUser,
 			Password: SshPassword,
@@ -74,7 +76,7 @@ func ClusterHostInfo() (masterHost, nodeHost, clusterHost []HostInfo) {
 
 	for _, ip := range K8sNodeIPs {
 		info := HostInfo{
-			Role:     "k8sNode",
+			Role:     NodeRole,
 			LanIp:    ip,
 			User:     SshUser,
 			Password: SshPassword,

@@ -58,7 +58,7 @@ const (
 	softwareInstall = "yum install -y " +
 		"yum-utils device-mapper-persistent-data lvm2 rpcbind device-mapper " +
 		"conntrack socat telnet lsof wget vim make gcc gcc-c++ pcre* " +
-		"ipvsadm net-tools libnl libnl-devel openssl openssl-devel bash-completion"
+		"ipvsadm net-tools libnl* openssl openssl-devel bash-completion"
 
 	// enableIptables 安装iptables，关闭即可，k8s自己初始化
 	enableIptables = "yum install iptables-services -y &&" +

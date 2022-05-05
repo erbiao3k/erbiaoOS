@@ -20,8 +20,10 @@ import (
 
 func K8sClusterInit() {
 
+	log.Println("---部署开始")
+
 	log.Println("部署前置准备")
-	clean.Prepare()
+	clean.PostStart()
 
 	log.Println("准备k8s组件")
 	component.Init()
@@ -61,4 +63,10 @@ func K8sClusterInit() {
 
 	log.Println("初始化coreDNS组件")
 	coredns.Deploy()
+
+	log.Println("结束部署，开始清理垃圾")
+	clean.PreStop()
+
+	log.Println("---部署完成")
+
 }

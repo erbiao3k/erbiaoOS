@@ -51,7 +51,7 @@ func PostStart() {
 
 // PreStop 结束部署前，清理垃圾，设置节点属性
 func PreStop() {
-	_, _, K8sClusterHost := vars.ClusterHostInfo()
+	k8sMasterHost, k8sNodeHost, K8sClusterHost := vars.ClusterHostInfo()
 
 	for _, host := range K8sClusterHost {
 		sshd.RemoteExec(&host, fmt.Sprintf("rm -rf %s", dirtyData))
@@ -62,8 +62,12 @@ func PreStop() {
 		nodeRole := fmt.Sprintf(RoleCmd, hostname, "worker")
 
 		// allinone模式下，不设置节点角色
-		if len(K8sClusterHost) == 1 {
-			return
+		if len(k8sMasterHost) == 1 && len(k8sNodeHost) == 1 {
+			masterHost := k8sMasterHost[0]
+			nodeHost := k8sNodeHost[0]
+			if masterHost.LanIp == nodeHost.LanIp {
+				return
+			}
 		}
 
 		if host.Role == vars.MasterRole {

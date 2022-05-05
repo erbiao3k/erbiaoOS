@@ -60,8 +60,9 @@ func PreStop() {
 
 		masterRole := fmt.Sprintf(RoleCmd, hostname, "master")
 		nodeRole := fmt.Sprintf(RoleCmd, hostname, "worker")
+
+		// allinone模式下，不设置节点角色
 		if len(K8sClusterHost) == 1 {
-			utils.ExecCmd(masterRole)
 			return
 		}
 

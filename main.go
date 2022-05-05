@@ -2,7 +2,6 @@ package main
 
 import "erbiaoOS/cmd"
 
-// 节点最大磁盘识别拆分到sysinit
 // 系统初始化逻辑拆分与优化
 // 资源预留
 // 节点labels

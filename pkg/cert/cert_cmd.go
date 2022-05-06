@@ -11,12 +11,14 @@ import (
 // certGenerate 生成k8s集群所需所有证书
 func certGenerate(masterIPs []string) {
 
+	// 生成etcd证书
 	etcdAltNames := NewAltNames(etcd.Host(vars.K8sMasterIPs, vars.K8sNodeIPs), []string{})
 
 	cer := newCertInfo([]string{"k8s"}, "etcd", etcdAltNames.IPs, etcdAltNames.DNSNames)
 
 	generate(cer, vars.EtcdSslDir+"etcd")
 
+	// 生成apiserver证书
 	apiserverClientIPs := append(masterIPs, "10.255.0.1")
 
 	apiserverClientDnsNames := []string{"kubernetes", "kubernetes.default", "kubernetes.default.svc", "kubernetes.default.svc.cluster", "kubernetes.default.svc.cluster.local"}
@@ -24,22 +26,29 @@ func certGenerate(masterIPs []string) {
 	cer = newCertInfo([]string{"k8s"}, "kubernetes", kubeApiserverAltNames.IPs, kubeApiserverAltNames.DNSNames)
 	generate(cer, vars.K8sSslDir+"kube-apiserver")
 
+	// 生成kube-proxy证书
 	cer = newCertInfo([]string{"k8s"}, "system:kube-proxy", nil, nil)
 	generate(cer, vars.K8sSslDir+"kube-proxy")
 
+	// 生成kubectl客户端管理证书
 	cer = newCertInfo([]string{"system:masters"}, "admin", nil, nil)
 	generate(cer, vars.K8sSslDir+"admin")
 
+	// 生成kube-controller-manager客户端管理证书
 	ControllerManagerClientIPs := append(masterIPs, "10.255.0.1")
 	ControllerManagerAltNames := NewAltNames(ControllerManagerClientIPs, []string{})
 	cer = newCertInfo([]string{"system:kube-controller-manager"}, "system:kube-controller-manager", ControllerManagerAltNames.IPs, ControllerManagerAltNames.DNSNames)
 	generate(cer, vars.K8sSslDir+"kube-controller-manager")
 
+	// 生成kube-scheduler客户端管理证书
 	kubeSchedulerClientIPs := append(masterIPs, "10.255.0.1")
 	kubeSchedulerAltNames := NewAltNames(kubeSchedulerClientIPs, []string{})
 	cer = newCertInfo([]string{"system:kube-scheduler"}, "system:kube-scheduler", kubeSchedulerAltNames.IPs, kubeApiserverAltNames.DNSNames)
 	generate(cer, vars.K8sSslDir+"kube-scheduler")
 
+	// 生成API聚合proxy证书
+	cer = newCertInfo([]string{"system:masters"}, "aggregator", nil, nil)
+	generate(cer, vars.K8sSslDir+"proxy-client")
 }
 
 // InitCert 初始化各节点所需证书

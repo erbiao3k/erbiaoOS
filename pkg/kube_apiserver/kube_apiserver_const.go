@@ -15,8 +15,9 @@ const (
 		"  --secure-port=6443 \\\n" +
 		"  --advertise-address=currentIPaddr \\\n" +
 		"  --insecure-port=0 \\\n" +
-		"  --authorization-mode=Node,RBAC \\\n" +
 		"  --runtime-config=api/all=true \\\n" +
+		"  --enable-aggregator-routing=true \\\n" +
+		"  --authorization-mode=Node,RBAC \\\n" +
 		"  --enable-bootstrap-token-auth \\\n" +
 		"  --service-cluster-ip-range=10.255.0.0/24 \\\n" +
 		"  --token-auth-file=/opt/kubernetes/cfg/token.csv \\\n" +
@@ -33,6 +34,13 @@ const (
 		"  --etcd-certfile=/opt/etcd/ssl/etcd.pem \\\n" +
 		"  --etcd-keyfile=/opt/etcd/ssl/etcd-key.pem \\\n" +
 		"  --etcd-servers=etcdServerUrls \\\n" +
+		"  --requestheader-allowed-names=aggregator \\\n" +
+		"  --requestheader-group-headers=X-Remote-Group \\\n" +
+		"  --requestheader-username-headers=X-Remote-User \\\n" +
+		"  --requestheader-extra-headers-prefix=X-Remote-Extra- \\\n" +
+		"  --requestheader-client-ca-file=/opt/caCenter/ca.pem \\\n" +
+		"  --proxy-client-cert-file=/opt/kubernetes/ssl/proxy-client.pem \\\n" +
+		"  --proxy-client-key-file=/opt/kubernetes/ssl/proxy-client-key.pem \\\n" +
 		"  --enable-swagger-ui=true \\\n" +
 		"  --allow-privileged=true \\\n" +
 		"  --apiserver-count=apiserverCount \\\n" +
